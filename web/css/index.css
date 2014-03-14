@@ -7,169 +7,32 @@ and open the template in the editor.
     Created on : Mar 13, 2014, 8:40:46 PM
     Author     : ZGaming
 */
-html, body {
-    height: 100%;
-    width: 100%;
+.icon-header{
+    border-radius: 25px;
+    border-style: dashed;
+    border-width: 1px;
+    margin-bottom: 1px;
 }
 
-object {
-    height: 100%;
-    width: 100%;
+.project-navbar {
+    background-color: #AF0000;
 }
 
-#content {
-    margin-top:45px;
+ul.nav.navbar-nav li:hover {
+    background-color: #FF0000;
 }
-#group-name {
-    max-width: 150px;
-    margin-right: 20px;
-}
-#group-path {
-    width: 300px;
-    margin-right: 20px;
-}
-#user-name {
-    max-width: 150px;
-    margin-right: 20px;
-}
-#user-server {
-    width: 300px;
-    margin-right: 20px;
-}
-#side-loader {
-    position: fixed;
-    font-family: 'Offside', cursive;
-    top: 15%;
-    right: 0px;
-    color: white;
-    white-space:pre;
-    background: #333333;
-    padding: 10px;
-    text-decoration: none;
-    text-align: center;
- }
-#side-loader:hover {
-    background: #444;
-}
-#modal-content {
-    background: transparent;
-}
-#modal-data {
-    background: black;
-    border: 1px solid #888;
-    border-radius: 2px;
-}
-.embedded-audio {
-    width: 100%;
-}
-.embedded-video {
-    border-radius: 2px;
-}
-.modal-content{
-    width: 700px;
-    height: 500px;
-}
-.small-header {
-    font-size: 20px;
-    font-family: 'Cedarville Cursive', cursive;
-    background: #4D4D4D;
-    border-top-left-radius: 50px;
-    border-bottom-right-radius: 50px;
-    padding: 5px;
-}
-#exit-setting {
-    color: white;
-}
-.breadcrumbs-name {
-    max-width: 300px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.user-list{
-    width:50% !important;
-}
-.explorer-item-icon {
-    width: 7% !important;
-}
-.explorer-item-name {
-    width: 63% !important;
-}
-.explorer-item-name p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-top: 10px;
-}
-.explorer-item-ext {
-    width: 10% !important;
-}
-.explorer-item-size {
-    width: 20% !important;
-}
-.col-small {
-    max-width:50px;
-}
-.event-container{
-    padding: 20px;
-    border: 1px solid #000;
-}
-.event-download-file {
-    background: #610B21;
-}
-.event-download-file-complete {
-    background: #0B6138;
-}
-.event-stream-file {
-    background: #B43104;
-}
-.event-stream-file-complete {
-    background: #084B8A;
-}
-#file-explorer-wrapper{
-    height: 100%;
-    width: 0px;
-    padding: 0px;
-    overflow:auto;
-}
-#file-explorer {
-    height:100%;
-    width: 100%;
-    padding: 5px;
-}
-.explorer-item {
-    text-align: left;
 
-    overflow: hidden;
-    text-overflow: ellipsis;
+.login-container {
+    margin-top:50px;
+    border-radius: 25px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 200px;
+    background-color: #AF0000;
 }
-.explorer-container {
-    height: 100%;
-}
-.explorer-item:hover {
-    background-color: #b11262;
-    border-radius: 10px;
-    text-decoration: none;
-}
-.explorer-item-hover {
-    background-color: #b11262;
-    border-radius: 10px;
-    text-decoration: none;
-}
-.explorer-text {
-    text-align: center;
-    color: white;
-    height: 30px;
-}
-::-webkit-scrollbar {
-    width: 12px;
-    color: white;
-}
- 
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-    border-radius: 10px;
-}
- 
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+
+.login-form-item {
+    height: 50px;
+    font-size: 15px;
+    border-radius: 4px;
 }
