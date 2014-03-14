@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14-Mar-2014 5:41:20 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="ece358.Visitation" table="visitation" catalog="hospital_main">
+        <id name="recordId" type="int">
+            <column name="RecordID" />
+            <generator class="assigned" />
+        </id>
+        <timestamp name="timestamp" column="Timestamp" />
+        <property name="visitId" type="int">
+            <column name="VisitID" not-null="true" />
+        </property>
+        <property name="patientId" type="string">
+            <column name="PatientID" length="16" not-null="true" />
+        </property>
+        <property name="doctorId" type="string">
+            <column name="DoctorID" length="16" not-null="true" />
+        </property>
+        <property name="symptoms" type="string">
+            <column name="Symptoms" length="65535" />
+        </property>
+        <property name="diagnosis" type="string">
+            <column name="Diagnosis" length="65535" />
+        </property>
+        <property name="type" type="string">
+            <column name="Type" length="32" />
+        </property>
+        <property name="length" type="time">
+            <column name="Length" length="8" />
+        </property>
+        <property name="comments" type="string">
+            <column name="Comments" length="65535" />
+        </property>
+        <property name="dateTime" type="timestamp">
+            <column name="DateTime" length="19" />
+        </property>
+        <property name="apptComplete" type="java.lang.Boolean">
+            <column name="ApptComplete" />
+        </property>
+        <property name="cancelled" type="java.lang.Boolean">
+            <column name="Cancelled" />
+        </property>
+    </class>
+</hibernate-mapping>
