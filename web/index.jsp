@@ -19,7 +19,7 @@
     </head>
     <body>
         <div class="jumbotron login-container">
-            <form role="form" name="userCredentials" action="Login" method="post">
+            <form role="form" name="userCredentials" action="LoginHandler" method="post">
                 <div class="form-group">
                     <input class="login-form-item form-control" id="username" placeholder="Username"/>
                 </div>
@@ -27,7 +27,7 @@
                      <input class="login-form-item form-control" type="password" id="password" placeholder="Password"/>
                 </div>
                 <div class="form-group">
-                    <input type="button" class="form-login btn btn-success" value="Login"/>
+                    <input type="submit" class="form-login btn btn-success" value="Login"/>
                 </div>
             </form>
         </div>
