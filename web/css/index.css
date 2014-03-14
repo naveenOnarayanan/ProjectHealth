@@ -25,14 +25,18 @@ ul.nav.navbar-nav li:hover {
 .login-container {
     margin-top:50px;
     border-radius: 25px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin-left: 100px;
+    margin-right: 100px;
     padding: 200px;
-    background-color: #AF0000;
 }
 
 .login-form-item {
     height: 50px;
     font-size: 15px;
     border-radius: 4px;
+}
+
+.form-login {
+    width: 100px;
+    border-radius: 5px;
 }

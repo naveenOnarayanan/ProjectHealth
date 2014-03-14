@@ -1,6 +1,6 @@
 <%-- 
-    Document   : index
-    Created on : Mar 13, 2014, 8:35:54 PM
+    Document   : login
+    Created on : Mar 13, 2014, 9:18:50 PM
     Author     : ZGaming
 --%>
 
@@ -14,32 +14,22 @@
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
         <title>Project Health</title>
     </head>
     <body>
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#"><img class="icon-header" src="images/plus-red.png" width="25px" height="25px">&nbsp;<i>ProjectHealth</i></a>
-            </div>
-            <div class="project-navbar navbar-collapse collapse navbar-responsive-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="#">Option 1</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Option 2 <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Sub Option 1</a></li>
-                            <li><a href="#">Sub Option 2</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Logout</a></li>
-                </ul>
-            </div>
-        </nav>
-
-        <h1>Hello World!</h1>
+        <div class="jumbotron login-container">
+            <form role="form" name="userCredentials" action="Login" method="post">
+                <div class="form-group">
+                    <input class="login-form-item form-control" id="username" placeholder="Username"/>
+                </div>
+                <div class="form-group">
+                     <input class="login-form-item form-control" type="password" id="password" placeholder="Password"/>
+                </div>
+                <div class="form-group">
+                    <input type="button" class="form-login btn btn-success" value="Login"/>
+                </div>
+            </form>
+        </div>
     </body>
 </html>
