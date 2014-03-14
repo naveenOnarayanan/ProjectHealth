@@ -133,42 +133,6 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`DoctorPatientPerm` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `Hospital_Main`.`DoctorPatientPerm_copy1`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Hospital_Main`.`DoctorPatientPerm_copy1` (
-  `PatientID` VARCHAR(16) NOT NULL,
-  `DoctorID` VARCHAR(16) NOT NULL,
-  `SecDoctorID` VARCHAR(16) NOT NULL,
-  `Expiry` DATETIME NULL,
-  PRIMARY KEY (`PatientID`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Hospital_Main`.`DoctorPatientPerm_copy2`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Hospital_Main`.`DoctorPatientPerm_copy2` (
-  `PatientID` VARCHAR(16) NOT NULL,
-  `DoctorID` VARCHAR(16) NOT NULL,
-  `SecDoctorID` VARCHAR(16) NOT NULL,
-  `Expiry` DATETIME NULL,
-  PRIMARY KEY (`PatientID`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Hospital_Main`.`DoctorPatientPerm_copy3`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Hospital_Main`.`DoctorPatientPerm_copy3` (
-  `PatientID` VARCHAR(16) NOT NULL,
-  `DoctorID` VARCHAR(16) NOT NULL,
-  `SecDoctorID` VARCHAR(16) NOT NULL,
-  `Expiry` DATETIME NULL,
-  PRIMARY KEY (`PatientID`))
-ENGINE = InnoDB;
-
-
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
