@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 16, 2014 12:26:23 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated Mar 16, 2014 5:46:39 PM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="ece358.models.Patients" table="patients" catalog="hospital_main">
         <id name="userId" type="string">
@@ -38,8 +38,8 @@
         <property name="healthStatus" type="string">
             <column name="HealthStatus" length="65535" />
         </property>
-        <property name="primaryContractNo" type="string">
-            <column name="PrimaryContractNo" length="11" />
+        <property name="primaryContactNo" type="string">
+            <column name="PrimaryContactNo" length="11" />
         </property>
         <property name="transfered" type="java.lang.Boolean">
             <column name="Transfered" />

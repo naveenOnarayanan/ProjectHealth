@@ -1,5 +1,5 @@
 package ece358.models;
-// Generated Mar 16, 2014 12:26:23 PM by Hibernate Tools 3.6.0
+// Generated Mar 16, 2014 5:46:38 PM by Hibernate Tools 3.6.0
 
 
 
@@ -20,7 +20,7 @@ public class Patients  implements java.io.Serializable {
      private Integer visits;
      private String defaultDoctorId;
      private String healthStatus;
-     private String primaryContractNo;
+     private String primaryContactNo;
      private Boolean transfered;
 
     public Patients() {
@@ -30,7 +30,7 @@ public class Patients  implements java.io.Serializable {
     public Patients(String userId) {
         this.userId = userId;
     }
-    public Patients(String userId, String firstName, String lastName, String address, String phoneNumber, String email, String healthCardNumber, String sin, Integer visits, String defaultDoctorId, String healthStatus, String primaryContractNo, Boolean transfered) {
+    public Patients(String userId, String firstName, String lastName, String address, String phoneNumber, String email, String healthCardNumber, String sin, Integer visits, String defaultDoctorId, String healthStatus, String primaryContactNo, Boolean transfered) {
        this.userId = userId;
        this.firstName = firstName;
        this.lastName = lastName;
@@ -42,7 +42,7 @@ public class Patients  implements java.io.Serializable {
        this.visits = visits;
        this.defaultDoctorId = defaultDoctorId;
        this.healthStatus = healthStatus;
-       this.primaryContractNo = primaryContractNo;
+       this.primaryContactNo = primaryContactNo;
        this.transfered = transfered;
     }
    
@@ -123,12 +123,12 @@ public class Patients  implements java.io.Serializable {
     public void setHealthStatus(String healthStatus) {
         this.healthStatus = healthStatus;
     }
-    public String getPrimaryContractNo() {
-        return this.primaryContractNo;
+    public String getPrimaryContactNo() {
+        return this.primaryContactNo;
     }
     
-    public void setPrimaryContractNo(String primaryContractNo) {
-        this.primaryContractNo = primaryContractNo;
+    public void setPrimaryContactNo(String primaryContactNo) {
+        this.primaryContactNo = primaryContactNo;
     }
     public Boolean getTransfered() {
         return this.transfered;
