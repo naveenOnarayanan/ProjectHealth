@@ -47,7 +47,7 @@ public class LoginServlet extends HttpServlet {
             url = "/main.jsp";
             request.setAttribute("role", user.getRole());
         }
-        request.getSession().setAttribute("username", user);
+        request.getSession().setAttribute("user", user);
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
