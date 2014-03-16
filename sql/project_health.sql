@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Patients` (
   `Visits` INT(16) NULL,
   `DefaultDoctorID` VARCHAR(16) NULL,
   `HealthStatus` TEXT NULL,
-  `PrimaryContractNo` VARCHAR(11) NULL,
+  `PrimaryContactNo` VARCHAR(11) NULL,
   `Transfered` TINYINT(1) NULL,
   PRIMARY KEY (`UserID`))
 ENGINE = InnoDB;
@@ -114,7 +114,7 @@ ENGINE = InnoDB;
 -- Table `Hospital_Main`.`Users`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Users` (
-  `userID` VARCHAR(16) NOT NULL,
+  `UserID` VARCHAR(16) NOT NULL,
   `Password` VARCHAR(256) NOT NULL,
   `Role` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`userID`))
