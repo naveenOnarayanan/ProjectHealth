@@ -4,10 +4,13 @@
  */
 package ece358;
 
+import ece358.utils.HibernateUtil;
+import ece358.models.Staff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,6 +35,13 @@ public class QueryServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        String sessionHash = (String) request.getSession().getAttribute(request.getParameter("username"));
+        if (sessionHash == null || sessionHash.isEmpty()) {
+            getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+            return;
+        }
+
         String strQueryNum = request.getParameter("qnum");
         int intQueryNum = Integer.parseInt(strQueryNum);
         boolean queryServletError = false;
@@ -39,7 +49,7 @@ public class QueryServlet extends HttpServlet {
         String url;
         try {
             if (intQueryNum == 1) {
-                ArrayList ret = ProjectHealthDAO.getEmployees();
+                List<Staff> ret = (List<Staff>) HibernateUtil.select("FROM Staff");
                 request.setAttribute("employeeList", ret);
             } else if (intQueryNum == 2) {
              //   ArrayList ret = Lab3DBAO.getDepartments();
@@ -56,6 +66,7 @@ public class QueryServlet extends HttpServlet {
             queryServletError = true;
             request.setAttribute("exception", e);
             request.setAttribute("queryServletError", queryServletError);
+            System.out.println(e);
             url = "/main.jsp";
         }
         getServletContext().getRequestDispatcher(url).forward(request, response);

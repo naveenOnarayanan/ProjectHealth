@@ -3,7 +3,8 @@
     Created on : Mar 13, 2014, 8:35:54 PM
     Author     : ZGaming
 --%>
-
+<%@page import="java.util.ArrayList"%>
+<%@page import="ece358.models.Staff"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,6 +18,9 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
+        <%! ArrayList<Staff> employeeList;%>
+        <% employeeList = (ArrayList<Staff>) request.getAttribute("employeeList");%>
+        <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
         <title>Project Health</title>
     </head>
     <body>
@@ -40,7 +44,41 @@
                 </ul>
             </div>
         </nav>
-
-        <h1>Hello World!</h1>
+        <ul>
+            <button><a href="QueryServlet?qnum=1&username=<%= (String) request.getAttribute("username") %>">List all employees</a></button>
+            <% 
+                if(queryServletError != null && !queryServletError){
+            %>
+                <h1>Employee Data</h1>
+                <table border=1><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>
+                    <% 
+                        if(employeeList != null){
+                    %>
+                        <%
+                            for (Staff em : employeeList) {
+                        %>
+                        <tr>
+                            <td><%= em.getUserId()%></td>
+                            <td><%= em.getFirstName()%></td>
+                            <td><%= em.getLastName()%></td>
+                        </tr>
+                        <%
+                            }
+                        %>
+                    <% 
+                        }
+                    %>
+                </table>
+            <%
+                }
+                else if(queryServletError != null && queryServletError){
+            %>
+            <h1>Query Error</h1>
+            <%
+                    }
+            %>
+           
+        </ul>
+         
     </body>
 </html>

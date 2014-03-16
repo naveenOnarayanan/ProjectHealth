@@ -4,7 +4,7 @@
     Author     : ZGaming
 --%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="ece358.Staff"%>
+<%@page import="ece358.models.Staff"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -45,7 +45,7 @@
             </div>
         </nav>
         <ul>
-            <button><a href="QueryServlet?qnum=1">List all employees</a></button>
+            <button><a href="QueryServlet?qnum=1&username=<%= (String) request.getAttribute("username") %>">List all employees</a></button>
             <% 
                 if(queryServletError != null && !queryServletError){
             %>

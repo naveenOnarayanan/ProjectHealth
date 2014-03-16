@@ -16,15 +16,26 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
         <title>Project Health</title>
+        <% String error = (String) request.getAttribute("error"); %>
     </head>
     <body>
+        <%
+           if (error != null && !error.equals("")) { 
+        %>
+               <div class="alert alert-dismissable alert-danger">
+                   <button type="button" class="close" data-dismiss="alert">x</button>
+                   <%= error %>
+               </div>
+        <%
+           } 
+        %>
         <div class="jumbotron login-container">
-            <form role="form" name="userCredentials" action="LoginHandler" method="post">
+            <form role="form" name="userCredentials" action="LoginServlet" method="post">
                 <div class="form-group">
-                    <input class="login-form-item form-control" id="username" placeholder="Username"/>
+                    <input class="login-form-item form-control" id="username" name="username" placeholder="Username"/>
                 </div>
                 <div class="form-group">
-                     <input class="login-form-item form-control" type="password" id="password" placeholder="Password"/>
+                     <input class="login-form-item form-control" type="password" name="password" id="password" placeholder="Password"/>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="form-login btn btn-success" value="Login"/>
