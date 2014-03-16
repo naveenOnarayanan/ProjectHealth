@@ -3,6 +3,7 @@
     Created on : Mar 13, 2014, 8:35:54 PM
     Author     : ZGaming
 --%>
+<%@page import="ece358.models.Users"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="ece358.models.Staff"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -26,7 +27,7 @@
     <body>
         <script>
             $(function() {
-               getNavbar("<%= (String) request.getAttribute("role") %>"); 
+               getNavbar("<%= ((Users) request.getSession().getAttribute("user")).getRole() %>"); 
             })
         </script>
 

@@ -7,9 +7,10 @@
 package ece358;
 
 import ece358.models.Users;
+import ece358.models.Visitation;
 import ece358.utils.HibernateUtil;
 import java.io.IOException;
-import java.util.UUID;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author ZGaming
+ * @author GordonMBP
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "AppointmentServlet", urlPatterns = {"/AppointmentServlet"})
+public class AppointmentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,19 +35,40 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        String url = "/index.jsp";
-
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        Users user = (Users) HibernateUtil.get(Users.class, username);
-        if (user == null || !user.getPassword().equals(password)) {
-            request.setAttribute("error", "Invalid Username and Password");
-        } else {
-            url = "/main.jsp";
+        //Verify user is logged in
+        Users sessionUser = (Users) request.getSession().getAttribute("user");
+        if (sessionUser == null) {
+            getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+            return;
         }
-        request.getSession().setAttribute("user", user);
+        
+        boolean queryServletError = false;
+        
+        String url;
+        try {
+            if (sessionUser.getRole().equals("patient")) {
+                String query =  "FROM Visitation " + 
+                                "WHERE patientID = '" + sessionUser.getUserId() + "'";
+                List<Visitation> appointments = (List<Visitation>) HibernateUtil.select(query);
+                    request.setAttribute("appointments", appointments);
+            } else if (sessionUser.getRole().equals("staff")) {
+                //TODO
+            } else if (sessionUser.getRole().equals("doctor")) {
+                //TODO
+            } else if (sessionUser.getRole().equals("finance")) {
+                //TODO
+            } else {
+                //TODO
+            }
+            url = "/appointments.jsp";
+            request.setAttribute("queryServletError", queryServletError);
+        } catch (Exception e) {
+            queryServletError = true;
+            request.setAttribute("exception", e);
+            request.setAttribute("queryServletError", queryServletError);
+            System.out.println(e);
+            url = "/appointments.jsp";
+        }
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
