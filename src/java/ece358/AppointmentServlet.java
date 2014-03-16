@@ -11,6 +11,7 @@ import ece358.models.Visitation;
 import ece358.utils.HibernateUtil;
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -54,7 +55,28 @@ public class AppointmentServlet extends HttpServlet {
             } else if (sessionUser.getRole().equals("staff")) {
                 //TODO
             } else if (sessionUser.getRole().equals("doctor")) {
-                //TODO
+                /*
+                StringBuilder query = new StringBuilder("FROM Visitation as v, ")
+                */
+                List<String> conditionList = new ArrayList<String>();
+                
+                //Patient First Name
+                String patientFirstName = (String)request.getSession().getAttribute("patientFirstName");
+                if (patientFirstName != null && !patientFirstName.isEmpty()) {
+                    conditionList.add("Patient.FirstName = '" + patientFirstName + "'");
+                }
+                
+                //Patient Last Name
+                String patientLastName = (String)request.getSession().getAttribute("patientFirstName");
+                if (patientLastName != null && !patientLastName.isEmpty()) {
+                    conditionList.add("Patient.LastName = '" + patientLastName + "'");
+                }
+                
+                //Freeform
+                String freeform = (String)request.getSession().getAttribute("freeform");
+                if (freeform != null && !freeform.isEmpty()) {
+                    conditionList.add("Visitation. = '" + freeform + "'");
+                }
             } else if (sessionUser.getRole().equals("finance")) {
                 //TODO
             } else {
@@ -70,6 +92,15 @@ public class AppointmentServlet extends HttpServlet {
             url = "/appointments.jsp";
         }
         getServletContext().getRequestDispatcher(url).forward(request, response);
+    }
+    
+    StringBuilder AddSQLCondition(StringBuilder query, String condition) {
+        if (query.toString().indexOf("WHERE") == -1) {
+            query.append(" WHERE ");
+        } else {
+            query.append(" && ");
+        }
+        return query.append(condition);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
