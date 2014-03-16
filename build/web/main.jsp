@@ -24,26 +24,13 @@
         <title>Project Health</title>
     </head>
     <body>
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#"><img class="icon-header" src="images/plus-red.png" width="25px" height="25px">&nbsp;<i>ProjectHealth</i></a>
-            </div>
-            <div class="project-navbar navbar-collapse collapse navbar-responsive-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="#">Option 1</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Option 2 <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Sub Option 1</a></li>
-                            <li><a href="#">Sub Option 2</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a id="logout" href="#">Logout</a></li>
-                </ul>
-            </div>
-        </nav>
+        <script>
+            $(function() {
+               getNavbar("<%= (String) request.getAttribute("role") %>"); 
+            })
+        </script>
+
+        <div id="navbar-container"></div>
         <ul>
             <button><a href="QueryServlet?qnum=1">List all employees</a></button>
             <% 

@@ -6,6 +6,7 @@ package ece358;
 
 import ece358.utils.HibernateUtil;
 import ece358.models.Staff;
+import ece358.models.Users;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -32,8 +33,9 @@ public class QueryServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String sessionUser = (String) request.getSession().getAttribute("username");
-        if (sessionUser == null || sessionUser.isEmpty()) {
+        Users sessionUser = (Users) request.getSession().getAttribute("user");
+        
+        if (sessionUser == null) {
             getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }

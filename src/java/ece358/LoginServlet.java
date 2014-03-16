@@ -45,10 +45,9 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("error", "Invalid Username and Password");
         } else {
             url = "/main.jsp";
-            request.setAttribute("username", user.getUserId());
             request.setAttribute("role", user.getRole());
         }
-        request.getSession().setAttribute("username", username);
+        request.getSession().setAttribute("username", user);
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
