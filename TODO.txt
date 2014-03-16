@@ -2,7 +2,6 @@
 Updating navbar based on user role (HTML)
 https://gist.github.com/naveenOnarayanan/b04242892f9bb2ae2578
 
-
 --------TASKS-----------
 1. Navbar options:
 	PATIENT
