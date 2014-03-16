@@ -46,12 +46,12 @@ public class HibernateUtil {
 
         return result;
     }
-    
-    public static Object get(Class clazz, java.io.Serializable obj) {
+
+    public static Object get(Class clazz, java.io.Serializable id) {
         try {
             Session session = getSessionFactory().openSession();
             session.beginTransaction();
-            Object result = session.get(clazz, obj);
+            Object result = session.get(clazz, id);
             session.getTransaction().commit();
             session.close();
             return result;
