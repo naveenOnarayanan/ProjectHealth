@@ -18,7 +18,7 @@ function getNavbar(role) {
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
-                    "<li><a href='#'>Personal Information</a></li>" +
+                    "<li><a href='personalInfo'>Personal Information</a></li>" +
                     "<li class='dropdown'>" +
                         "<a href='#' class='dropdown-toggle' data-toggle='dropdown'> Records <b class='caret'></b></a>" +
                         "<ul class='dropdown-menu'>" +

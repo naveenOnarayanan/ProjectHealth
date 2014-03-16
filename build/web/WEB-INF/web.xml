@@ -4,9 +4,17 @@
         <servlet-name>QueryServlet</servlet-name>
         <servlet-class>ece358.QueryServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>personalInfo</servlet-name>
+        <servlet-class>ece358.personalInfo</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>QueryServlet</servlet-name>
         <url-pattern>/QueryServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>personalInfo</servlet-name>
+        <url-pattern>/personalInfo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
