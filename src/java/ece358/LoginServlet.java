@@ -9,8 +9,6 @@ package ece358;
 import ece358.models.Users;
 import ece358.utils.HibernateUtil;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -50,7 +48,7 @@ public class LoginServlet extends HttpServlet {
             request.setAttribute("username", user.getUserId());
             request.setAttribute("role", user.getRole());
         }
-        request.getSession().setAttribute(username, UUID.randomUUID().toString());
+        request.getSession().setAttribute("username", username);
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 

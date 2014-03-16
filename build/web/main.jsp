@@ -45,7 +45,7 @@
             </div>
         </nav>
         <ul>
-            <button><a href="QueryServlet?qnum=1&username=<%= (String) request.getAttribute("username") %>">List all employees</a></button>
+            <button><a href="QueryServlet?qnum=1">List all employees</a></button>
             <% 
                 if(queryServletError != null && !queryServletError){
             %>

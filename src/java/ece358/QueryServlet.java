@@ -7,11 +7,7 @@ package ece358;
 import ece358.utils.HibernateUtil;
 import ece358.models.Staff;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,8 +32,8 @@ public class QueryServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String sessionHash = (String) request.getSession().getAttribute(request.getParameter("username"));
-        if (sessionHash == null || sessionHash.isEmpty()) {
+        String sessionUser = (String) request.getSession().getAttribute("username");
+        if (sessionUser == null || sessionUser.isEmpty()) {
             getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
