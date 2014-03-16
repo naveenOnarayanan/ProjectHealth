@@ -1,1 +1,24 @@
-Encrypt the password string
+IMPORTANT
+Navbar options:
+	PATIENT
+		Personal Information
+		Records
+			Appointments
+			Prescriptions
+			Diagnosis
+			
+	DOCTOR
+		Patient Lookup
+		Record Lookup
+		
+	STAFF
+		Appointments
+		Patient Records
+
+	FINANCE
+		Doctor Lookup
+
+
+
+NOT SO IMPORTANT
+- Encrypt the password string
