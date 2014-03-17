@@ -1,5 +1,5 @@
 package ece358.models;
-// Generated Mar 17, 2014 4:52:23 PM by Hibernate Tools 3.6.0
+// Generated Mar 17, 2014 7:33:52 PM by Hibernate Tools 3.6.0
 
 
 import java.util.Date;

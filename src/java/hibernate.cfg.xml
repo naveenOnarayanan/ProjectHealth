@@ -11,13 +11,15 @@
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
     <mapping resource="ece358/models/Drugs.hbm.xml"/>
+    <mapping resource="ece358/models/Country.hbm.xml"/>
     <mapping resource="ece358/models/Operations.hbm.xml"/>
-    <mapping resource="ece358/models/Patients.hbm.xml"/>
-    <mapping resource="ece358/models/Scheduledoperations.hbm.xml"/>
-    <mapping resource="ece358/models/Prescriptions.hbm.xml"/>
     <mapping resource="ece358/models/Visitation.hbm.xml"/>
     <mapping resource="ece358/models/Doctorpatientperm.hbm.xml"/>
     <mapping resource="ece358/models/Staff.hbm.xml"/>
+    <mapping resource="ece358/models/Patients.hbm.xml"/>
+    <mapping resource="ece358/models/Scheduledoperations.hbm.xml"/>
+    <mapping resource="ece358/models/Province.hbm.xml"/>
+    <mapping resource="ece358/models/Prescriptions.hbm.xml"/>
     <mapping resource="ece358/models/Users.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
