@@ -1,5 +1,5 @@
 package ece358.models;
-// Generated Mar 16, 2014 5:46:38 PM by Hibernate Tools 3.6.0
+// Generated Mar 17, 2014 4:52:23 PM by Hibernate Tools 3.6.0
 
 
 
@@ -13,6 +13,10 @@ public class Patients  implements java.io.Serializable {
      private String firstName;
      private String lastName;
      private String address;
+     private String city;
+     private String province;
+     private String country;
+     private String postalCode;
      private String phoneNumber;
      private String email;
      private String healthCardNumber;
@@ -30,11 +34,15 @@ public class Patients  implements java.io.Serializable {
     public Patients(String userId) {
         this.userId = userId;
     }
-    public Patients(String userId, String firstName, String lastName, String address, String phoneNumber, String email, String healthCardNumber, String sin, Integer visits, String defaultDoctorId, String healthStatus, String primaryContactNo, Boolean transfered) {
+    public Patients(String userId, String firstName, String lastName, String address, String city, String province, String country, String postalCode, String phoneNumber, String email, String healthCardNumber, String sin, Integer visits, String defaultDoctorId, String healthStatus, String primaryContactNo, Boolean transfered) {
        this.userId = userId;
        this.firstName = firstName;
        this.lastName = lastName;
        this.address = address;
+       this.city = city;
+       this.province = province;
+       this.country = country;
+       this.postalCode = postalCode;
        this.phoneNumber = phoneNumber;
        this.email = email;
        this.healthCardNumber = healthCardNumber;
@@ -73,6 +81,34 @@ public class Patients  implements java.io.Serializable {
     
     public void setAddress(String address) {
         this.address = address;
+    }
+    public String getCity() {
+        return this.city;
+    }
+    
+    public void setCity(String city) {
+        this.city = city;
+    }
+    public String getProvince() {
+        return this.province;
+    }
+    
+    public void setProvince(String province) {
+        this.province = province;
+    }
+    public String getCountry() {
+        return this.country;
+    }
+    
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    public String getPostalCode() {
+        return this.postalCode;
+    }
+    
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
     public String getPhoneNumber() {
         return this.phoneNumber;

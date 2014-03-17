@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 16, 2014 5:46:39 PM by Hibernate Tools 3.6.0 -->
+<!-- Generated Mar 17, 2014 4:52:23 PM by Hibernate Tools 3.6.0 -->
 <hibernate-mapping>
     <class name="ece358.models.Drugs" table="drugs" catalog="hospital_main">
         <id name="din" type="int">
