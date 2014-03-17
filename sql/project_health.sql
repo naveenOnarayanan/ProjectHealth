@@ -23,7 +23,11 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Patients` (
   `UserID` VARCHAR(16) NOT NULL,
   `FirstName` VARCHAR(32) NULL,
   `LastName` VARCHAR(64) NULL,
-  `Address` TEXT NULL,
+  `Address` VARCHAR(64) NULL,
+  `City` VARCHAR(32) NULL,
+  `Province` VARCHAR(2) NULL,
+  `Country` VARCHAR(32) NULL,
+  `PostalCode` VARCHAR(6) NULL,
   `PhoneNumber` VARCHAR(11) NULL,
   `Email` VARCHAR(256) NULL,
   `HealthCardNumber` VARCHAR(12) NULL,
@@ -131,6 +135,25 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`DoctorPatientPerm` (
   `Expiry` DATETIME NULL,
   PRIMARY KEY (`PatientID`))
 ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Hospital_Main`.`Country`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Country` (
+  `Code` VARCHAR(2) NOT NULL,
+  `Name` VARCHAR(32) NOT NULL,
+  PRIMARY KEY (`Code`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `Hospital_Main`.`Province`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Province` (
+  `Code` VARCHAR(2) NOT NULL,
+  `Name` VARCHAR(32) NOT NULL,
+  PRIMARY KEY (`Code`))
+ENGINE = InnoDB;
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
