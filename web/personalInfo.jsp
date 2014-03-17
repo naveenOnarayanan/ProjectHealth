@@ -30,7 +30,22 @@
         <% String ContactNo = (String) request.getAttribute("ContactNo"); %>
         <% String SIN = (String) request.getAttribute("SIN"); %>
         <% String Vists = (String) request.getAttribute("Vists"); %>
-        <title>JSP Page</title>
+        <% int mode  = Integer.parseInt((String)request.getParameter("mode"));%>
+        <% String buttons = "<button><a href = 'personalInfo?mode=2'>Edit</a>";%>
+        <% String disabled = "";
+           if(mode == 1)
+           {
+               disabled = "disabled";
+           }
+           else if(mode == 2)
+           {
+               buttons = "<button><a href = 'personalInfo?mode=1'>Cancel</a></button>"
+                       + "&nbsp&nbsp&nbsp"
+                       + "<button><a href='personalInfo?mode=3'>Save</a></button>";
+           }%>
+
+           
+        <title>Personal Information</title>
     </head>
     <body>
         <script>
@@ -41,6 +56,7 @@
 
         <div id="navbar-container"></div>
         <h1>Personal Information</h1>
+        <form action="" method="post">
         <table width="900" cellpadding="10">
             <tr>
                 <td>First Name:</td>
@@ -56,29 +72,30 @@
             </tr>
             <tr>
                 <td>Address:</td>
-                <td><input type = "text" value = "<%=Address%>" disabled></input></td>
+                <td><input type = "text" value = "<%=Address%>" <%=disabled%>></input></td>
                 <td>Doctor:</td>
                 <td><input type = "text" value = "<%=Doctor%>" disabled></input></td>
             </tr>
             <tr>
                 <td>Email:</td>
-                <td><input type = "text" value = "<%=Email%>" disabled></input></td>
+                <td><input type = "email" value = "<%=Email%>" <%=disabled%>></input></td>
                 <td>Health Status:</td>
                 <td><input type = "text" value = "<%=HealthStatus%>" disabled></input></td>
             </tr>
             <tr>
                 <td>Phone Number:</td>
-                <td><input type = "text" value = "<%=PhoneNumber%>" disabled></input></td>
-                <td>Visits</td>
+                <td><input type = "tel" value = "<%=PhoneNumber%>" <%=disabled%>></input></td>
+                <td>Visits:</td>
                 <td><input type = "text" value = "<%=Vists%>" disabled></input></td>
             </tr>
             <tr>
                 <td>Contact Phone Number:</td>
-                <td><input type = "text" value = "<%=ContactNo%>" disabled></input></td>
+                <td><input type = "tel"  pattern='[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}' value = "<%=ContactNo%>" <%=disabled%>></input></td>
                 <td></td>
-                <td align = "left"><button>Edit</button></td>
+                <td align = "left"><%=buttons%></td>
             </tr>
         </table>
+        </form>
                 
     </body>
 

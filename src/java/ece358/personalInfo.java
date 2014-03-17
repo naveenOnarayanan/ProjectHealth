@@ -45,21 +45,31 @@ public class personalInfo extends HttpServlet {
 
         String url;
         try {
-          
-            url = "/personalInfo.jsp";
-            Patients patient = (Patients) HibernateUtil.get(Patients.class, sessionUsername);
-            request.setAttribute("Address", patient.getAddress() != null ? patient.getAddress() : "");
-            request.setAttribute("Doctor", patient.getDefaultDoctorId() != null ? patient.getDefaultDoctorId() : "");
-            request.setAttribute("Email", patient.getEmail() != null ? patient.getEmail() : "");
-            request.setAttribute("FirstName", patient.getFirstName() != null ? patient.getFirstName() : "");
-            request.setAttribute("LastName", patient.getLastName() != null ? patient.getLastName() : "");
-            request.setAttribute("HealthCardNo", patient.getHealthCardNumber() != null ? patient.getHealthCardNumber() : "");
-            request.setAttribute("HealthStatus", patient.getHealthStatus() != null ? patient.getHealthStatus() : "");
-            request.setAttribute("PhoneNumber", patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "");
-            request.setAttribute("ContactNo", patient.getPrimaryContactNo() != null ? patient.getPrimaryContactNo() : "");
-            request.setAttribute("SIN", patient.getSin() != null ? patient.getSin() : "");
-            request.setAttribute("Visits", patient.getVisits() != null ? patient.getVisits() : "");
-            
+            int mode = Integer.parseInt(request.getParameter("mode"));
+            if(mode == 1 || mode == 2)
+            {
+                Patients patient = (Patients) HibernateUtil.get(Patients.class, sessionUsername);
+                request.setAttribute("Address", patient.getAddress() != null ? patient.getAddress() : "");
+                request.setAttribute("Doctor", patient.getDefaultDoctorId() != null ? patient.getDefaultDoctorId() : "");
+                request.setAttribute("Email", patient.getEmail() != null ? patient.getEmail() : "");
+                request.setAttribute("FirstName", patient.getFirstName() != null ? patient.getFirstName() : "");
+                request.setAttribute("LastName", patient.getLastName() != null ? patient.getLastName() : "");
+                request.setAttribute("HealthCardNo", patient.getHealthCardNumber() != null ? patient.getHealthCardNumber() : "");
+                request.setAttribute("HealthStatus", patient.getHealthStatus() != null ? patient.getHealthStatus() : "");
+                request.setAttribute("PhoneNumber", patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "");
+                request.setAttribute("ContactNo", patient.getPrimaryContactNo() != null ? patient.getPrimaryContactNo() : "");
+                request.setAttribute("SIN", patient.getSin() != null ? patient.getSin() : "");
+                request.setAttribute("Visits", patient.getVisits() != null ? patient.getVisits() : "");
+                url = "/personalInfo.jsp";
+            }
+            else if(mode == 3)
+            {
+                url = "/personalInfo?mode=1";
+            }
+            else
+            {
+                url = "/personalInfo?mode=1";
+            }
             
         } catch (Exception e) {
             request.setAttribute("exception", e);
@@ -68,6 +78,7 @@ public class personalInfo extends HttpServlet {
         }
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
+
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
