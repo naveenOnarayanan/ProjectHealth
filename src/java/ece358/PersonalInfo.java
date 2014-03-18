@@ -6,22 +6,28 @@
 
 package ece358;
 
+
 import ece358.models.Patients;
 import ece358.models.Users;
+import ece358.models.Country;
+import ece358.models.Province;
 import ece358.utils.HibernateUtil;
+import ece358.utils.PatientValidation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hibernate.Hibernate;
 
 /**
  *
  * @author Josh
  */
-public class personalInfo extends HttpServlet {
+public class PersonalInfo extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,31 +56,58 @@ public class personalInfo extends HttpServlet {
             {
                 Patients patient = (Patients) HibernateUtil.get(Patients.class, sessionUsername);
                 request.setAttribute("Address", patient.getAddress() != null ? patient.getAddress() : "");
-                request.setAttribute("Doctor", patient.getDefaultDoctorId() != null ? patient.getDefaultDoctorId() : "");
+                request.setAttribute("City", patient.getCity() != null ? patient.getCity() : "");
+                request.setAttribute("Province", patient.getProvince() != null ? patient.getProvince() : "");
+                request.setAttribute("PostalCode", patient.getPostalCode() != null ? patient.getPostalCode() : "");
+                request.setAttribute("Country", patient.getCountry() != null ? patient.getCountry() : "");
+                request.setAttribute("DefaultDoctorID", patient.getDefaultDoctorId() != null ? patient.getDefaultDoctorId() : "");
                 request.setAttribute("Email", patient.getEmail() != null ? patient.getEmail() : "");
                 request.setAttribute("FirstName", patient.getFirstName() != null ? patient.getFirstName() : "");
                 request.setAttribute("LastName", patient.getLastName() != null ? patient.getLastName() : "");
-                request.setAttribute("HealthCardNo", patient.getHealthCardNumber() != null ? patient.getHealthCardNumber() : "");
+                request.setAttribute("HealthCardNumber", patient.getHealthCardNumber() != null ? patient.getHealthCardNumber() : "");
                 request.setAttribute("HealthStatus", patient.getHealthStatus() != null ? patient.getHealthStatus() : "");
                 request.setAttribute("PhoneNumber", patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "");
-                request.setAttribute("ContactNo", patient.getPrimaryContactNo() != null ? patient.getPrimaryContactNo() : "");
+                request.setAttribute("PrimaryContactNo", patient.getPrimaryContactNo() != null ? patient.getPrimaryContactNo() : "");
                 request.setAttribute("SIN", patient.getSin() != null ? patient.getSin() : "");
                 request.setAttribute("Visits", patient.getVisits() != null ? patient.getVisits() : "");
-                url = "/personalInfo.jsp";
+                List<Country> countries  = (List<Country>) HibernateUtil.select("FROM Country");
+                List<Province> provinces  = (List<Province>) HibernateUtil.select("FROM Province");
+                request.setAttribute("Countries", countries);
+                request.setAttribute("Provinces", provinces);
+                url = "/PersonalInfo.jsp";
             }
             else if(mode == 3)
             {
-                url = "/personalInfo?mode=1";
+                HashMap<String,String> errors = PatientValidation.validatePatient(request);
+                if(errors.isEmpty())
+                {
+                    Patients patient = (Patients) HibernateUtil.get(Patients.class, sessionUsername);
+                    patient.setAddress(request.getParameter("Address"));
+                    patient.setCity(request.getParameter("City"));
+                    patient.setProvince(request.getParameter("Province"));
+                    patient.setPostalCode(request.getParameter("PostalCode"));
+                    patient.setCountry(request.getParameter("Country"));
+                    patient.setEmail(request.getParameter("Email"));
+                    patient.setPhoneNumber(request.getParameter("PhoneNumber"));
+                    patient.setPrimaryContactNo(request.getParameter("PrimaryContactNo"));
+                    HibernateUtil.update(patient);
+                    url = "/PersonalInfo?mode=1";
+                }
+                else
+                {
+                    request.setAttribute("errors", errors);
+                    url = "/PersonalInfo?mode=2";
+                }
             }
             else
             {
-                url = "/personalInfo?mode=1";
+                url = "/PersonalInfo?mode=1";
             }
             
         } catch (Exception e) {
             request.setAttribute("exception", e);
             System.out.println(e);
-            url = "/personalInfo.jsp";
+            url = "/PersonalInfo.jsp";
         }
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
