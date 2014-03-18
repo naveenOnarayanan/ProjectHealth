@@ -6,6 +6,7 @@
 
 package ece358.utils;
 
+import java.io.Serializable;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -46,16 +47,37 @@ public class HibernateUtil {
         return result;
     }
 
-    public static Object get(Class clazz, java.io.Serializable id) {
-        try {
-            Session session = getSessionFactory().openSession();
-            session.beginTransaction();
-            Object result = session.get(clazz, id);
-            session.getTransaction().commit();
-            session.close();
-            return result;
-        } catch(Exception e) {
-            return null;
-        }
+    public static Object get(Class clazz, Serializable id) {
+        Session session = getSessionFactory().openSession();
+        session.beginTransaction();
+        Object result = session.get(clazz, id);
+        session.getTransaction().commit();
+        session.close();
+        return result;
+    }
+
+    public static void update(Object updateObj) {
+        Session session = getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(updateObj);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public static void add(Object newObj) {
+        Session session = getSessionFactory().openSession();
+        session.beginTransaction();
+        session.save(newObj);
+        session.getTransaction().commit();
+        session.close();
+    }
+
+    public static void delete(Object deleteObj) {
+        Session session = getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(deleteObj);
+        session.getTransaction().commit();
+        session.close();
+            
     }
 }

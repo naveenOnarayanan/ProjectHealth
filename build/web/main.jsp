@@ -22,6 +22,7 @@
         <%! ArrayList<Staff> employeeList;%>
         <% employeeList = (ArrayList<Staff>) request.getAttribute("employeeList");%>
         <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
+        <% String error = (String) request.getAttribute("error"); %>
         <title>Project Health</title>
     </head>
     <body>
@@ -32,7 +33,20 @@
         </script>
 
         <div id="navbar-container"></div>
+        <%
+           if (error != null && !error.equals("")) { 
+        %>
+               <div class="alert alert-dismissable alert-danger">
+                   <button type="button" class="close" data-dismiss="alert">x</button>
+                   <%= error %>
+               </div>
+        <%
+           } 
+        %>
         <ul>
+            <button><a href="QueryServlet?qnum=2">Update user 0</a></button>
+            <button><a href="QueryServlet?qnum=3">Add user</a></button>
+            <button><a href="QueryServlet?qnum=4">Delete user 0</a></button>
             <button><a href="QueryServlet?qnum=1">List all employees</a></button>
             <% 
                 if(queryServletError != null && !queryServletError){

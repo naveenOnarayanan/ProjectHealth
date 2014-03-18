@@ -50,11 +50,20 @@ public class QueryServlet extends HttpServlet {
                 List<Staff> ret = (List<Staff>) HibernateUtil.select("FROM Staff");
                 request.setAttribute("employeeList", ret);
             } else if (intQueryNum == 2) {
-             //   ArrayList ret = Lab3DBAO.getDepartments();
-      //          request.setAttribute("departmentList", ret);
+                Staff ret = (Staff) HibernateUtil.get(Staff.class, "n3naraya");
+                ret.setFirstName("Dumb");
+                ret.setLastName("Bum");
+                HibernateUtil.update(ret);
             } else if (intQueryNum == 3) {
-                query3helper(request, response);
-            } else {
+                Staff ret = new Staff();
+                ret.setUserId("loser");
+                ret.setFirstName("Loser");
+                ret.setLastName("#1");
+                HibernateUtil.add(ret);
+            } else if (intQueryNum == 4) {
+                Staff ret = (Staff) HibernateUtil.get(Staff.class, "loser");
+                HibernateUtil.delete(ret);
+            }else {
                 throw new RuntimeException("Invalid query number: " + intQueryNum);
             }
             url = "/main.jsp";
@@ -62,7 +71,7 @@ public class QueryServlet extends HttpServlet {
             
         } catch (Exception e) {
             queryServletError = true;
-            request.setAttribute("exception", e);
+            request.setAttribute("error", e.getMessage());
             request.setAttribute("queryServletError", queryServletError);
             System.out.println(e);
             url = "/main.jsp";
