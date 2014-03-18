@@ -1,3 +1,5 @@
 ./nbproject/private
 /dist/
 /nbproject/private/
+/web/WEB-INF/
+/build/
