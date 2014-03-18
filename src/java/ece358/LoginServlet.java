@@ -36,18 +36,25 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = "/index.jsp";
+        if(request.getParameter("mode").equals("login"))
+        {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        Users user = (Users) HibernateUtil.get(Users.class, username);
-        if (user == null || !user.getPassword().equals(password)) {
-            request.setAttribute("error", "Invalid Username and Password");
-        } else {
-            url = "/main.jsp";
+            Users user = (Users) HibernateUtil.get(Users.class, username);
+            if (user == null || !user.getPassword().equals(password)) {
+                request.setAttribute("error", "Invalid Username and Password");
+            } else {
+                url = "/main.jsp";
+            }
+            request.getSession().setAttribute("user", user);
+            getServletContext().getRequestDispatcher(url).forward(request, response);
         }
-        request.getSession().setAttribute("user", user);
-        getServletContext().getRequestDispatcher(url).forward(request, response);
+        else 
+        {
+            request.getSession().setAttribute("user", null);
+            getServletContext().getRequestDispatcher(url).forward(request, response);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

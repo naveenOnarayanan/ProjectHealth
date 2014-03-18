@@ -14,7 +14,7 @@ function getNavbar(role) {
     var patientNav =
         "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
-                "<a class='navbar-brand' href='#'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
+                "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
@@ -29,7 +29,7 @@ function getNavbar(role) {
                     "</li>" +
                 "</ul>" +
                 "<ul class='nav navbar-nav navbar-right'>" +
-                    "<li><a id='logout' href='#'>Logout</a></li>" +
+                    "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
                 "</ul>" +
             "</div>" +
         "</nav>";
@@ -37,7 +37,7 @@ function getNavbar(role) {
     var doctorNav =
         "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
-                "<a class='navbar-brand' href='#'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
+                "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
@@ -53,7 +53,7 @@ function getNavbar(role) {
     var staffNav =
         "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
-                "<a class='navbar-brand' href='#'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
+                "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
@@ -69,14 +69,14 @@ function getNavbar(role) {
     var financeNav =
         "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
-                "<a class='navbar-brand' href='#'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
+                "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
                     "<li><a href='#'>Doctor Lookup</a></li>" +
                 "</ul>" +
                 "<ul class='nav navbar-nav navbar-right'>" +
-                    "<li><a id='logout' href='#'>Logout</a></li>" +
+                    "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
                 "</ul>" +
             "</div>" +
         "</nav>";
