@@ -45,7 +45,7 @@
         <% List<Province> Provinces = (List<Province>) request.getAttribute("Provinces");%>
         <% String PostalCodeRegex = "^[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ][ ][0-9][[ABCEGHJKLMNPRSTVWXYZ][0-9]";
            String PhoneNumberRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){4}$";%>
-        <% String buttons = "<button type = \"button\" style=\"width:54px;height:35px;\"><a href = 'PersonalInfo?mode=2' style=\"text-decoration: none;\">Edit</a>";%>
+        <% String buttons = "<button type = \"submit\" formaction=\"PersonalInfo?mode=2\">Edit</button>";%>
         <% String disabled = "";
            if(mode == 1)
            {
@@ -53,7 +53,7 @@
            }
            else if(mode == 2)
            {
-               buttons = "<button type = \"button\" style=\"width:54px;height:35px;\"><a href = 'PersonalInfo?mode=1' style=\"text-decoration: none\">Cancel</a></button>"
+               buttons = "<button type = \"submit\" formaction=\"PersonalInfo?mode=1\" formnovalidate>Cancel</button>"
                        + "&nbsp&nbsp&nbsp"
                        + "<input type=\"submit\"></button>";
            }%>

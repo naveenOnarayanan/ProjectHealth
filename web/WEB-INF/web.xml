@@ -8,6 +8,10 @@
         <servlet-name>PersonalInfo</servlet-name>
         <servlet-class>ece358.PersonalInfo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PatientLookup</servlet-name>
+        <servlet-class>ece358.PatientLookup</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>QueryServlet</servlet-name>
         <url-pattern>/QueryServlet</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>PersonalInfo</servlet-name>
         <url-pattern>/PersonalInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PatientLookup</servlet-name>
+        <url-pattern>/PatientLookup</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

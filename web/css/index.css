@@ -40,3 +40,19 @@ ul.nav.navbar-nav li:hover {
     width: 100px;
     border-radius: 5px;
 }
+
+table {
+    border-collapse:separate;
+    border:1px;
+    border-radius:6px;
+    -moz-border-radius:6px;
+}
+
+td, th {
+    border-left:1px;
+    border-top:1px;
+}
+button{
+    width:54px;
+    height:35px;
+}

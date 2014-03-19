@@ -30,7 +30,7 @@
            } 
         %>
         <div class="jumbotron login-container">
-            <form role="form" name="userCredentials" action="LoginServlet" method="post">
+            <form role="form" name="userCredentials" action="LoginServlet?mode=login" method="post">
                 <div class="form-group">
                     <input class="login-form-item form-control" id="username" name="username" placeholder="Username"/>
                 </div>

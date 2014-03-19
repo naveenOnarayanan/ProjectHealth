@@ -41,7 +41,7 @@ function getNavbar(role) {
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
-                    "<li><a href='#'>Patient Lookup</a></li>" +
+                    "<li><a href='PatientLookup?mode=1'>Patient Lookup</a></li>" +
                     "<li><a href='#'>Record Lookup</a></li>" +
                 "</ul>" +
                 "<ul class='nav navbar-nav navbar-right'>" +
