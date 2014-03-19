@@ -131,6 +131,21 @@
                 </div>
                 <div style="display: table-cell; float:left; padding-left: 100px">
                     <h4>Patient Information</h4>
+                    <% if(errors != null && errors.size() != 0){ %>
+                        <div width="900" style="background-color:#FF9494;">
+                            <h3>Try Again</h3>
+                                    <ul>
+                                    <% Collection<String> entries = errors.values();
+                                       Iterator it = entries.iterator();
+                                       String s;
+                                       while(it.hasNext())
+                                       {
+                                            s = (String)it.next();%>
+                                       <li><%=s%></li>
+                                       <%}%>
+                                    </ul>
+                        </div>
+                        <%}%>
                     <form method ="post" action="/ProjectHealth/PatientLookup?mode=3">
                         <input type = "hidden" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input>
                         <input type = "hidden" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input>
@@ -225,20 +240,6 @@
                                 <td align="left"><%=buttons%></td>
                             </tr>
                         </table>
-                        <% if(errors != null && errors.size() != 0){ %>
-                        <h3>Try Again</h3>
-                                <ul>
-                                <% Collection<String> entries = errors.values();
-                                   Iterator it = entries.iterator();
-                                   String s;
-                                   while(it.hasNext())
-                                   {
-                                        s = (String)it.next();%>
-                                   <li><%=s%></li>
-                                   <%}
-
-                    }%>
-                                </ul>
                         <div style="clear:both"></div>
                     </form>
                 </div>

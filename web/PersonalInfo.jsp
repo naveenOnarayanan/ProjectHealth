@@ -73,8 +73,23 @@
 
         <div id="navbar-container"></div>
         <h1>Personal Information</h1>
-        <form method ="post" action="/ProjectHealth/PersonalInfo?mode=3">
-            <table width="900" cellpadding="10" style="float:left">
+        <form method ="post" action="/ProjectHealth/PersonalInfo?mode=3" style="padding-left:10px">
+            <% if(errors != null && errors.size() != 0){ %>
+            <div style="background-color:#FF9494; width:900px">
+            <h3>Try Again</h3>
+                    <ul>
+                    <% Collection<String> entries = errors.values();
+                       Iterator it = entries.iterator();
+                       String s;
+                       while(it.hasNext())
+                       {
+                            s = (String)it.next();%>
+                       <li><%=s%></li>
+                       <%}%>
+                    </ul>
+            </div>
+            <%}%>
+            <table width="900" cellpadding="10" style="float:left; background-color:#F8F8F8">
                 <tr>
                     <td>First Name:</td>
                     <td><input type = "text" id="FirstName" name ="FirstName" value = "<%=FirstName%>" disabled></input></td>
@@ -158,22 +173,7 @@
                     <td align="left"><%=buttons%></td>
                 </tr>
             </table>
-            <% if(errors != null && errors.size() != 0){ %>
-            <h3>Try Again</h3>
-                    <ul>
-                    <% Collection<String> entries = errors.values();
-                       Iterator it = entries.iterator();
-                       String s;
-                       while(it.hasNext())
-                       {
-                            s = (String)it.next();%>
-                       <li><%=s%></li>
-                       <%}
-            
-        }%>
-                    </ul>
-            <div style="clear:both"></div>
-        </form>
+            </form>
                 
     </body>
 

@@ -52,6 +52,13 @@ td, th {
     border-left:1px;
     border-top:1px;
 }
+
+div{
+    border-collapse:separate;
+    border:1px;
+    border-radius:6px;
+    -moz-border-radius:6px;
+}
 button{
     width:54px;
     height:35px;
