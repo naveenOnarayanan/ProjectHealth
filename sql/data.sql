@@ -97,6 +97,7 @@ INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES (
 INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('00548359', 'Xanax', 'Antidepressant');
 INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('00013285', 'Valium', 'Anxiety, panic attacks, insomnia, and seizures');
 
+
 #visitation
 DELETE FROM hospital_main.visitation;
 
@@ -123,3 +124,15 @@ INSERT INTO hospital_main.visitation (RecordID, VisitID, PatientID, DoctorID, Sy
 INSERT INTO hospital_main.visitation (RecordID, VisitID, PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES ('20', '79', 'estark', 'jhalmo', 'Burning sensation in his neck', 'Pulled muscle', 'Followup', '00:05:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '1', '0');
 INSERT INTO hospital_main.visitation (RecordID, VisitID, PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES ('21', '78', 'pbaelish', 'gzhou', 'Pain in fingers', 'Anthrax', 'Checkup', '00:50:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '0', '0');
 INSERT INTO hospital_main.visitation (RecordID, VisitID, PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES ('22', '77', 'estark', 'jhalmo', 'Feels very light headed', 'Pulled muscle', 'Surgury', '00:30:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '1', '0');
+
+
+#operations
+DELETE FROM hospital_main.operations;
+
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Heart Transplant', 'Replace heart', '4:00', 'Surgeon');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Kidney Transplant', 'Replace kidney', '3:00', 'Surgeon');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Vasectomy', 'Male sterilization', '0:30', 'Physician');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Arm Amputation', 'Removal of the arm', '2:00', 'Surgeon');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('CT Scan', 'Take images of the brain', '1:00', 'Physician');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('C-Section', 'Remove baby via incision', '1:00', 'Physician');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Plastic Surgury', 'Rebuild the body', '2:00', 'Surgeon');
