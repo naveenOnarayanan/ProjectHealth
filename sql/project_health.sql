@@ -140,7 +140,7 @@ ENGINE = InnoDB;
 -- Table `Hospital_Main`.`Country`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Country` (
-  `Code` VARCHAR(2) NOT NULL,
+  `Code` VARCHAR(3) NOT NULL,
   `Name` VARCHAR(32) NOT NULL,
   PRIMARY KEY (`Code`))
 ENGINE = InnoDB;
