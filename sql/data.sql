@@ -57,3 +57,20 @@ INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Addr
 INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('cstark', 'Catelyn', 'Stark', '858 Sherbourne St', 'Toronto', 'ON', 'Canada', 'M5T 1L1', '4160640927', 'cstark@gmail.com', '575092055136338', '80566872237', '0', 'gzhou', 'Dead', '4161896588', '0');
 INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('rstark', 'Robb', 'Stark', '858 Sherbourne St', 'Toronto', 'ON', 'Canada', 'M5T 1L1', '4167770643', 'rstark@gmail.com', '830636612412214', '4024107545', '0', 'gzhou', 'Dead', '4169993251', '0');
 INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('estark', 'Eddard', 'Stark', '858 Sherbourne St', 'Toronto', 'ON', 'Canada', 'M5T 1L1', '4169599215', 'estark@gmail.com', '494409752776846', '48314235569', '0', 'jhalmo', 'Dead', '4164749158', '0');
+
+#province
+DELETE FROM hospital_main.province;
+
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('ON', 'Ontario');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('BC', 'British Columbia');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('AB', 'Alberta');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('SK', 'Saskatchewan');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('MB', 'Manitoba');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('QC', 'Quebec');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NB', 'New Brunswick');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NS', 'Nova Scotia');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NL', 'Newfoundland and Labrador');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('PE', 'Prince Edward Island');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('YT', 'Yukon');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NU', 'Nunavut');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NT', 'Northwest Territories');
