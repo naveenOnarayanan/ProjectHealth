@@ -137,7 +137,7 @@ INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `Req
 INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('C-Section', 'Remove baby via incision', '1:00', 'Physician');
 INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Plastic Surgury', 'Rebuild the body', '2:00', 'Surgeon');
 
-#patient doctor permission
+#doctor patient permission
 DELETE FROM hospital_main.doctorpatientperm;
 
 INSERT INTO `hospital_main`.`doctorpatientperm` (`PatientID`, `DoctorID`, `SecDoctorID`, `Expiry`) VALUES ('pbaelish', 'gzhou', 'nnarayanan', '2012-04-20 17:00:00');

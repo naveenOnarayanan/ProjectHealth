@@ -83,7 +83,7 @@ ENGINE = InnoDB;
 -- Table `Hospital_Main`.`Visitation`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Visitation` (
-  `RecordID` INT NOT NULL,
+  `RecordID` INT NOT NULL AUTO_INCREMENT,
   `VisitID` INT NOT NULL,
   `PatientID` VARCHAR(16) NOT NULL,
   `DoctorID` VARCHAR(16) NOT NULL,
