@@ -83,3 +83,16 @@ DELETE FROM hospital_main.country;
 INSERT INTO `hospital_main`.`country` (`Code`, `Name`) VALUES ('CAN', 'Canada');
 
 
+#drugs
+DELETE FROM hospital_main.drugs;
+
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02276054', 'Extra Strength Tylenol Allergy', 'Allergy medicine');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02362643', 'Advil Cold & Flu', 'Cold medicine');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02239766', 'Viagra', 'Erectile dysfunction');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02248809', 'Adderall', 'ADHD treatment');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02237726', 'Aspirin', 'Aches and pain');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02248503', 'Paxil', 'Antidepressant');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02132702', 'Zoloft', 'Antidepressant');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02018985', 'Prozac', 'Antidepressant');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('00548359', 'Xanax', 'Antidepressant');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('00013285', 'Valium', 'Anxiety, panic attacks, insomnia, and seizures');
