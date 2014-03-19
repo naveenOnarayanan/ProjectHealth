@@ -75,7 +75,9 @@
     <body>
         <script>
         $(function() {
-           getNavbar("<%= ((Users) request.getSession().getAttribute("user")).getRole()%>"); 
+           getNavbar("<%= ((Users) request.getSession().getAttribute("user")).getRole()%>", 
+           "<%=request.getSession().getAttribute("firstname")%>",
+           "<%=request.getSession().getAttribute("lastname")%>");
         })
         </script>
         <div id="navbar-container"></div>

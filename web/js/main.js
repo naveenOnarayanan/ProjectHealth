@@ -10,9 +10,9 @@ $(function(){
     });
 });
 
-function getNavbar(role) {
-    var patientNav =
-        "<nav class='navbar navbar-default' role='navigation'>" +
+function getNavbar(role,firstname, lastname) {
+    var patientNav = [];
+        patientNav[0] = "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
                 "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
@@ -29,13 +29,20 @@ function getNavbar(role) {
                     "</li>" +
                 "</ul>" +
                 "<ul class='nav navbar-nav navbar-right'>" +
-                    "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
+                    "<li class='dropdown'>" +
+                            "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>";
+           patientNav[1] = "<b class='caret'></b></a>" +
+                            "<ul class='dropdown-menu'>" +
+                                "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
+                            "</ul>" +
+                        "</li>" +
                 "</ul>" +
             "</div>" +
         "</nav>";
+        
 
-    var doctorNav =
-        "<nav class='navbar navbar-default' role='navigation'>" +
+    var doctorNav =[];
+        doctorNav[0] = "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
                 "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
@@ -45,13 +52,19 @@ function getNavbar(role) {
                     "<li><a href='#'>Record Lookup</a></li>" +
                 "</ul>" +
                 "<ul class='nav navbar-nav navbar-right'>" +
-                    "<li><a id='logout' href='#'>Logout</a></li>" +
+                        "<li class='dropdown'>" +
+                            "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>";
+        doctorNav[1] = "<b class='caret'></b></a>" +
+                            "<ul class='dropdown-menu'>" +
+                                "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
+                            "</ul>" +
+                        "</li>" +
                 "</ul>" +
             "</div>" +
         "</nav>";
 
-    var staffNav =
-        "<nav class='navbar navbar-default' role='navigation'>" +
+    var staffNav = [];
+        staffNav[0] = "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
                 "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
@@ -61,13 +74,19 @@ function getNavbar(role) {
                     "<li><a href='#'>Patient Records</a></li>" +
                 "</ul>" +
                 "<ul class='nav navbar-nav navbar-right'>" +
-                    "<li><a id='logout' href='#'>Logout</a></li>" +
+                        "<li class='dropdown'>" +
+                            "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>";
+         staffNav[1] = "<b class='caret'></b></a>" +
+                            "<ul class='dropdown-menu'>" +
+                                "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
+                            "</ul>" +
+                        "</li>" +
                 "</ul>" +
             "</div>" +
         "</nav>";
 
-    var financeNav =
-        "<nav class='navbar navbar-default' role='navigation'>" +
+    var financeNav = [];
+        financeNav[0] = "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
                 "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
@@ -76,20 +95,26 @@ function getNavbar(role) {
                     "<li><a href='#'>Doctor Lookup</a></li>" +
                 "</ul>" +
                 "<ul class='nav navbar-nav navbar-right'>" +
-                    "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
+                    "<li class='dropdown'>" +
+                            "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>";
+         financeNav[1] = "<b class='caret'></b></a>" +
+                            "<ul class='dropdown-menu'>" +
+                                "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
+                            "</ul>" +
+                        "</li>" +
                 "</ul>" +
             "</div>" +
         "</nav>";
 
     var appendNav;
-    if (role == "patient") {
-        appendNav = patientNav;
-    } else if (role == "doctor") {
-        appendNav = doctorNav;
-    } else if (role == "staff") {
-        appendNav = staffNav;
-    } else if (role == "finance") {
-        appendNav = doctorNav;
+    if (role === "patient") {
+        appendNav = patientNav[0].concat(firstname, " ", lastname, patientNav[1]);
+    } else if (role === "doctor") {
+        appendNav = doctorNav[0].concat(firstname, " ", lastname, doctorNav[1]);
+    } else if (role === "staff") {
+        appendNav = staffNav[0].concat(firstname, " ", lastname, staffNav[1]);
+    } else if (role === "finance") {
+        appendNav = financeNav[0].concat(firstname, " ", lastname, financeNav[1]);
     }
 
     $("#navbar-container").append(

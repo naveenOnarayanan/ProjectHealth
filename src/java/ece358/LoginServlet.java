@@ -7,6 +7,8 @@
 package ece358;
 
 import ece358.models.Users;
+import ece358.models.Patients;
+import ece358.models.Staff;
 import ece358.utils.HibernateUtil;
 import java.io.IOException;
 import java.util.UUID;
@@ -42,9 +44,22 @@ public class LoginServlet extends HttpServlet {
             String password = request.getParameter("password");
 
             Users user = (Users) HibernateUtil.get(Users.class, username);
+                        
             if (user == null || !user.getPassword().equals(password)) {
                 request.setAttribute("error", "Invalid Username and Password");
             } else {
+                if(user.getRole().equals("doctor") || user.getRole().equals("staff") ||user.getRole().equals("finance"))
+                {
+                    Staff staff = (Staff) HibernateUtil.get(Staff.class, username);
+                    request.getSession().setAttribute("firstname", staff.getFirstName());
+                    request.getSession().setAttribute("lastname", staff.getLastName());
+                }
+                if(user.getRole().equals("patient"))
+                {
+                    Patients patient = (Patients) HibernateUtil.get(Patients.class, username);
+                    request.getSession().setAttribute("firstname", patient.getFirstName());
+                    request.getSession().setAttribute("lastname", patient.getLastName());
+                }
                 url = "/main.jsp";
             }
             request.getSession().setAttribute("user", user);
