@@ -20,10 +20,16 @@
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
+        <script>
+             $(document).ready(function() { $("#Province").select2(); });
+             $(document).ready(function() { $("#Country").select2(); });
+        </script>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
         <% String Address = (String) request.getAttribute("Address"); %>
         <% String City = (String) request.getAttribute("City"); %>
@@ -121,15 +127,16 @@
                 <tr>
                     <td>Province:</td>
                     <td>
-                    <select id="Province" name ="Province" <%=disabled%>>
+                    <select id="Province" name ="Province" style="width:200px" <%=disabled%>>
                         <%for(Province c : Provinces)
                             {
-                                String s = c.getCode();
-                                if(s.equals(Province)){%>
-                                 <option value="<%=s%>" selected><%=s%></option>
+                                String code = c.getCode();
+                                String name = c.getName();
+                                if(code.equals(Province)){%>
+                                 <option value="<%=code%>" selected><%=name%></option>
                             <%}
                                 else{%>
-                                 <option value="<%=s%>"><%=s%></option>  
+                                 <option value="<%=code%>"><%=name%></option>  
                                 <%}
                             }%>
                     </select>
@@ -149,7 +156,7 @@
                 <tr>
                     <td>Country:</td>
                     <td>
-                    <select id="Country" name ="Country" <%=disabled%>>
+                    <select id="Country" name ="Country" style="width:200px" <%=disabled%>>
                         <%for(Country c : Countries)
                             {
                                 String s = c.getName();

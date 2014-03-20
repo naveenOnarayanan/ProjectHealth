@@ -8,6 +8,7 @@ package ece358;
 
 import ece358.models.Country;
 import ece358.models.Patients;
+import ece358.models.Staff;
 import ece358.models.Province;
 import ece358.models.Users;
 import ece358.utils.HibernateUtil;
@@ -54,17 +55,9 @@ public class PatientLookup extends HttpServlet {
             try {
                 int mode = Integer.parseInt(request.getParameter("mode"));
                 NarrowResults(request);
-                if(mode == 1 || mode == 2)
+                if(mode == 1 || mode == 2)//View/Edit
                 {
-//                    List<Patients> patients = new ArrayList<Patients>();
-//                    if(request.getAttribute("Patients") == null )
-//                    {
-//                        patients = (List<Patients>) HibernateUtil.select("FROM Patients");
-//                    }
-//                    else
-//                    {
-//                        patients = (List<Patients>)request.getAttribute("Patients");
-//                    }
+
                     List<Patients> patients = (List<Patients>)request.getAttribute("Patients");
                     String selectedPatient = request.getParameter("PatientSelect");
                     if(selectedPatient == null)
@@ -102,9 +95,11 @@ public class PatientLookup extends HttpServlet {
                     request.setAttribute("Visits", patient.getVisits() != null ? patient.getVisits() : "");
                     List<Country> countries  = (List<Country>) HibernateUtil.select("FROM Country");
                     List<Province> provinces  = (List<Province>) HibernateUtil.select("FROM Province");
+                    List<Staff> doctors = (List<Staff>) HibernateUtil.select("FROM Staff WHERE JobTitle='Doctor' ORDER BY LastName");
 
                     request.setAttribute("Countries", countries);
                     request.setAttribute("Provinces", provinces);
+                    request.setAttribute("Doctors", doctors);
                     if(request.getAttribute("FirstNameLookup") == null)
                         request.setAttribute("FirstNameLookup","");
                     if(request.getAttribute("LastNameLookup") == null)
@@ -114,12 +109,36 @@ public class PatientLookup extends HttpServlet {
 
                     url = "/PatientLookup.jsp";
                 }
-                else if(mode == 3)
+                else if(mode == 3)//Submit
+                
                 {
+                    boolean insert = false;
+                    String PatientUserID = request.getParameter("PatientUserID");
+                    //New Patient
                     HashMap<String,String> errors = PatientValidation.validatePatient(request);
                     if(errors.isEmpty())
                     {
-                        Patients patient = (Patients) HibernateUtil.get(Patients.class, request.getParameter("PatientUserID"));
+                        Patients patient = new Patients();
+                        if( PatientUserID == null || PatientUserID == "")
+                        {
+                            String FirstName = request.getParameter("FirstName").toLowerCase();
+                            String LastName = request.getParameter("LastName").toLowerCase();
+                            String UserName = FirstName.charAt(0) + LastName;
+                            List<Users> userNameCount = (List<Users>)HibernateUtil.select("FROM Users WHERE UserID LIKE '" + UserName + "%'");
+                            if(!userNameCount.isEmpty())
+                            {
+                                UserName += String.valueOf(userNameCount.size());
+                            }
+                            Users user = new Users(UserName, FirstName, "patient");
+                            HibernateUtil.add(user);
+                            patient.setUserId(UserName);
+                            insert = true;
+                        }
+                        else
+                        {
+                            patient = (Patients) HibernateUtil.get(Patients.class, PatientUserID);
+                        }
+                        
                         patient.setFirstName(request.getParameter("FirstName"));
                         patient.setLastName(request.getParameter("LastName"));
                         patient.setAddress(request.getParameter("Address"));
@@ -134,14 +153,52 @@ public class PatientLookup extends HttpServlet {
                         patient.setSin(request.getParameter("SIN"));
                         patient.setDefaultDoctorId(request.getParameter("DefaultDoctorID"));
                         patient.setHealthStatus(request.getParameter("HealthStatus"));
-                        HibernateUtil.update(patient);
-                        url = "/PatientLookup?mode=1";
+                        
+                        if(insert)
+                            HibernateUtil.add(patient);
+                        else
+                            HibernateUtil.update(patient);
+                        url = "/PatientLookup?mode=1" + "&PatientUserID=" + patient.getUserId();
                     }
                     else
                     {
                         request.setAttribute("errors", errors);
                         url = "/PatientLookup?mode=2";
                     }
+                }
+                else if( mode == 4)//New Patient
+                {
+                    request.setAttribute("PatientUserID", "");
+                    request.setAttribute("Address", "");
+                    request.setAttribute("City", "");
+                    request.setAttribute("Province", "");
+                    request.setAttribute("PostalCode", "");
+                    request.setAttribute("Country", "");
+                    request.setAttribute("DefaultDoctorID", "");
+                    request.setAttribute("Email", "");
+                    request.setAttribute("FirstName", "");
+                    request.setAttribute("LastName", "");
+                    request.setAttribute("HealthCardNumber", "");
+                    request.setAttribute("HealthStatus", "");
+                    request.setAttribute("PhoneNumber", "");
+                    request.setAttribute("PrimaryContactNo", "");
+                    request.setAttribute("SIN", "");
+                    request.setAttribute("Visits", "");
+                    
+                    List<Country> countries  = (List<Country>) HibernateUtil.select("FROM Country");
+                    List<Province> provinces  = (List<Province>) HibernateUtil.select("FROM Province");
+                    List<Staff> doctors = (List<Staff>) HibernateUtil.select("FROM Staff WHERE JobTitle='Doctor' ORDER BY LastName");
+                    request.setAttribute("Countries", countries);
+                    request.setAttribute("Provinces", provinces);
+                    request.setAttribute("Doctors", doctors);
+                    if(request.getAttribute("FirstNameLookup") == null)
+                        request.setAttribute("FirstNameLookup","");
+                    if(request.getAttribute("LastNameLookup") == null)
+                        request.setAttribute("LastNameLookup","");
+                    if(request.getAttribute("PatientUserIDLookup") == null)
+                        request.setAttribute("PatientUserIDLookup", "");
+
+                    url = "/PatientLookup.jsp";
                 }
                 else
                 {

@@ -13,6 +13,7 @@
 <%@page import="ece358.models.Country"%>
 <%@page import="ece358.models.Province"%>
 <%@page import="ece358.models.Patients"%>
+<%@page import="ece358.models.Staff"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,10 +22,17 @@
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
+        <script>
+             $(document).ready(function() { $("#Province").select2(); });
+             $(document).ready(function() { $("#Country").select2(); });
+             $(document).ready(function() { $("#DefaultDoctorID").select2(); });
+        </script>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
         <% String Address = (String) request.getAttribute("Address"); %>
         <% String City = (String) request.getAttribute("City"); %>
@@ -49,6 +57,7 @@
         <% List<Country> Countries = (List<Country>) request.getAttribute("Countries");%>
         <% List<Province> Provinces = (List<Province>) request.getAttribute("Provinces");%>
         <% List<Patients> PatientsList = (List<Patients>) request.getAttribute("Patients");%>
+        <% List<Staff> Doctors = (List<Staff>) request.getAttribute("Doctors");%>
         <% String PostalCodeRegex = "^[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ][ ][0-9][[ABCEGHJKLMNPRSTVWXYZ][0-9]";
            String PhoneNumberRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){4}$";
            String HealthCardRegex = "^([0-9]){4}-([0-9]){3}-([0-9]){3}-([ABCDEFGHIJKLMNOPQRSTUVWXYZ]){2}$";
@@ -59,11 +68,16 @@
            {
                disabled = "disabled";
                if(PatientUserID == null || PatientUserID == "")
+               {
+                   PatientUserID = PatientsList.get(0).getUserId();
                    buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=2\" disabled>Edit</button>";
+               }
            }
-           else if(mode == 2)
+           else if(mode == 2 || mode == 4)
            {
-               buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=1\" formnovalidate>Cancel</button>"
+                if(PatientUserID == null || PatientUserID == "")
+                   PatientUserID = PatientsList.get(0).getUserId();
+               buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=1&PatientUserID=" + PatientUserID + "\" formnovalidate>Cancel</button>"
                        + "&nbsp&nbsp&nbsp"
                        + "<input class=\"square-button\" type=\"submit\"></button>";
            }%>
@@ -109,13 +123,13 @@
         </div>
         <div style="width:100%; display:table">
             <div style="display: table-row">
-                <div style="width: 200px; display: table-cell; float:left; padding-left: 25px">
+                <div style="width: 250px; display: table-cell; float:left; padding-left: 25px">
                     <h4>Patients</h4>
                     <form method="post" action="PatientLookup?mode=1" name="PatientSelectForm">
                         <input type = "hidden" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input>
                         <input type = "hidden" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input>
                         <input type = "hidden" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input>
-                        <select id="PatientSelect" name="PatientSelect" onChange="document.PatientSelectForm.submit();"size="20" style="width:200px">
+                        <select id="PatientSelect" name="PatientSelect" onChange="document.PatientSelectForm.submit();"size="20" style="width:100%">
                         <% if(PatientsList != null){
                             for(Patients p : PatientsList){
                                 if(PatientUserID.equals(p.getUserId())){%>
@@ -127,6 +141,7 @@
                             }
                         }%>
                         </select>
+                        <button type="submit" style="width:100%; margin-top: 10px" formaction="PatientLookup?mode=4">New Patient</button>
                     </form>
                 </div>
                 <div style="display: table-cell; float:left; padding-left: 100px">
@@ -183,24 +198,37 @@
                             <tr>
                                 <td>Province:</td>
                                 <td>
-                                <select id="Province" name ="Province" <%=disabled%>>
-                                    <%if(Provinces != null)
-                                    {
-                                        for(Province c : Provinces)
+                                <select id="Province" name ="Province" style="width:200px" <%=disabled%>>
+                                    <%for(Province c : Provinces)
                                         {
-                                            String s = c.getCode();
-                                            if(s.equals(Province)){%>
-                                             <option value="<%=s%>" selected><%=s%></option>
+                                            String code = c.getCode();
+                                            String name = c.getName();
+                                            if(code.equals(Province)){%>
+                                             <option value="<%=code%>" selected><%=name%></option>
                                         <%}
                                             else{%>
-                                             <option value="<%=s%>"><%=s%></option>  
+                                             <option value="<%=code%>"><%=name%></option>  
                                             <%}
-                                        }
-                                    }%>
+                                        }%>
                                 </select>
                                 </td>
                                 <td>Doctor:</td>
-                                <td><input type = "text" id="DefaultDoctorID" name ="DefaultDoctorID" value = "<%=DefaultDoctorID%>" <%=disabled%>></input></td>
+                                <td>
+                                    <select id="DefaultDoctorID" name ="DefaultDoctorID" style="width:200px" <%=disabled%>>
+                                        <%for(Staff s : Doctors)
+                                            {
+                                                String DID = s.getUserId();
+                                                String FName = s.getFirstName();
+                                                String LName = s.getLastName();
+                                                if(DID.equals(DefaultDoctorID) && DID != null){%>
+                                                 <option value="<%=DID%>" selected><%=LName%>, <%=FName%></option>
+                                            <%}
+                                                else{%>
+                                                <option value="<%=DID%>"><%=LName%>, <%=FName%></option>
+                                                <%}
+                                            }%>
+                                    </select>
+                                </td>
                                 <input type = "hidden" id="DefaultDoctorID" name ="DefaultDoctorID" value = "<%=DefaultDoctorID%>" ></input>
                             </tr>
                             <tr>
@@ -214,7 +242,7 @@
                             <tr>
                                 <td>Country:</td>
                                 <td>
-                                <select id="Country" name ="Country" <%=disabled%>>
+                                <select id="Country" name ="Country" style="width:200px" <%=disabled%>>
                                     <%if(Countries != null){
                                             for(Country c : Countries)
                                             {
