@@ -1,3 +1,54 @@
+#operations
+DELETE FROM hospital_main.operations;
+
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Heart Transplant', 'Replace heart', '4:00', 'Surgeon');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Kidney Transplant', 'Replace kidney', '3:00', 'Surgeon');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Vasectomy', 'Male sterilization', '0:30', 'Physician');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Arm Amputation', 'Removal of the arm', '2:00', 'Surgeon');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('CT Scan', 'Take images of the brain', '1:00', 'Physician');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('C-Section', 'Remove baby via incision', '1:00', 'Physician');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Plastic Surgury', 'Rebuild the body', '2:00', 'Surgeon');
+
+
+#drugs
+DELETE FROM hospital_main.drugs;
+
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02276054', 'Extra Strength Tylenol Allergy', 'Allergy medicine');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02362643', 'Advil Cold & Flu', 'Cold medicine');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02239766', 'Viagra', 'Erectile dysfunction');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02248809', 'Adderall', 'ADHD treatment');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02237726', 'Aspirin', 'Aches and pain');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02248503', 'Paxil', 'Antidepressant');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02132702', 'Zoloft', 'Antidepressant');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02018985', 'Prozac', 'Antidepressant');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('00548359', 'Xanax', 'Antidepressant');
+INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('00013285', 'Valium', 'Anxiety, panic attacks, insomnia, and seizures');
+
+
+#province
+DELETE FROM hospital_main.province;
+
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('ON', 'Ontario');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('BC', 'British Columbia');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('AB', 'Alberta');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('SK', 'Saskatchewan');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('MB', 'Manitoba');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('QC', 'Quebec');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NB', 'New Brunswick');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NS', 'Nova Scotia');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NL', 'Newfoundland and Labrador');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('PE', 'Prince Edward Island');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('YT', 'Yukon');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NU', 'Nunavut');
+INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NT', 'Northwest Territories');
+
+
+#country
+DELETE FROM hospital_main.country;
+
+INSERT INTO `hospital_main`.`country` (`Code`, `Name`) VALUES ('CAN', 'Canada');
+
+
 #users
 DELETE FROM hospital_main.users;
 
@@ -45,57 +96,18 @@ INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, 
 #patients
 DELETE FROM hospital_main.patients;
 
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('dtargaryen', 'Daenerys', 'Targaryen', '4124 Yonge St', 'Toronto', 'ON', 'CAN', 'M4M 1Y3', '416-874-2538', 'dtargaryen@gmail.com', '3317-961-031-XJ', '841-181-978', '0', 'jhalmo', 'Good', '416-298-3704', '0');
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('jmormont', 'Jorah', 'Mormont', '9376 Eglinton Ave', 'Toronto', 'ON', 'CAN', 'M4M 1Y3', '416-357-6653', 'jmormont@gmail.com', '3018-326-563-OI', '443-840-202', '0', 'jhalmo', 'Good', '416-163-6567', '0');
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('pbaelish', 'Petyr', 'Baelish', '984 Leslie St', 'Toronto', 'ON', 'CAN', 'M6G 2X3', '416-163-6567', 'pbaelish@gmail.com', '6925-777-885-AV', '341-111-054', '0', 'gzhou', 'Good', '416-702-3752', '0');
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('dseaworth', 'Davos', 'Seaworth', '30 Warden Ave', 'Toronto', 'ON', 'CAN', 'M4Y 1Z9', '416-702-3752', 'dseaworth@gmail.com', '5047-015-169-PK', '159-798-612', '0', 'nnarayanan', 'Burnt', '416-766-8805', '0');
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('sbaratheon', 'Stannis', 'Baratheon', '3732 Dundas St', 'Toronto', 'ON', 'CAN', 'M6P 9F2', '416-279-7176', 'sbaratheon@gmail.com', '9410-497-572-MF', '942-177-343', '0', 'gzhou', 'Good', '416-432-6843', '0');
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('mtyrell', 'Margaery', 'Tyrell', '529 Bloor St', 'Toronto', 'ON', 'CAN', 'M5R 1V9', '416-932-9406', 'mtyrell@gmail.com', '7837-858-802-PV', '658-548-204', '0', 'nnarayanan', 'Good', '416-950-3445', '0');
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('bstark', 'Bran', 'Stark', '767 Church St', 'Toronto', 'ON', 'CAN', 'M4K 3V3', '416-031-2515', 'bstark@gmail.com', '3283-759-877-ED', '615-545-716', '0', 'nnarayanan', 'Crippled', '416-281-5142', '0');
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('sstark', 'Sansa', 'Stark', '733 Queen St', 'Toronto', 'ON', 'CAN', 'M5V 3W2', '416-205-0015', 'sstark@gmail.com', '7866-722-684-HW', '640-056-784', '0', 'gzhou', 'Good', '416-592-3948', '0');
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('jbaratheon', 'Joffrey', 'Baratheon', '938 King St', 'Toronto', 'ON', 'CAN', 'M6G 3H2', '416-775-8334', 'jbaratheon@gmail.com', '8552-687-430-RF', '505-045-266', '0', 'nnarayanan', 'Good', '416-638-7639', '0');
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('cstark', 'Catelyn', 'Stark', '858 Sherbourne St', 'Toronto', 'ON', 'CAN', 'M5T 1L1', '416-064-0927', 'cstark@gmail.com', '5750-205-136-ME', '805-687-237', '0', 'gzhou', 'Dead', '416-189-6588', '0');
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('rstark', 'Robb', 'Stark', '858 Sherbourne St', 'Toronto', 'ON', 'CAN', 'M5T 1L1', '416-777-0643', 'rstark@gmail.com', '8306-661-412-CM', '402-410-545', '0', 'gzhou', 'Dead', '416-999-3251', '0');
-INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `Visits`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('estark', 'Eddard', 'Stark', '858 Sherbourne St', 'Toronto', 'ON', 'CAN', 'M5T 1L1', '416-9599-215', 'estark@gmail.com', '4944-975-776-LK', '483-423-569', '0', 'jhalmo', 'Dead', '416-474-9158', '0');
-
-
-#province
-DELETE FROM hospital_main.province;
-
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('ON', 'Ontario');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('BC', 'British Columbia');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('AB', 'Alberta');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('SK', 'Saskatchewan');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('MB', 'Manitoba');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('QC', 'Quebec');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NB', 'New Brunswick');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NS', 'Nova Scotia');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NL', 'Newfoundland and Labrador');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('PE', 'Prince Edward Island');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('YT', 'Yukon');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NU', 'Nunavut');
-INSERT INTO `hospital_main`.`province` (`Code`, `Name`) VALUES ('NT', 'Northwest Territories');
-
-
-#country
-DELETE FROM hospital_main.country;
-
-INSERT INTO `hospital_main`.`country` (`Code`, `Name`) VALUES ('CAN', 'Canada');
-
-
-#drugs
-DELETE FROM hospital_main.drugs;
-
-INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02276054', 'Extra Strength Tylenol Allergy', 'Allergy medicine');
-INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02362643', 'Advil Cold & Flu', 'Cold medicine');
-INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02239766', 'Viagra', 'Erectile dysfunction');
-INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02248809', 'Adderall', 'ADHD treatment');
-INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02237726', 'Aspirin', 'Aches and pain');
-INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02248503', 'Paxil', 'Antidepressant');
-INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02132702', 'Zoloft', 'Antidepressant');
-INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('02018985', 'Prozac', 'Antidepressant');
-INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('00548359', 'Xanax', 'Antidepressant');
-INSERT INTO `hospital_main`.`drugs` (`DIN`, `TradeName`, `Description`) VALUES ('00013285', 'Valium', 'Anxiety, panic attacks, insomnia, and seizures');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('dtargaryen', 'Daenerys', 'Targaryen', '4124 Yonge St', 'Toronto', 'ON', 'CAN', 'M4M 1Y3', '416-874-2538', 'dtargaryen@gmail.com', '3317-961-031-XJ', '841-181-978', 'jhalmo', 'Good', '416-298-3704', '0');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('jmormont', 'Jorah', 'Mormont', '9376 Eglinton Ave', 'Toronto', 'ON', 'CAN', 'M4M 1Y3', '416-357-6653', 'jmormont@gmail.com', '3018-326-563-OI', '443-840-202', 'jhalmo', 'Good', '416-163-6567', '0');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('pbaelish', 'Petyr', 'Baelish', '984 Leslie St', 'Toronto', 'ON', 'CAN', 'M6G 2X3', '416-163-6567', 'pbaelish@gmail.com', '6925-777-885-AV', '341-111-054', 'gzhou', 'Good', '416-702-3752', '0');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('dseaworth', 'Davos', 'Seaworth', '30 Warden Ave', 'Toronto', 'ON', 'CAN', 'M4Y 1Z9', '416-702-3752', 'dseaworth@gmail.com', '5047-015-169-PK', '159-798-612', 'nnarayanan', 'Burnt', '416-766-8805', '0');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('sbaratheon', 'Stannis', 'Baratheon', '3732 Dundas St', 'Toronto', 'ON', 'CAN', 'M6P 9F2', '416-279-7176', 'sbaratheon@gmail.com', '9410-497-572-MF', '942-177-343', 'gzhou', 'Good', '416-432-6843', '0');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('mtyrell', 'Margaery', 'Tyrell', '529 Bloor St', 'Toronto', 'ON', 'CAN', 'M5R 1V9', '416-932-9406', 'mtyrell@gmail.com', '7837-858-802-PV', '658-548-204', 'nnarayanan', 'Good', '416-950-3445', '0');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('bstark', 'Bran', 'Stark', '767 Church St', 'Toronto', 'ON', 'CAN', 'M4K 3V3', '416-031-2515', 'bstark@gmail.com', '3283-759-877-ED', '615-545-716', 'nnarayanan', 'Crippled', '416-281-5142', '0');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('sstark', 'Sansa', 'Stark', '733 Queen St', 'Toronto', 'ON', 'CAN', 'M5V 3W2', '416-205-0015', 'sstark@gmail.com', '7866-722-684-HW', '640-056-784', 'gzhou', 'Good', '416-592-3948', '0');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('jbaratheon', 'Joffrey', 'Baratheon', '938 King St', 'Toronto', 'ON', 'CAN', 'M6G 3H2', '416-775-8334', 'jbaratheon@gmail.com', '8552-687-430-RF', '505-045-266', 'nnarayanan', 'Good', '416-638-7639', '0');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('cstark', 'Catelyn', 'Stark', '858 Sherbourne St', 'Toronto', 'ON', 'CAN', 'M5T 1L1', '416-064-0927', 'cstark@gmail.com', '5750-205-136-ME', '805-687-237', 'gzhou', 'Dead', '416-189-6588', '0');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('rstark', 'Robb', 'Stark', '858 Sherbourne St', 'Toronto', 'ON', 'CAN', 'M5T 1L1', '416-777-0643', 'rstark@gmail.com', '8306-661-412-CM', '402-410-545', 'gzhou', 'Dead', '416-999-3251', '0');
+INSERT INTO `hospital_main`.`patients` (`UserID`, `FirstName`, `LastName`, `Address`, `City`, `Province`, `Country`, `PostalCode`, `PhoneNumber`, `Email`, `HealthCardNumber`, `SIN`, `DefaultDoctorID`, `HealthStatus`, `PrimaryContactNo`, `Transfered`) VALUES ('estark', 'Eddard', 'Stark', '858 Sherbourne St', 'Toronto', 'ON', 'CAN', 'M5T 1L1', '416-9599-215', 'estark@gmail.com', '4944-975-776-LK', '483-423-569', 'jhalmo', 'Dead', '416-474-9158', '0');
 
 
 #visitation
@@ -125,17 +137,6 @@ INSERT INTO hospital_main.visitation (PatientID, DoctorID, Symptoms, Diagnosis, 
 INSERT INTO hospital_main.visitation (PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES ('pbaelish', 'gzhou', 'Pain in fingers', 'Anthrax', 'Checkup', '00:50:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '0', '0');
 INSERT INTO hospital_main.visitation (PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES ('estark', 'jhalmo', 'Feels very light headed', 'Pulled muscle', 'Surgury', '00:30:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '1', '0');
 
-
-#operations
-DELETE FROM hospital_main.operations;
-
-INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Heart Transplant', 'Replace heart', '4:00', 'Surgeon');
-INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Kidney Transplant', 'Replace kidney', '3:00', 'Surgeon');
-INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Vasectomy', 'Male sterilization', '0:30', 'Physician');
-INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Arm Amputation', 'Removal of the arm', '2:00', 'Surgeon');
-INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('CT Scan', 'Take images of the brain', '1:00', 'Physician');
-INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('C-Section', 'Remove baby via incision', '1:00', 'Physician');
-INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Plastic Surgury', 'Rebuild the body', '2:00', 'Surgeon');
 
 #doctor patient permission
 DELETE FROM hospital_main.doctorpatientperm;
