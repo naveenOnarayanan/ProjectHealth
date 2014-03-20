@@ -120,6 +120,8 @@ public class PatientLookup extends HttpServlet {
                     if(errors.isEmpty())
                     {
                         Patients patient = (Patients) HibernateUtil.get(Patients.class, request.getParameter("PatientUserID"));
+                        patient.setFirstName(request.getParameter("FirstName"));
+                        patient.setLastName(request.getParameter("LastName"));
                         patient.setAddress(request.getParameter("Address"));
                         patient.setCity(request.getParameter("City"));
                         patient.setProvince(request.getParameter("Province"));
@@ -128,6 +130,10 @@ public class PatientLookup extends HttpServlet {
                         patient.setEmail(request.getParameter("Email"));
                         patient.setPhoneNumber(request.getParameter("PhoneNumber"));
                         patient.setPrimaryContactNo(request.getParameter("PrimaryContactNo"));
+                        patient.setHealthCardNumber(request.getParameter("HealthCardNumber"));
+                        patient.setSin(request.getParameter("SIN"));
+                        patient.setDefaultDoctorId(request.getParameter("DefaultDoctorID"));
+                        patient.setHealthStatus(request.getParameter("HealthStatus"));
                         HibernateUtil.update(patient);
                         url = "/PatientLookup?mode=1";
                     }

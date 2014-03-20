@@ -41,25 +41,25 @@ ul.nav.navbar-nav li:hover {
     border-radius: 5px;
 }
 
-table {
+.rounded-table {
     border-collapse:separate;
     border:1px;
     border-radius:6px;
     -moz-border-radius:6px;
 }
 
-td, th {
+.rounded-trtd {
     border-left:1px;
     border-top:1px;
 }
 
-div{
+.rounded-div{
     border-collapse:separate;
     border:1px;
     border-radius:6px;
     -moz-border-radius:6px;
 }
-button{
+.square-button{
     width:54px;
     height:35px;
 }
