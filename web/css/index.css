@@ -63,3 +63,55 @@ ul.nav.navbar-nav li:hover {
     width:54px;
     height:35px;
 }
+
+#content {
+    padding-left: 200px;
+    padding-right: 200px;
+}
+
+.appointment-date {
+    width: 10%;
+}
+.appointment-doctor {
+    width: 20%;
+}
+.appointment-symptoms {
+    width: 20%;
+}
+.appointment-diagnosis {
+    width: 20%;
+}
+.appointment-comments {
+    width: 20%;
+}
+.appointment-edit {
+    width: 10%;
+}
+.appointment-edit-btn {
+    margin-left: 20px;
+}
+#appointments {
+    table-layout: fixed;
+    border-style: dashed;
+    border-width: 1px;
+}
+#appointments tr td {
+    word-wrap: break-word;
+    vertical-align:central;
+    height: 100px;
+}
+.overflow {
+    overflow-y: auto;
+    
+    height: 100%;
+}
+.appointment-modal-container {
+    padding-bottom: 50px;
+}
+.add-appointment {
+    position: absolute;
+    right: 5px;
+}
+.hidden {
+    display: none;
+}

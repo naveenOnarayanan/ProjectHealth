@@ -38,7 +38,8 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = "/index.jsp";
-        if(request.getParameter("mode").equals("login"))
+        String mode = (String) request.getParameter("mode");
+        if(mode != null && mode.equals("login"))
         {
             String username = request.getParameter("username");
             String password = request.getParameter("password");

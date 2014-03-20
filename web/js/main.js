@@ -22,7 +22,7 @@ function getNavbar(role,firstname, lastname) {
                     "<li class='dropdown'>" +
                         "<a href='#' class='dropdown-toggle' data-toggle='dropdown'> Records <b class='caret'></b></a>" +
                         "<ul class='dropdown-menu'>" +
-                            "<li><a href='#'>Appointments</a></li>" +
+                            "<li><a href='AppointmentServlet'>Appointments</a></li>" +
                             "<li><a href='#'>Prescriptions</a></li>" +
                             "<li><a href='#'>Diagnosis</a></li>" +
                         "</ul>" +
@@ -70,7 +70,7 @@ function getNavbar(role,firstname, lastname) {
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
-                    "<li><a href='#'>Appointments</a></li>" +
+                    "<li><a href='AppointmentServlet'>Appointments</a></li>" +
                     "<li><a href='#'>Patient Records</a></li>" +
                 "</ul>" +
                 "<ul class='nav navbar-nav navbar-right'>" +
