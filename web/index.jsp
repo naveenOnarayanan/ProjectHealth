@@ -30,6 +30,7 @@
            } 
         %>
         <div class="jumbotron login-container">
+            <a class='navbar-brand' style='position: relative; top:-50px; right:-350px'><img class="icon-header" src="images/plus-red.png" width="30" height="30">&nbsp;<font size="5"><i>ProjectHealth</i></font></a>
             <form role="form" name="userCredentials" action="LoginServlet?mode=login" method="post">
                 <div class="form-group">
                     <input class="login-form-item form-control" id="username" name="username" placeholder="Username"/>
@@ -42,5 +43,8 @@
                 </div>
             </form>
         </div>
+        <footer>
+            <center><font size='1'>Copyright © 2014. NaveenSucksIncorporation. All Rights Reserved.</font></center>
+        </footer>
     </body>
 </html>
