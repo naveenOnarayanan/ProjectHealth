@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Visitation` (
   `Length` TIME NULL,
   `Comments` TEXT NULL,
   `DateTime` DATETIME NULL,
-  `Timestamp` TIMESTAMP NULL,
+  `Timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `ApptComplete` TINYINT(1) NULL,
   `Cancelled` TINYINT(1) NULL,
   PRIMARY KEY (`RecordID`))
