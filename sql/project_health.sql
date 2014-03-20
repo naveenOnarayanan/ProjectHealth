@@ -84,7 +84,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Visitation` (
   `RecordID` INT NOT NULL AUTO_INCREMENT,
-  `VisitID` INT NOT NULL,
+  `VisitID` INT NULL,
   `PatientID` VARCHAR(16) NOT NULL,
   `DoctorID` VARCHAR(16) NOT NULL,
   `Symptoms` TEXT NULL,
@@ -99,6 +99,17 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Visitation` (
   PRIMARY KEY (`RecordID`))
 ENGINE = InnoDB;
 
+DROP TRIGGER IF EXISTS DefaultVisitID;
+delimiter $$
+CREATE TRIGGER DefaultVisitID BEFORE INSERT ON `Hospital_Main`.`Visitation`
+FOR EACH ROW BEGIN
+	IF (NEW.VisitID IS NULL) THEN
+		SET NEW.VisitID = (SELECT MAX(VisitID) FROM `Hospital_Main`.`Visitation`) + 1;
+		IF (NEW.VisitID IS NULL) THEN
+			SET NEW.VisitID = 1;
+		END IF;
+	END IF;
+END;$$
 
 -- -----------------------------------------------------
 -- Table `Hospital_Main`.`Staff`
