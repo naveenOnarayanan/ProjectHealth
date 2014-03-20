@@ -45,7 +45,7 @@
         <% List<Province> Provinces = (List<Province>) request.getAttribute("Provinces");%>
         <% String PostalCodeRegex = "^[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ][ ][0-9][[ABCEGHJKLMNPRSTVWXYZ][0-9]";
            String PhoneNumberRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){4}$";%>
-        <% String buttons = "<button type = \"submit\" formaction=\"PersonalInfo?mode=2\">Edit</button>";%>
+        <% String buttons = "<button type = \"submit\" class=\"square-button\" formaction=\"PersonalInfo?mode=2\">Edit</button>";%>
         <% String disabled = "";
            if(mode == 1)
            {
@@ -53,9 +53,9 @@
            }
            else if(mode == 2)
            {
-               buttons = "<button type = \"submit\" formaction=\"PersonalInfo?mode=1\" formnovalidate>Cancel</button>"
+               buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PersonalInfo?mode=1\" formnovalidate>Cancel</button>"
                        + "&nbsp&nbsp&nbsp"
-                       + "<input type=\"submit\"></button>";
+                       + "<input class=\"square-button\" type=\"submit\"></button>";
            }%>
            <% HashMap<String,String> errors = (HashMap<String,String>) request.getAttribute("errors");%>
 
@@ -75,7 +75,7 @@
         <h1>Personal Information</h1>
         <form method ="post" action="/ProjectHealth/PersonalInfo?mode=3" style="padding-left:10px">
             <% if(errors != null && errors.size() != 0){ %>
-            <div style="background-color:#FF9494; width:900px">
+            <div class="rounded-div"style="background-color:#FF9494; width:900px">
             <h3>Try Again</h3>
                     <ul>
                     <% Collection<String> entries = errors.values();
@@ -89,7 +89,7 @@
                     </ul>
             </div>
             <%}%>
-            <table width="900" cellpadding="10" style="float:left; background-color:#F8F8F8">
+            <table class="rounded-table"width="900" cellpadding="10" style="float:left; background-color:#F8F8F8">
                 <tr>
                     <td>First Name:</td>
                     <td><input type = "text" id="FirstName" name ="FirstName" value = "<%=FirstName%>" disabled></input></td>

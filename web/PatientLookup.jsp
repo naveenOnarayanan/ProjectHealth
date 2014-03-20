@@ -53,19 +53,19 @@
            String PhoneNumberRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){4}$";
            String HealthCardRegex = "^([0-9]){4}-([0-9]){3}-([0-9]){3}-([ABCDEFGHIJKLMNOPQRSTUVWXYZ]){2}$";
            String SINRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){3}$";%>
-        <% String buttons = "<button type = \"submit\" formaction=\"PatientLookup?mode=2\">Edit</button>";%>
+        <% String buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=2\">Edit</button>";%>
         <% String disabled = "";
            if(mode == 1)
            {
                disabled = "disabled";
                if(PatientUserID == null || PatientUserID == "")
-                   buttons = "<button type = \"submit\" formaction=\"PatientLookup?mode=2\" disabled>Edit</button>";
+                   buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=2\" disabled>Edit</button>";
            }
            else if(mode == 2)
            {
-               buttons = "<button type = \"submit\" formaction=\"PatientLookup?mode=1\" formnovalidate>Cancel</button>"
+               buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=1\" formnovalidate>Cancel</button>"
                        + "&nbsp&nbsp&nbsp"
-                       + "<input type=\"submit\"></button>";
+                       + "<input class=\"square-button\" type=\"submit\"></button>";
            }%>
            <% HashMap<String,String> errors = (HashMap<String,String>) request.getAttribute("errors");%>
 
@@ -85,7 +85,7 @@
         <h4 style="padding-left: 25px">Search</h4>
         <div style="padding-left: 25px">
             <form method ="post" action="PatientLookup?mode=1">
-                <table width=1175 cellpadding="10" style="background-color:#F8F8F8;">
+                <table class="rounded-table" width=1175 cellpadding="10" style="background-color:#F8F8F8;">
                     <tr>
                         <td>First Name:</td>
                         <td><input type = "text" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input></td>
@@ -102,7 +102,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><button type = "submit">Search</button></td>
+                        <td><button class="square-button" type = "submit">Search</button></td>
                     </tr>
                 </table> 
             </form>
@@ -150,7 +150,7 @@
                         <input type = "hidden" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input>
                         <input type = "hidden" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input>
                         <input type = "hidden" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input>
-                        <table width="900" cellpadding="10" style="float:left; background-color:#F8F8F8">
+                        <table class="rounded-table" width="900" cellpadding="10" style="float:left; background-color:#F8F8F8">
                             <tr>
                             <input type="hidden" id="PatientUserID" name="PatientUserID" value="<%=PatientUserID%>"></input>
                                 <td>First Name:</td>
