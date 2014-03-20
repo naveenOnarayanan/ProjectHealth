@@ -143,3 +143,25 @@ DELETE FROM hospital_main.doctorpatientperm;
 INSERT INTO `hospital_main`.`doctorpatientperm` (`PatientID`, `DoctorID`, `SecDoctorID`, `Expiry`) VALUES ('pbaelish', 'gzhou', 'nnarayanan', '2012-04-20 17:00:00');
 INSERT INTO `hospital_main`.`doctorpatientperm` (`PatientID`, `DoctorID`, `SecDoctorID`, `Expiry`) VALUES ('mtyrell', 'nnarayanan', 'gzhou', '2012-03-14 20:00:00');
 INSERT INTO `hospital_main`.`doctorpatientperm` (`PatientID`, `DoctorID`, `SecDoctorID`, `Expiry`) VALUES ('dtargaryen', 'jhalmo', 'gzhou', '2012-04-14 17:00:00');
+
+#prescriptions
+DELETE FROM hospital_main.prescriptions;
+
+INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('0', '00013285', '250', '1', 'Once in before breakfast', '2015-04-15 11:59:59');
+INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('2', '02237726', '500', '5', 'Maximum 3 times per day', '2016-09-05 11:59:59');
+INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('4', '02248809', '100', '8', 'Once before bed', '2020-01-02 11:59:59');
+INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('6', '02237726', '300', '3', 'Whenever there is pain', '2015-01-09 11:59:59');
+INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('8', '02132702', '1000', '2', 'Taken twice a day, once after waking up, once before going to bed', '2018-08-08 11:59:59');
+INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('10', '02276054', '800', '5', 'Take before performing strenuous activity', '2017-06-06 11:59:59');
+INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('12', '00013285', '400', '10', 'Once before each meal', '2014-12-12 11:59:59');
+
+#scheduled operations
+DELETE FROM hospital_main.scheduledoperations;
+
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('3', '2014-03-28 13:00:00', 'Arm Amputation', 'nnarayanan');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('9', '2014-04-15 9:00:00', 'Plastic Surgury', 'jhalmo');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('11', '2014-04-03 10:30:00', 'CT Scan', 'gzhou');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('16', '2014-05-09 04:15:00', 'Vasectomy', 'jhalmo');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('17', '2014-07-17 19:45:00', 'Heart Transplant', 'nnarayanan');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('18', '2014-12-01 12:05:00', 'Kidney Transplant', 'gzhou');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('22', '2015-01-22 11:35:00', 'C-Section', 'nnarayanan');
