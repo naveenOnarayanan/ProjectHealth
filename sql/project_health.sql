@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Patients` (
   `Email` VARCHAR(256) NULL,
   `HealthCardNumber` VARCHAR(15) NULL,
   `SIN` VARCHAR(11) NULL,
-  `Visits` INT(16) NULL,
+  `Visits` INT(16) DEFAULT 0,
   `DefaultDoctorID` VARCHAR(16) NULL,
   `HealthStatus` TEXT NULL,
   `PrimaryContactNo` VARCHAR(12) NULL,
@@ -108,6 +108,9 @@ FOR EACH ROW BEGIN
 		IF (NEW.VisitID IS NULL) THEN
 			SET NEW.VisitID = 1;
 		END IF;
+		UPDATE `Hospital_Main`.`Patients`
+		SET Visits = Visits + 1
+		WHERE NEW.PatientID = `Hospital_Main`.`Patients`.UserID;
 	END IF;
 END;$$
 
