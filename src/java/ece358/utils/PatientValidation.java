@@ -37,37 +37,37 @@ public class PatientValidation {
         String HealthCardRegex = "^([0-9]){4}-([0-9]){3}-([0-9]){3}-([ABCDEFGHIJKLMNOPQRSTUVWXYZ]){2}$";
         String SINRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){3}$";
         //FirstName
-        if(FirstName == null)
+        if(FirstName == null || FirstName.isEmpty())
         {
             errors.put("FirstName", "First Name cannot be blank.");
         }
         //LastName
-        if(LastName == null)
+        if(LastName == null || LastName.isEmpty())
         {
             errors.put("LastName", "Last Name cannot be blank.");
         }
         //Address
-        if(Address == null)
+        if(Address == null || Address.isEmpty())
         {
             errors.put("Address", "Address cannot be blank.");
         }
         //City
-        if(City == null)
+        if(City == null || City.isEmpty())
         {
             errors.put("City", "City cannot be blank.");
         }
         //Province
-        if(Province == null)
+        if(Province == null || Province.isEmpty())
         {
             errors.put("Province", "A Province must be selected from the dropdown menu.");
         }
         //Country
-        if(Country == null)
+        if(Country == null || Country.isEmpty())
         {
             errors.put("Country", "A Country must be selected from the dropdown menu.");
         }
         //PostalCode
-        if(PostalCode == null)
+        if(PostalCode == null || PostalCode.isEmpty())
         {
             errors.put("PostalCode", "Postal Code cannot be blank.");
         }
@@ -76,7 +76,7 @@ public class PatientValidation {
             errors.put("PostalCode", "Please enter a valid Postal Code. (eg. A0A 0A0)");
         }
         //PhoneNumber
-        if(PhoneNumber == null)
+        if(PhoneNumber == null || PhoneNumber.isEmpty())
         {
             errors.put("PhoneNumber", "Phone Number cannot be blank.");
         }
@@ -85,7 +85,7 @@ public class PatientValidation {
             errors.put("PhoneNumber", "Please enter a valid Phone Number. (eg. XXX-XXX-XXXX)");
         }
         //Email
-        if(Email == null)
+        if(Email == null || Email.isEmpty())
         {
             errors.put("Email", "Email Address cannot be blank.");
         }
@@ -94,7 +94,7 @@ public class PatientValidation {
             errors.put("Email", "Please enter a valid Email Address. (eg. name@domain.com)");
         }
         //HealthCardNumber
-        if(HealthCardNumber == null)
+        if(HealthCardNumber == null || HealthCardNumber.isEmpty())
         {
             errors.put("HealthCardNumber", "Health Card Number cannot be blank.");
         }
@@ -103,7 +103,7 @@ public class PatientValidation {
             errors.put("Email", "Please enter a valid Health Card Number. (eg. 0000-000-000-AA)");
         }
         //SIN
-        if(SIN == null)
+        if(SIN == null || SIN.isEmpty())
         {
             errors.put("SIN", "SIN cannot be blank.");
         }
@@ -112,12 +112,12 @@ public class PatientValidation {
             errors.put("SIN", "Please enter a valid SIN. (eg. 000-000-000)");
         }
         //DefaultDoctorID
-        if(DefaultDoctorID == null)
+        if(DefaultDoctorID == null || DefaultDoctorID.isEmpty())
         {
             errors.put("DefaultDoctorID", "Default Doctor ID cannot be blank.");
         }
         //PrimaryContactNo
-        if(PrimaryContactNo == null)
+        if(PrimaryContactNo == null || PrimaryContactNo.isEmpty())
         {
             errors.put("PrimaryContactNo", "Primary Contact Phone Number cannot be blank.");
         }
