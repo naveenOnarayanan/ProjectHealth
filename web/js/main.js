@@ -24,7 +24,6 @@ function getNavbar(role,firstname, lastname) {
                         "<ul class='dropdown-menu'>" +
                             "<li><a href='AppointmentServlet'>Appointments</a></li>" +
                             "<li><a href='#'>Prescriptions</a></li>" +
-                            "<li><a href='#'>Diagnosis</a></li>" +
                         "</ul>" +
                     "</li>" +
                 "</ul>" +
@@ -49,7 +48,13 @@ function getNavbar(role,firstname, lastname) {
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
                     "<li><a href='PatientLookup?mode=1'>Patient Lookup</a></li>" +
-                    "<li><a href='#'>Record Lookup</a></li>" +
+                     "<li class='dropdown'>" +
+                        "<a href='#' class='dropdown-toggle' data-toggle='dropdown'> Patient Records <b class='caret'></b></a>" +
+                        "<ul class='dropdown-menu'>" +
+                            "<li><a href='AppointmentServlet'>Appointments</a></li>" +
+                            "<li><a href='#'>Prescriptions</a></li>" +
+                        "</ul>" +
+                    "</li>" +
                 "</ul>" +
                 "<ul class='nav navbar-nav navbar-right'>" +
                         "<li class='dropdown'>" +
@@ -70,8 +75,14 @@ function getNavbar(role,firstname, lastname) {
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
-                    "<li><a href='AppointmentServlet'>Appointments</a></li>" +
-                    "<li><a href='#'>Patient Records</a></li>" +
+                    "<li><a href='PatientLookup?mode=1'>Patient Lookup</a></li>" +
+                     "<li class='dropdown'>" +
+                        "<a href='#' class='dropdown-toggle' data-toggle='dropdown'> Patient Records <b class='caret'></b></a>" +
+                        "<ul class='dropdown-menu'>" +
+                            "<li><a href='AppointmentServlet'>Appointments</a></li>" +
+                            "<li><a href='#'>Prescriptions</a></li>" +
+                        "</ul>" +
+                    "</li>" +
                 "</ul>" +
                 "<ul class='nav navbar-nav navbar-right'>" +
                         "<li class='dropdown'>" +
