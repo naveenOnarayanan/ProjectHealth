@@ -115,3 +115,6 @@ ul.nav.navbar-nav li:hover {
 .hidden {
     display: none;
 }
+.doctorSelect {
+    width: 432px;
+}

@@ -136,6 +136,7 @@ INSERT INTO hospital_main.visitation (PatientID, DoctorID, Symptoms, Diagnosis, 
 INSERT INTO hospital_main.visitation (PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES ('estark', 'jhalmo', 'Burning sensation in his neck', 'Pulled muscle', 'Followup', '00:05:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '1', '0');
 INSERT INTO hospital_main.visitation (PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES ('pbaelish', 'gzhou', 'Pain in fingers', 'Anthrax', 'Checkup', '00:50:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '0', '0');
 INSERT INTO hospital_main.visitation (PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES ('estark', 'jhalmo', 'Feels very light headed', 'Pulled muscle', 'Surgury', '00:30:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '1', '0');
+INSERT INTO hospital_main.visitation (VisitID, PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES (20, 'sstark', 'gzhou', 'Pain in stomach', 'Puberty', 'Checkup', '00:20:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '0', '0');
 
 
 #doctor patient permission
@@ -150,11 +151,13 @@ DELETE FROM hospital_main.prescriptions;
 
 INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('0', '00013285', '250', '1', 'Once in before breakfast', '2015-04-15 11:59:59');
 INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('2', '02237726', '500', '5', 'Maximum 3 times per day', '2016-09-05 11:59:59');
+INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('2', '02248809', '123', '2', 'Maximum 2 times per week', '2015-09-05 11:59:59');
 INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('4', '02248809', '100', '8', 'Once before bed', '2020-01-02 11:59:59');
 INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('6', '02237726', '300', '3', 'Whenever there is pain', '2015-01-09 11:59:59');
 INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('8', '02132702', '1000', '2', 'Taken twice a day, once after waking up, once before going to bed', '2018-08-08 11:59:59');
 INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('10', '02276054', '800', '5', 'Take before performing strenuous activity', '2017-06-06 11:59:59');
 INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('12', '00013285', '400', '10', 'Once before each meal', '2014-12-12 11:59:59');
+INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('22', '00013285', '300', '10', 'Once before each meal', '2014-12-12 11:59:59');
 
 #scheduled operations
 DELETE FROM hospital_main.scheduledoperations;

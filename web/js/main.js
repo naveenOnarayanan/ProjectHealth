@@ -103,7 +103,7 @@ function getNavbar(role,firstname, lastname) {
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
-                    "<li><a href='#'>Doctor Lookup</a></li>" +
+                    "<li><a href='DoctorLookupServlet?mode=1'>Doctor Lookup</a></li>" +
                 "</ul>" +
                 "<ul class='nav navbar-nav navbar-right'>" +
                     "<li class='dropdown'>" +
