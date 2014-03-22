@@ -5,7 +5,6 @@
 --%>
 
 <%@page import="ece358.models.Patients"%>
-<%@page import="com.google.gson.Gson"%>
 <%@page import="ece358.utils.Constants"%>
 <%@page import="ece358.models.Staff"%>
 <%@page import="ece358.models.Visitation"%>

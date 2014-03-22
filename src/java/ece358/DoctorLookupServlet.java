@@ -12,8 +12,9 @@ import ece358.models.Scheduledoperations;
 import ece358.models.Staff;
 import ece358.models.Users;
 import ece358.models.Visitation;
-import ece358.utils.HibernateUtil;
+import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
@@ -89,7 +90,7 @@ public class DoctorLookupServlet extends HttpServlet {
                         "AND DateTime > '" + sqlFormat.format(startDateTime) + "' " +
                         "AND DateTime < '" + sqlFormat.format(endDateTime) + "'";
                 
-                List<Visitation> appointments = (List<Visitation>)HibernateUtil.select(query);
+                List<Visitation> appointments = (List<Visitation>)SQLSessionUtil.selectType(Visitation.class, query);
                 request.setAttribute("appointments", appointments);
                 
                 query = "SELECT DISTINCT v.patientId " +
@@ -97,7 +98,7 @@ public class DoctorLookupServlet extends HttpServlet {
                         "WHERE v.doctorId = '" + doctorID + "' " +
                         "AND v.dateTime > '" + sqlFormat.format(startDateTime) + "' " +
                         "AND v.dateTime < '" + sqlFormat.format(endDateTime) + "'";
-                List<String> uniquePatients = (List<String>)HibernateUtil.select(query);
+                List<String> uniquePatients = (List<String>)SQLSessionUtil.selectType(String.class, query);
                 List<String> patientIDs = new ArrayList<String>();
                 List<Integer> patientVisits = new ArrayList<Integer>();
                 Iterator<String> uniquePatientIterator = uniquePatients.iterator();
@@ -111,7 +112,7 @@ public class DoctorLookupServlet extends HttpServlet {
                             "AND v.patientId = '" + patientID + "' " +
                             "AND v.dateTime > '" + sqlFormat.format(startDateTime) + "' " +
                             "AND v.dateTime < '" + sqlFormat.format(endDateTime) + "'";
-                    List<Visitation> patientAppointments = (List<Visitation>)HibernateUtil.select(query);
+                    List<Visitation> patientAppointments = (List<Visitation>)SQLSessionUtil.selectType(Visitation.class, query);
                     patientVisits.add(patientAppointments.size());
                 }
                 request.setAttribute("patientIDs", patientIDs.toArray());
@@ -124,10 +125,10 @@ public class DoctorLookupServlet extends HttpServlet {
                 while (visitationIterator.hasNext())
                 {
                     Visitation visitation = visitationIterator.next();
-                    query = "SELECT p " +
+                    query = "SELECT p.* " +
                             "FROM Prescriptions AS p " +
                             "WHERE visitId = '" + visitation.getVisitId() + "'";
-                    List<Prescriptions> prescriptions = (List<Prescriptions>)HibernateUtil.select(query);
+                    List<Prescriptions> prescriptions = (List<Prescriptions>)SQLSessionUtil.selectType(Prescriptions.class, query);
                     
                     visitPrescriptions.add(prescriptions);
                     
@@ -136,19 +137,19 @@ public class DoctorLookupServlet extends HttpServlet {
                     while (prescriptionIterator.hasNext())
                     {
                         Prescriptions prescription = prescriptionIterator.next();
-                        query = "SELECT d " + 
+                        query = "SELECT d.* " + 
                                 "FROM Drugs AS d " + 
-                                "WHERE DIN = '" + prescription.getId().getDin() + "'";
-                        List<Drugs> drugsList = (List<Drugs>)HibernateUtil.select(query);
+                                "WHERE DIN = '" + prescription.getDin() + "'";
+                        List<Drugs> drugsList = (List<Drugs>)SQLSessionUtil.selectType(Drugs.class, query);
                         drugs.add(drugsList.iterator().next());
                     }
                     drugInformation.add(drugs);
                     
                     
-                    query = "SELECT so " +
+                    query = "SELECT so.* " +
                             "FROM Scheduledoperations AS so " +
                             "WHERE visitId = '" + visitation.getVisitId() + "'";
-                    List<Scheduledoperations> scheduledOperations = (List<Scheduledoperations>)HibernateUtil.select(query);
+                    List<Scheduledoperations> scheduledOperations = (List<Scheduledoperations>)SQLSessionUtil.selectType(Scheduledoperations.class, query);
                     visitOperations.add(scheduledOperations);
                 }
                 request.setAttribute("visitPrescriptions", visitPrescriptions);
@@ -168,12 +169,12 @@ public class DoctorLookupServlet extends HttpServlet {
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
     
-    private HttpServletRequest AddDoctors(HttpServletRequest request)
+    private HttpServletRequest AddDoctors(HttpServletRequest request) throws InstantiationException, IllegalAccessException, SQLException, ClassNotFoundException
     {
         StringBuilder query = new StringBuilder();
         query.append("FROM Staff WHERE JobTitle = 'Doctor' OR JobTitle = 'Surgeon'");
         
-        List<Staff> doctors = (List<Staff>) HibernateUtil.select(query.toString());
+        List<Staff> doctors = (List<Staff>) SQLSessionUtil.selectType(Staff.class, query.toString());
         request.setAttribute("doctors", doctors);
         return request;
     }

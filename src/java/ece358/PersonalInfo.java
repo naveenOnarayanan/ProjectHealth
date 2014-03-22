@@ -11,8 +11,8 @@ import ece358.models.Patients;
 import ece358.models.Users;
 import ece358.models.Country;
 import ece358.models.Province;
-import ece358.utils.HibernateUtil;
 import ece358.utils.PatientValidation;
+import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -22,7 +22,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hibernate.Hibernate;
 
 /**
  *
@@ -56,7 +55,7 @@ public class PersonalInfo extends HttpServlet {
             int mode = Integer.parseInt(request.getParameter("mode"));
             if(mode == 1 || mode == 2)
             {
-                Patients patient = (Patients) HibernateUtil.get(Patients.class, sessionUsername);
+                Patients patient = (Patients) SQLSessionUtil.get(Patients.class, sessionUsername);
                 request.setAttribute("Address", patient.getAddress() != null ? patient.getAddress() : "");
                 request.setAttribute("City", patient.getCity() != null ? patient.getCity() : "");
                 request.setAttribute("Province", patient.getProvince() != null ? patient.getProvince() : "");
@@ -72,8 +71,8 @@ public class PersonalInfo extends HttpServlet {
                 request.setAttribute("PrimaryContactNo", patient.getPrimaryContactNo() != null ? patient.getPrimaryContactNo() : "");
                 request.setAttribute("SIN", patient.getSin() != null ? patient.getSin() : "");
                 request.setAttribute("Visits", patient.getVisits() != null ? patient.getVisits() : "");
-                List<Country> countries  = (List<Country>) HibernateUtil.select("FROM Country");
-                List<Province> provinces  = (List<Province>) HibernateUtil.select("FROM Province");
+                List<Country> countries  = (List<Country>) SQLSessionUtil.selectType(Country.class, "FROM Country");
+                List<Province> provinces  = (List<Province>) SQLSessionUtil.selectType(Province.class, "FROM Province");
                 request.setAttribute("Countries", countries);
                 request.setAttribute("Provinces", provinces);
                 url = "/PersonalInfo.jsp";
@@ -83,7 +82,7 @@ public class PersonalInfo extends HttpServlet {
                 HashMap<String,String> errors = PatientValidation.validatePatient(request);
                 if(errors.isEmpty())
                 {
-                    Patients patient = (Patients) HibernateUtil.get(Patients.class, sessionUsername);
+                    Patients patient = (Patients) SQLSessionUtil.get(Patients.class, sessionUsername);
                     patient.setAddress(request.getParameter("Address"));
                     patient.setCity(request.getParameter("City"));
                     patient.setProvince(request.getParameter("Province"));
@@ -92,7 +91,7 @@ public class PersonalInfo extends HttpServlet {
                     patient.setEmail(request.getParameter("Email"));
                     patient.setPhoneNumber(request.getParameter("PhoneNumber"));
                     patient.setPrimaryContactNo(request.getParameter("PrimaryContactNo"));
-                    HibernateUtil.update(patient);
+                    SQLSessionUtil.update(patient);
                     url = "/PersonalInfo?mode=1";
                 }
                 else

@@ -11,10 +11,11 @@ import ece358.models.Patients;
 import ece358.models.Staff;
 import ece358.models.Province;
 import ece358.models.Users;
-import ece358.utils.HibernateUtil;
 import ece358.utils.PatientValidation;
+import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class PatientLookup extends HttpServlet {
                     }
                     else
                     {
-                        patient = (Patients) HibernateUtil.get(Patients.class, selectedPatient);
+                        patient = (Patients) SQLSessionUtil.get(Patients.class, selectedPatient);
                     }
                     if(patient == null)
                     {
@@ -93,9 +94,9 @@ public class PatientLookup extends HttpServlet {
                     request.setAttribute("PrimaryContactNo", patient.getPrimaryContactNo() != null ? patient.getPrimaryContactNo() : "");
                     request.setAttribute("SIN", patient.getSin() != null ? patient.getSin() : "");
                     request.setAttribute("Visits", patient.getVisits() != null ? patient.getVisits() : "");
-                    List<Country> countries  = (List<Country>) HibernateUtil.select("FROM Country");
-                    List<Province> provinces  = (List<Province>) HibernateUtil.select("FROM Province");
-                    List<Staff> doctors = (List<Staff>) HibernateUtil.select("FROM Staff WHERE JobTitle='Doctor' ORDER BY LastName");
+                    List<Country> countries  = (List<Country>) SQLSessionUtil.selectType(Country.class, "SELECT * FROM Country");
+                    List<Province> provinces  = (List<Province>) SQLSessionUtil.selectType(Province.class, "SELECT * FROM Province");
+                    List<Staff> doctors = (List<Staff>) SQLSessionUtil.selectType(Staff.class, "SELECT * FROM Staff WHERE JobTitle='Doctor' ORDER BY LastName");
 
                     request.setAttribute("Countries", countries);
                     request.setAttribute("Provinces", provinces);
@@ -124,19 +125,19 @@ public class PatientLookup extends HttpServlet {
                             String FirstName = request.getParameter("FirstName").toLowerCase();
                             String LastName = request.getParameter("LastName").toLowerCase();
                             String UserName = FirstName.charAt(0) + LastName;
-                            List<Users> userNameCount = (List<Users>)HibernateUtil.select("FROM Users WHERE UserID LIKE '" + UserName + "%'");
+                            List<Users> userNameCount = (List<Users>)SQLSessionUtil.selectType(Users.class, "SELECT * FROM Users WHERE UserID LIKE '" + UserName + "%'");
                             if(!userNameCount.isEmpty())
                             {
                                 UserName += String.valueOf(userNameCount.size());
                             }
                             Users user = new Users(UserName, FirstName, "patient");
-                            HibernateUtil.add(user);
+                            SQLSessionUtil.add(user);
                             patient.setUserId(UserName);
                             insert = true;
                         }
                         else
                         {
-                            patient = (Patients) HibernateUtil.get(Patients.class, PatientUserID);
+                            patient = (Patients) SQLSessionUtil.get(Patients.class, PatientUserID);
                         }
                         
                         patient.setFirstName(request.getParameter("FirstName"));
@@ -155,9 +156,9 @@ public class PatientLookup extends HttpServlet {
                         patient.setHealthStatus(request.getParameter("HealthStatus"));
                         
                         if(insert)
-                            HibernateUtil.add(patient);
+                            SQLSessionUtil.add(patient);
                         else
-                            HibernateUtil.update(patient);
+                            SQLSessionUtil.update(patient);
                         url = "/PatientLookup?mode=1" + "&PatientUserID=" + patient.getUserId();
                     }
                     else
@@ -185,9 +186,9 @@ public class PatientLookup extends HttpServlet {
                     request.setAttribute("SIN", "");
                     request.setAttribute("Visits", "");
                     
-                    List<Country> countries  = (List<Country>) HibernateUtil.select("FROM Country");
-                    List<Province> provinces  = (List<Province>) HibernateUtil.select("FROM Province");
-                    List<Staff> doctors = (List<Staff>) HibernateUtil.select("FROM Staff WHERE JobTitle='Doctor' ORDER BY LastName");
+                    List<Country> countries  = (List<Country>) SQLSessionUtil.selectType(Country.class, "SELECT * FROM Country");
+                    List<Province> provinces  = (List<Province>) SQLSessionUtil.selectType(Province.class, "SELECT * FROM Province");
+                    List<Staff> doctors = (List<Staff>) SQLSessionUtil.selectType(Staff.class, "SELECT * FROM Staff WHERE JobTitle='Doctor' ORDER BY LastName");
                     request.setAttribute("Countries", countries);
                     request.setAttribute("Provinces", provinces);
                     request.setAttribute("Doctors", doctors);
@@ -212,15 +213,14 @@ public class PatientLookup extends HttpServlet {
             }
             getServletContext().getRequestDispatcher(url).forward(request, response);
     }
-    private HttpServletRequest NarrowResults(HttpServletRequest request)
+    private HttpServletRequest NarrowResults(HttpServletRequest request) throws InstantiationException, IllegalAccessException, SQLException, ClassNotFoundException
     {
                     String FirstNameLookup = request.getParameter("FirstNameLookup");
                     String LastNameLookup = request.getParameter("LastNameLookup");
                     String PatientUserIDLookup = request.getParameter("PatientUserIDLookup");
                     String LastVisitLookup = request.getParameter("LastVisitLookup");
-                    StringBuilder QueryString = new StringBuilder();
+                    StringBuilder QueryString = new StringBuilder("SELECT * FROM Patients ");
                     int conditionCount = 0;
-                    QueryString.append("FROM Patients ");
                     if(FirstNameLookup != null && !FirstNameLookup.equals(""))
                     {
                         QueryString.append("WHERE FirstName = '");
@@ -249,7 +249,7 @@ public class PatientLookup extends HttpServlet {
                         conditionCount++;
                     }
                     //QueryString.append(";");
-                    List<Patients> patients = (List<Patients>) HibernateUtil.select(QueryString.toString());
+                    List<Patients> patients = (List<Patients>) SQLSessionUtil.selectType(Patients.class, QueryString.toString());
                     request.setAttribute("Patients", patients);
                     request.setAttribute("FirstNameLookup", FirstNameLookup);
                     request.setAttribute("LastNameLookup", LastNameLookup);

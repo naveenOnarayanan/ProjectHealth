@@ -205,7 +205,7 @@
                                                     <% } %>
                                                 <% } %>
                                                 <% Prescriptions prescription = prescriptions.get(j); %>
-                                                <td><%= prescription.getId().getDin() %></td>
+                                                <td><%= prescription.getDin() %></td>
                                                 <td><%= prescription.getQuantity() %></td>
                                                 <td><%= prescription.getRefills() %></td>
                                                 <td><%= dateTimeFormat.format(prescription.getExpiry()) %></td>
@@ -229,7 +229,7 @@
                                         <% for (int j = 0; j < operations.size(); j++) { %>
                                             <% Scheduledoperations operation = operations.get(j); %>
                                             <td><%= operation.getOperationName() %></td>
-                                            <td><%= dateTimeFormat.format(operation.getId().getOperationDateTime()) %></td>
+                                            <td><%= dateTimeFormat.format(operation.getOperationDateTime()) %></td>
                                             <td><%= operation.getDoctorId() %></td>
                                         <% } %>
                                     </table>
