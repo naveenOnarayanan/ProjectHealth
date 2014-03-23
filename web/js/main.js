@@ -53,6 +53,7 @@ function getNavbar(role,firstname, lastname) {
                         "<a href='#' class='dropdown-toggle' data-toggle='dropdown'> Patient Records <b class='caret'></b></a>" +
                         "<ul class='dropdown-menu'>" +
                             "<li><a href='AppointmentServlet'>Appointments</a></li>" +
+                            "<li><a href='ScheduledOperations'>Operations</a></li>" +
                             "<li><a href='PrescriptionsServlet'>Prescriptions</a></li>" +
                         "</ul>" +
                     "</li>" +
@@ -81,6 +82,7 @@ function getNavbar(role,firstname, lastname) {
                         "<a href='#' class='dropdown-toggle' data-toggle='dropdown'> Patient Records <b class='caret'></b></a>" +
                         "<ul class='dropdown-menu'>" +
                             "<li><a href='AppointmentServlet'>Appointments</a></li>" +
+                            "<li><a href='ScheduledOperations'>Operations</a></li>" +
                             "<li><a href='PrescriptionsServlet'>Prescriptions</a></li>" +
                         "</ul>" +
                     "</li>" +

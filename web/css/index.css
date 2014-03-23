@@ -152,3 +152,8 @@ ul.nav.navbar-nav li:hover {
 .doctorSelect {
     width: 432px;
 }
+
+.scrollingTBody{
+    height: 50px;
+    overflow-y: auto;
+}
