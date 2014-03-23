@@ -103,14 +103,14 @@ public class PrescriptionInfo {
     }
     
     public String issueToSimpleDateString() {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("MMM dd, yyyy h:mm a");
         Date date = this.issue;
         String returnDate = df.format(date);
         return returnDate;
     }
     
     public String expiryToSimpleDateString() {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("MMM dd, yyyy h:mm a");
         Date date = this.expiry;
         String returnDate = df.format(date);
         return returnDate;

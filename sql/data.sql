@@ -136,7 +136,7 @@ INSERT INTO hospital_main.visitation (PatientID, DoctorID, Symptoms, Diagnosis, 
 INSERT INTO hospital_main.visitation (PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES ('estark', 'jhalmo', 'Burning sensation in his neck', 'Pulled muscle', 'Followup', '00:05:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '1', '0');
 INSERT INTO hospital_main.visitation (PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES ('pbaelish', 'gzhou', 'Pain in fingers', 'Anthrax', 'Checkup', '00:50:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '0', '0');
 INSERT INTO hospital_main.visitation (PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES ('estark', 'jhalmo', 'Feels very light headed', 'Pulled muscle', 'Surgury', '00:30:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '1', '0');
-INSERT INTO hospital_main.visitation (VisitID, PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES (20, 'sstark', 'gzhou', 'Pain in stomach', 'Puberty', 'Checkup', '00:20:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-18 11:59:59', '0', '0');
+INSERT INTO hospital_main.visitation (VisitID, PatientID, DoctorID, Symptoms, Diagnosis, Type, Length, Comments, DateTime, Timestamp, ApptComplete, Cancelled) VALUES (20, 'sstark', 'gzhou', 'Pain in stomach', 'Puberty', 'Checkup', '00:20:00', 'I am not a doctor', '2014-03-18 11:59:59', '2014-03-19 11:59:59', '0', '0');
 
 
 #doctor patient permission

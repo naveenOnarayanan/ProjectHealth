@@ -100,6 +100,18 @@ ul.nav.navbar-nav li:hover {
     vertical-align:central;
     height: 100px;
 }
+
+.default-table {
+    table-layout: fixed;
+    border-style: dashed;
+    border-width: 1px;
+}
+.default-table tr td {
+    word-wrap: break-word;
+    vertical-align:central;
+    height: 50px;
+}
+
 .overflow {
     overflow-y: auto;
     
@@ -119,7 +131,7 @@ ul.nav.navbar-nav li:hover {
 .table-header {
     margin-top: 1px;
     margin-bottom: 10.5px;
-    margin-left: 197px;
+    margin-left: 22%;
 }
 
 .table-search-box {

@@ -6,20 +6,20 @@
 
 package ece358;
 
-import ece358.models.Country;
-import ece358.models.Patients;
-import ece358.models.Staff;
-import ece358.models.Province;
-import ece358.models.Users;
-import ece358.utils.HibernateUtil;
-import ece358.utils.PatientValidation;
+import ece358.models.*;
+import ece358.utils.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -71,7 +71,7 @@ public class PatientLookup extends HttpServlet {
                     }
                     else
                     {
-                        patient = (Patients) HibernateUtil.get(Patients.class, selectedPatient);
+                        patient = (Patients) SQLSessionUtil.get(Patients.class, selectedPatient);
                     }
                     if(patient == null)
                     {
@@ -93,9 +93,9 @@ public class PatientLookup extends HttpServlet {
                     request.setAttribute("PrimaryContactNo", patient.getPrimaryContactNo() != null ? patient.getPrimaryContactNo() : "");
                     request.setAttribute("SIN", patient.getSin() != null ? patient.getSin() : "");
                     request.setAttribute("Visits", patient.getVisits() != null ? patient.getVisits() : "");
-                    List<Country> countries  = (List<Country>) HibernateUtil.select("FROM Country");
-                    List<Province> provinces  = (List<Province>) HibernateUtil.select("FROM Province");
-                    List<Staff> doctors = (List<Staff>) HibernateUtil.select("FROM Staff WHERE JobTitle='Doctor' ORDER BY LastName");
+                    List<Country> countries  = (List<Country>) SQLSessionUtil.selectType(Country.class, "SELECT * FROM Country");
+                    List<Province> provinces  = (List<Province>) SQLSessionUtil.selectType(Province.class, "SELECT * FROM Province");
+                    List<Staff> doctors = (List<Staff>) SQLSessionUtil.selectType(Staff.class, "SELECT * FROM Staff WHERE JobTitle='Doctor' ORDER BY LastName");
 
                     request.setAttribute("Countries", countries);
                     request.setAttribute("Provinces", provinces);
@@ -106,7 +106,22 @@ public class PatientLookup extends HttpServlet {
                         request.setAttribute("LastNameLookup","");
                     if(request.getAttribute("PatientUserIDLookup") == null)
                         request.setAttribute("PatientUserIDLookup", "");
-
+                    
+                    if(sessionUser.getRole().equals(Constants.DOCTOR) && patient.getDefaultDoctorId().equals(sessionUsername))
+                    {
+                        List<Object[]> secondaryDoctors = new ArrayList<Object[]>();
+                        try{
+                                secondaryDoctors = SQLSessionUtil.executeQuery("SELECT DP.SecDoctorID, S2.FirstName, S2.LastName, DP.Expiry " +
+                                         "FROM hospital_main.doctorpatientperm as DP, hospital_main.staff as S1, hospital_main.staff as S2 " +
+                                         "WHERE DP.DoctorID = S1.UserID AND DP.SecDoctorID = S2.UserID AND DP.DoctorID='" + patient.getDefaultDoctorId() + 
+                                         "' AND DP.PatientID='"+ patient.getUserId() +"' AND DP.Expiry >= CURDATE()");
+                                request.setAttribute("SecondaryDoctors", secondaryDoctors);
+                        }
+                        catch(Exception e)
+                        {
+                            
+                        }
+                    }
                     url = "/PatientLookup.jsp";
                 }
                 else if(mode == 3)//Submit
@@ -119,24 +134,24 @@ public class PatientLookup extends HttpServlet {
                     if(errors.isEmpty())
                     {
                         Patients patient = new Patients();
-                        if( PatientUserID == null || PatientUserID == "")
+                        if( PatientUserID == null || PatientUserID.isEmpty())
                         {
                             String FirstName = request.getParameter("FirstName").toLowerCase();
                             String LastName = request.getParameter("LastName").toLowerCase();
                             String UserName = FirstName.charAt(0) + LastName;
-                            List<Users> userNameCount = (List<Users>)HibernateUtil.select("FROM Users WHERE UserID LIKE '" + UserName + "%'");
+                            List<Users> userNameCount = (List<Users>)SQLSessionUtil.selectType(Users.class, "SELECT * FROM Users WHERE UserID LIKE '" + UserName + "%'");
                             if(!userNameCount.isEmpty())
                             {
                                 UserName += String.valueOf(userNameCount.size());
                             }
                             Users user = new Users(UserName, FirstName, "patient");
-                            HibernateUtil.add(user);
+                            SQLSessionUtil.add(user);
                             patient.setUserId(UserName);
                             insert = true;
                         }
                         else
                         {
-                            patient = (Patients) HibernateUtil.get(Patients.class, PatientUserID);
+                            patient = (Patients) SQLSessionUtil.get(Patients.class, PatientUserID);
                         }
                         
                         patient.setFirstName(request.getParameter("FirstName"));
@@ -155,9 +170,9 @@ public class PatientLookup extends HttpServlet {
                         patient.setHealthStatus(request.getParameter("HealthStatus"));
                         
                         if(insert)
-                            HibernateUtil.add(patient);
+                            SQLSessionUtil.add(patient);
                         else
-                            HibernateUtil.update(patient);
+                            SQLSessionUtil.update(patient);
                         url = "/PatientLookup?mode=1" + "&PatientUserID=" + patient.getUserId();
                     }
                     else
@@ -185,9 +200,9 @@ public class PatientLookup extends HttpServlet {
                     request.setAttribute("SIN", "");
                     request.setAttribute("Visits", "");
                     
-                    List<Country> countries  = (List<Country>) HibernateUtil.select("FROM Country");
-                    List<Province> provinces  = (List<Province>) HibernateUtil.select("FROM Province");
-                    List<Staff> doctors = (List<Staff>) HibernateUtil.select("FROM Staff WHERE JobTitle='Doctor' ORDER BY LastName");
+                    List<Country> countries  = (List<Country>) SQLSessionUtil.selectType(Country.class, "SELECT * FROM Country");
+                    List<Province> provinces  = (List<Province>) SQLSessionUtil.selectType(Province.class, "SELECT * FROM Province");
+                    List<Staff> doctors = (List<Staff>) SQLSessionUtil.selectType(Staff.class, "SELECT * FROM Staff WHERE JobTitle='Doctor' ORDER BY LastName");
                     request.setAttribute("Countries", countries);
                     request.setAttribute("Provinces", provinces);
                     request.setAttribute("Doctors", doctors);
@@ -200,6 +215,24 @@ public class PatientLookup extends HttpServlet {
 
                     url = "/PatientLookup.jsp";
                 }
+                else if(mode == 5)//Store DoctorePatientPermissions
+                {
+                    Map<String, String[]> parameterMap = request.getParameterMap();
+                    String DefaultDoctorID = request.getParameter("DefaultDoctorID");
+                    String PatientUserID = request.getParameter("PatientUserID");
+                    SQLSessionUtil.executeQuery("DELETE FROM doctorpatientperm WHERE PatientID='" + PatientUserID + "'");
+                    for(Map.Entry<String,String[]> parameter : parameterMap.entrySet())
+                    {
+                        if(parameter.getKey().contains("SecondaryDoctorID"))
+                        {
+                            String dateString = request.getParameter(parameter.getKey().replace("SecondaryDoctorID", "SecondaryDoctorDT"));
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                            Doctorpatientperm dpp = new Doctorpatientperm(PatientUserID, DefaultDoctorID, parameter.getValue()[0], format.parse(dateString));
+                            SQLSessionUtil.add(dpp);
+                        }
+                    }
+                    url = "/PatientLookup?mode=1";
+                }
                 else
                 {
                     url = "/PatientLookup?mode=1";
@@ -208,7 +241,7 @@ public class PatientLookup extends HttpServlet {
             } catch (Exception e) {
                 request.setAttribute("exception", e);
                 System.out.println(e);
-                url = "/PatientLookup.jsp?mode=1";
+                url = "/error.jsp";
             }
             getServletContext().getRequestDispatcher(url).forward(request, response);
     }
@@ -220,7 +253,7 @@ public class PatientLookup extends HttpServlet {
                     String LastVisitLookup = request.getParameter("LastVisitLookup");
                     StringBuilder QueryString = new StringBuilder();
                     int conditionCount = 0;
-                    QueryString.append("FROM Patients ");
+                    QueryString.append("SELECT * FROM Patients ");
                     if(FirstNameLookup != null && !FirstNameLookup.equals(""))
                     {
                         QueryString.append("WHERE FirstName = '");
@@ -249,11 +282,17 @@ public class PatientLookup extends HttpServlet {
                         conditionCount++;
                     }
                     //QueryString.append(";");
-                    List<Patients> patients = (List<Patients>) HibernateUtil.select(QueryString.toString());
-                    request.setAttribute("Patients", patients);
-                    request.setAttribute("FirstNameLookup", FirstNameLookup);
-                    request.setAttribute("LastNameLookup", LastNameLookup);
-                    request.setAttribute("PatientUserIDLookup", PatientUserIDLookup);
+                    try{
+                        List<Patients> patients = (List<Patients>) SQLSessionUtil.selectType(Patients.class, QueryString.toString());
+                        request.setAttribute("Patients", patients);
+                        request.setAttribute("FirstNameLookup", FirstNameLookup);
+                        request.setAttribute("LastNameLookup", LastNameLookup);
+                        request.setAttribute("PatientUserIDLookup", PatientUserIDLookup);
+                    }
+                    catch(Exception E)
+                    {
+                        
+                    }
                     return request;
     }
 

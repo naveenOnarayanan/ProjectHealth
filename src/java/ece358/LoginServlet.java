@@ -9,9 +9,12 @@ package ece358;
 import ece358.models.Users;
 import ece358.models.Patients;
 import ece358.models.Staff;
-import ece358.utils.HibernateUtil;
+import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,30 +44,40 @@ public class LoginServlet extends HttpServlet {
         String mode = (String) request.getParameter("mode");
         if(mode != null && mode.equals("login"))
         {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-
-            Users user = (Users) HibernateUtil.get(Users.class, username);
-                        
-            if (user == null || !user.getPassword().equals(password)) {
-                request.setAttribute("error", "Invalid Username and Password");
-            } else {
-                if(user.getRole().equals("doctor") || user.getRole().equals("staff") ||user.getRole().equals("finance"))
-                {
-                    Staff staff = (Staff) HibernateUtil.get(Staff.class, username);
-                    request.getSession().setAttribute("firstname", staff.getFirstName());
-                    request.getSession().setAttribute("lastname", staff.getLastName());
+            try {
+                String username = request.getParameter("username");
+                String password = request.getParameter("password");
+                
+                Users user = (Users) SQLSessionUtil.get(Users.class, username);
+                
+                if (user == null || !user.getPassword().equals(password)) {
+                    request.setAttribute("error", "Invalid Username and Password");
+                } else {
+                    if(user.getRole().equals("doctor") || user.getRole().equals("staff") ||user.getRole().equals("finance"))
+                    {
+                        Staff staff = (Staff) SQLSessionUtil.get(Staff.class, username);
+                        request.getSession().setAttribute("firstname", staff.getFirstName());
+                        request.getSession().setAttribute("lastname", staff.getLastName());
+                    }
+                    if(user.getRole().equals("patient"))
+                    {
+                        Patients patient = (Patients) SQLSessionUtil.get(Patients.class, username);
+                        request.getSession().setAttribute("firstname", patient.getFirstName());
+                        request.getSession().setAttribute("lastname", patient.getLastName());
+                    }
+                    url = "/main.jsp";
                 }
-                if(user.getRole().equals("patient"))
-                {
-                    Patients patient = (Patients) HibernateUtil.get(Patients.class, username);
-                    request.getSession().setAttribute("firstname", patient.getFirstName());
-                    request.getSession().setAttribute("lastname", patient.getLastName());
-                }
-                url = "/main.jsp";
+                request.getSession().setAttribute("user", user);
+                getServletContext().getRequestDispatcher(url).forward(request, response);
+            } catch (InstantiationException ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IllegalAccessException ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            request.getSession().setAttribute("user", user);
-            getServletContext().getRequestDispatcher(url).forward(request, response);
         }
         else 
         {

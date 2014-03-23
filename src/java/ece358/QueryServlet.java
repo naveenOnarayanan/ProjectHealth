@@ -4,9 +4,9 @@
  */
 package ece358;
 
-import ece358.utils.HibernateUtil;
 import ece358.models.Staff;
 import ece358.models.Users;
+import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -47,22 +47,21 @@ public class QueryServlet extends HttpServlet {
         String url;
         try {
             if (intQueryNum == 1) {
-                List<Staff> ret = (List<Staff>) HibernateUtil.select("FROM Staff");
+                List<Staff> ret = (List<Staff>) SQLSessionUtil.selectType(Staff.class, "FROM Staff");
                 request.setAttribute("employeeList", ret);
             } else if (intQueryNum == 2) {
-                Staff ret = (Staff) HibernateUtil.get(Staff.class, "n3naraya");
+                Staff ret = (Staff) SQLSessionUtil.get(Staff.class, "n3naraya");
                 ret.setFirstName("Dumb");
                 ret.setLastName("Bum");
-                HibernateUtil.update(ret);
+                SQLSessionUtil.update(ret);
             } else if (intQueryNum == 3) {
                 Staff ret = new Staff();
                 ret.setUserId("loser");
                 ret.setFirstName("Loser");
                 ret.setLastName("#1");
-                HibernateUtil.add(ret);
+                SQLSessionUtil.add(ret);
             } else if (intQueryNum == 4) {
-                Staff ret = (Staff) HibernateUtil.get(Staff.class, "loser");
-                HibernateUtil.delete(ret);
+                Staff ret = (Staff) SQLSessionUtil.get(Staff.class, "loser");
             }else {
                 throw new RuntimeException("Invalid query number: " + intQueryNum);
             }

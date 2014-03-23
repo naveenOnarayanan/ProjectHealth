@@ -3,7 +3,8 @@
     Created on : 20-Mar-2014, 2:49:13 PM
     Author     : Eric
 --%>
-
+ 
+<%@page import="com.google.gson.Gson"%>
 <%@page import="ece358.models.PrescriptionInfo"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.lang.String"%>
@@ -36,6 +37,34 @@
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/2.1.30/css/bootstrap-datetimepicker.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
+        
+        <% List<PrescriptionInfo> prescriptions = (List<PrescriptionInfo>) request.getAttribute("prescriptions"); %>
+        <script>
+            $(document).ready(function() {
+               var prescriptions = <%= new Gson().toJson(prescriptions) %>;
+               $("#filter-id").keyup(function() {
+                   $(".info").remove();
+                   var result = $(this).val();
+                   for (var i = 0; i < prescriptions.length; i++) {
+                       if (prescriptions[i].patientID.indexOf(result) == 0) {
+                           $("#prescriptions").append(
+                                "<tr class='info'>" +
+                                    "<td>" + prescriptions[i].patientID + "</td>" +
+                                    "<td>" + prescriptions[i].DIN + "</td>" +
+                                    "<td>" + prescriptions[i].name + "</td>" +
+                                    "<td>" + prescriptions[i].quantity + "</td>" +
+                                    "<td>" + prescriptions[i].refills + "</td>" +
+                                    "<td>" + prescriptions[i].dosage + "</td>" +
+                                    "<td>" + prescriptions[i].issue + "</td>" +
+                                    "<td>" + prescriptions[i].expiry + "</td>" +
+                                "</tr>"
+                            );
+                       }
+                   } 
+               });
+           });
+        </script>
+
         <title>Prescriptions</title>
     </head>
     <body>
@@ -46,25 +75,24 @@
                 "<%=request.getSession().getAttribute("lastname")%>");
             });
         </script>
-
+ 
         <div id="navbar-container"></div>
         
         <%  Users user = (Users) request.getSession().getAttribute("user"); %>
         
         <table style="width: 100%">
             <tr>
-                <th style="width: 63%"><h1 class="table-header">Prescriptions</h1></th>
+                <th style="width: 67%"><h1 class="table-header">Prescriptions</h1></th>
                 <% if (!user.getRole().equals(Constants.PATIENT)) {%>
                 <th>
-                    <input type="text" class="table-search-box" placeholder="Filter results by UserID">
-                    <input type="button" class="search-button" value="Search">
+                    <input id="filter-id" type="text" class="table-search-box" placeholder="Filter results by UserID">
                 </th>
                 <%}%>
             </tr>
         </table>
         
         <div id="content">
-            <table id="appointments" class="table table-hover">
+            <table id="prescriptions" class="table table-hover default-table">
                 <thead>
                     <tr>
                         <% if (!user.getRole().equals(Constants.PATIENT)) {%>
@@ -80,9 +108,8 @@
                     </tr>
                 </thead>
                 <%
-                    List<PrescriptionInfo> prescriptions = (List<PrescriptionInfo>) request.getAttribute("prescriptions");
                     for (int i = 0; i < prescriptions.size(); i++) {%>
-                        <tr>
+                        <tr class="info" id="patientPrescription-<%= i %>">
                             <% if (!user.getRole().equals(Constants.PATIENT)) {%>
                             <td><%= prescriptions.get(i).getPatientID() %></td>
                             <td><%= prescriptions.get(i).getDIN() %></td>

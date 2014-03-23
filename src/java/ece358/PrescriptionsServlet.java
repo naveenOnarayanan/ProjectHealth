@@ -13,8 +13,8 @@ import ece358.models.Drugs;
 import ece358.models.PrescriptionInfo;
 import ece358.models.Visitation;
 import ece358.utils.Constants;
-import ece358.utils.HibernateUtil;
 import ece358.utils.PatientValidation;
+import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.HashMap;
 import javax.servlet.annotation.WebServlet;
 import java.util.Date;
-import org.hibernate.Hibernate;
 
 /**
  *
@@ -77,9 +76,8 @@ public class PrescriptionsServlet extends HttpServlet {
                         "FROM Staff " +
                         "WHERE UserID = '" + sessionUser.getUserId() +"'";
                 
-                String managingDoctor = HibernateUtil.directSQL(query).toString();
-                managingDoctor = managingDoctor.replace("[", "");
-                managingDoctor = managingDoctor.replace("]", "");
+                List<Object[]> result = SQLSessionUtil.executeQuery(query);
+                String managingDoctor = result.get(0)[0].toString();
                 
                 query = "SELECT active.PatientID, active.DIN, drugs.TradeName, " +
                         "active.Quantity, active.Refills, active.Dosage, " +
@@ -107,7 +105,7 @@ public class PrescriptionsServlet extends HttpServlet {
                         "ORDER BY VisitID";
             }
                 
-            List<Object[]> prescriptionInfoObjects = (List<Object[]>) HibernateUtil.directSQL(query);
+            List<Object[]> prescriptionInfoObjects = (List<Object[]>) SQLSessionUtil.executeQuery(query);
             ArrayList<PrescriptionInfo> prescriptions = new ArrayList<PrescriptionInfo>();
 
             for (Object[] o : prescriptionInfoObjects) {

@@ -24,10 +24,12 @@
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/patientlookup.js"></script>
         <script>
              $(document).ready(function() { $("#Province").select2(); });
              $(document).ready(function() { $("#Country").select2(); });
              $(document).ready(function() { $("#DefaultDoctorID").select2(); });
+             $(document).ready(function() { $("#SecondaryDoctor").select2(); });
         </script>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
@@ -58,6 +60,7 @@
         <% List<Province> Provinces = (List<Province>) request.getAttribute("Provinces");%>
         <% List<Patients> PatientsList = (List<Patients>) request.getAttribute("Patients");%>
         <% List<Staff> Doctors = (List<Staff>) request.getAttribute("Doctors");%>
+        <% List<String[]> SecondaryDoctors = (List<String[]>) request.getAttribute("SecondaryDoctors");%>
         <% String PostalCodeRegex = "^[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ][ ][0-9][[ABCEGHJKLMNPRSTVWXYZ][0-9]";
            String PhoneNumberRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){4}$";
            String HealthCardRegex = "^([0-9]){4}-([0-9]){3}-([0-9]){3}-([ABCDEFGHIJKLMNOPQRSTUVWXYZ]){2}$";
@@ -75,13 +78,18 @@
            }
            else if(mode == 2 || mode == 4)
            {
-                if(PatientUserID == null || PatientUserID == "")
+                if(PatientUserID == null || PatientUserID == "" && mode != 4)
                    PatientUserID = PatientsList.get(0).getUserId();
                buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=1&PatientUserID=" + PatientUserID + "\" formnovalidate>Cancel</button>"
                        + "&nbsp&nbsp&nbsp"
                        + "<input class=\"square-button\" type=\"submit\"></button>";
            }%>
            <% HashMap<String,String> errors = (HashMap<String,String>) request.getAttribute("errors");%>
+           <% Boolean allowDoctorManage = false; %>
+           <% if (DefaultDoctorID.equals(((Users)request.getSession().getAttribute("user")).getUserId()))
+           {
+               allowDoctorManage = true;
+           }%>
 
            
         <title>Patient Lookup</title>
@@ -147,7 +155,8 @@
                 <div style="display: table-cell; float:left; padding-left: 100px">
                     <h4>Patient Information</h4>
                     <% if(errors != null && errors.size() != 0){ %>
-                        <div width="900" style="background-color:#FF9494;">
+                        <div class="alert fade in rounded-div" width="900" style="background-color:#FF9494">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <h3>Try Again</h3>
                                     <ul>
                                     <% Collection<String> entries = errors.values();
@@ -267,11 +276,70 @@
                                 <td></td>
                                 <td align="left"><%=buttons%></td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <button type="button" onclick="window.location = '#';">View Appointments</button>&nbsp;
+                                    <button type="button" onclick="window.location = '#';">View Prescriptions</button>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td>
+
+                                    <% if(allowDoctorManage){%>
+                                        <script>
+                                            var sDoctorIDs = new Array();
+                                            var sDoctorFNames = new Array();
+                                            var sDoctorLNames = new Array();
+                                            var sDoctorExpiry = new Array();
+                                        <%for(Object[] s : SecondaryDoctors)
+                                        {%>
+                                              sDoctorIDs.push("<%=s[0]%>");
+                                              sDoctorFNames.push("<%=s[1]%>");
+                                              sDoctorLNames.push("<%=s[2]%>");
+                                              sDoctorExpiry.push("<%=s[3]%>");
+                                        <%}%>
+                                        </script>
+                                    <button type="button" onClick="$('#sDoctor-modal').modal('show');clearDoctors();populateDoctors(sDoctorIDs,sDoctorFNames,sDoctorLNames,sDoctorExpiry);">Assign Secondary Doctors</button>
+                                    <%}%>
+                                </td>
+                            </tr>
                         </table>
                         <div style="clear:both"></div>
                     </form>
                 </div>
             </div>
+        </div>
+                                
+        <div class="modal fade" id="sDoctor-modal" tabindex="-1" role="dialog" aria-labelledby="sDoctor" aria-hidden="true">
+           <div class="modal-dialog">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                 <h4 class="modal-title">Secondary Doctors</h4>
+               </div>
+                 <div class="modal-body" id="sDoctor-modal-body" style="text-align:center">
+                    <select id="SecondaryDoctor" name ="SecondaryDoctor" style="width:200px; margin-left:10px">
+                          <%for(Staff s : Doctors)
+                            {
+                                String DID = s.getUserId();
+                                String FName = s.getFirstName();
+                                String LName = s.getLastName();
+                                if(!DID.equals(DefaultDoctorID)){%>
+                                <option value="<%=DID%>"><%=FName%> <%=LName%></option>
+                            <%}
+                            }%>
+                    </select>
+                    <button type="button" id="addSDoctorButton" onClick="addDoctor()" style="margin-left:10px">&plus;</button>
+                    <div id="sDoctor-modal-list" name="sDoctor-modal-list">
+                        
+                    </div>
+                 </div>
+                <div class="modal-footer">
+                   <button type="button" data-dismiss="modal">Close</button>
+                   <button type="button" onClick="writeDoctors()">Save</button>
+               </div>
+             </div>
+           </div>
         </div>
                 
     </body>

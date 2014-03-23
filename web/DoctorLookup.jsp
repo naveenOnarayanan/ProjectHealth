@@ -46,8 +46,7 @@
         <% List<Visitation> appointments = (List<Visitation>)request.getAttribute("appointments"); %>
         <% Object[] patientIDs = (Object[])request.getAttribute("patientIDs"); %>
         <% Object[] patientVisits = (Object[])request.getAttribute("patientVisits"); %>
-        <% List<List<Prescriptions>> visitPrescriptions = (List<List<Prescriptions>>)request.getAttribute("visitPrescriptions"); %>
-        <% List<List<Drugs>> visitDrugInformation = (List<List<Drugs>>)request.getAttribute("drugInformation"); %>
+        <% List<List<Object[]>> visitPrescriptions = (List<List<Object[]>>)request.getAttribute("visitPrescriptions"); %>
         <% List<List<Scheduledoperations>> visitOperations = (List<List<Scheduledoperations>>)request.getAttribute("visitOperations"); %>
         
         <script>
@@ -81,45 +80,58 @@
         </script>
         <div id="navbar-container"></div>
         <div class="doctorLookup">
-            <h4>Doctors</h4>
             <form method="post" action="DoctorLookupServlet?mode=2" name="DoctorSelectForm">
-                <div>
-                    <select class="doctorSelect" name="doctorID" id="doctorID">
-                        <% for (int i = 0; i < doctors.size(); i++) { %>
-                            <option value="<%= doctors.get(i).getUserId()%>"><%= doctors.get(i).getFirstName() + " " + doctors.get(i).getLastName() %></option>
-                        <%}%>
-                    </select>
-                </div>
-                <div>
-                    <table>
-                        <tr>
-                            <td><h4>Start Date</h4></td>
-                            <td><h4>End Date</h4></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class='input-group date' id='startDate'>
-                                    <input type='text' class="form-control" name="startDateTime" />
+                <table style="width: 100%">
+                    <tr>
+                        <th>
+                            <h1 class="table-header">Doctor Information Lookup</h1>
+                        </th>                   
+                    </tr>
+                    <tr>
+                        <th style="width: 50%">
+                            <h4 style="margin-left: 22%">Select a doctor:</h4>
+                            <div>
+                                <select class="doctorSelect" name="doctorID" id="doctorID" style="margin-left: 22%; width: 70%">
+                                    <% for (int i = 0; i < doctors.size(); i++) { %>
+                                        <option value="<%= doctors.get(i).getUserId()%>"><%= doctors.get(i).getFirstName() + " " + doctors.get(i).getLastName() %></option>
+                                    <%}%>
+                                </select>
+                            </div>
+                        </th>
+                        <th>
+                            <h4>Select a start date:</h4>
+                            <div class='input-group date' id='startDate' style="padding-right: 22%">
+                                    <input type='text' class="form-control" name="startDateTime"/>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
                                     </span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class='input-group date' id='endDate'>
-                                    <input type='text' class="form-control" name="endDateTime" />
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
-                                    </span>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <br>
-                <input type="submit" class="btn btn-success" value="Search"/>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="width: 50%"></th>
+                        <th>
+                            <br>
+                            <h4>Select a end date:</h4>
+                            <div class='input-group date' id='endDate' style="padding-right: 22%">
+                                <input type='text' class="form-control" name="endDateTime" />
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
+                                </span>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="width: 50%"></th>
+                        <th>
+                            <br>
+                            <input type="submit" class="btn btn-success" value="Search" style="margin-left: 67%"/>
+                        </th>
+                    </tr>
+                </table>
             </form>
         </div>
         <% if (appointments != null) { %>
-            <br>
+        <table style="width: 100%">
+            <tr>
             <div>
                 <% String doctorName = ""; %>
                 <% for (int i = 0; i < doctors.size(); i++) {
@@ -128,49 +140,44 @@
                         break;
                     }
                 } %>
-                <h4>Doctor: <%= doctorName %></h4>
+                <th style="width: 50%"><h4 style="padding-left: 22%">Doctor: <%= doctorName %></h4></th>
                 <% SimpleDateFormat webFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm"); %>
                 <% SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa"); %>
                 <% String startDateTimeString = dateTimeFormat.format(webFormat.parse(startDateTime)); %>
                 <% String endDateTimeString = dateTimeFormat.format(webFormat.parse(endDateTime)); %>
-                <h4><%= startDateTimeString %> - <%= endDateTimeString %></h4>
-                <h4>Patients Seen: <%= appointments.size() %></h4>
-                <% if (patientIDs.length > 0) { %>
-                    <table>
-                        <col width="100px"/>
-                        <col width="100px"/>
-                        <thead>
-                            <tr>
-                                <th>Patient ID</th>
-                                <th>Times Seen</th>
-                            </tr>
-                        </thead>
-                        <% for (int i = 0; i < patientIDs.length; i++) { %>
-                            <tr>
-                                <td><%= patientIDs[i] %></td>
-                                <td><%= patientVisits[i] %></td>
-                            </tr>
-                        <% } %>
-                    </table>
-                <% } %>
+                <th><h4>Dates: <%= startDateTimeString %> - <%= endDateTimeString %></h4></th>
+            </tr>
+            <tr>
+                <th style="width: 50%"><h4 style="padding-left: 22%">Patients Seen: <%= appointments.size() %></h4></th>
+            </tr>
             </div>
+        </table>
+        <% if (patientIDs.length > 0) { %>                
+            <table style="width: 20%; margin-left: 11%">
+                <tr>
+                    <th style="width: 50%"><h5>Patient ID</h5></th>
+                    <th style="width: 50%"><h5>Times Seen</h5></th>
+                </tr>
+                <% for (int i = 0; i < patientIDs.length; i++) { %>
+                    <tr>
+                        <td style="width: 50%"><h5><%= patientIDs[i] %></h5></td>
+                        <td style="width: 50%"><h5><%= patientVisits[i] %></h5></td>
+                    </tr>
+                <% } %>
+            </table>
+        <% } %>
             <div>
-                <h4>Records</h4>
-                <table id="appointments" class="table table-hover">
-                    <col width="120px">
-                    <col width="80px">
-                    <col width="80px">
-                    <col width="120px">
-                    <col width="300px">
-                    <col width="300px">
+                <br>
+                <h3 style="padding-left: 11%">Records</h3>
+                <table id="appointments" class="table table-hover" style="margin-left: 11%; width: 78%">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Patient ID</th>
-                            <th>Length</th>
-                            <th>Diagnosis</th>
-                            <th>Prescription</th>
-                            <th>Operation</th>
+                            <th style="width: 10%">Date</th>
+                            <th style="width: 8%">Patient ID</th>
+                            <th style="width: 8%">Length</th>
+                            <th style="width: 10%">Diagnosis</th>
+                            <th style="width: 18%">Prescription</th>
+                            <th style="width: 20%">Operation</th>
                         </tr>
                     </thead>
                     <% for (int i = 0; i < appointments.size(); i++) { %>
@@ -194,21 +201,15 @@
                                             <th>Refills</th>
                                             <th>Expiry</th>
                                         </thead>
-                                        <% List<Prescriptions> prescriptions = visitPrescriptions.get(i); %>
-                                        <% List<Drugs> drugInformation = visitDrugInformation.get(i); %>
+                                        <% List<Object[]> prescriptions = visitPrescriptions.get(i); %>
                                         <% for (int j = 0; j < prescriptions.size(); j++) { %>
                                             <tr>
-                                                <% if (drugInformation.size() > j) { %>
-                                                    <% Drugs drug = drugInformation.get(j); %>
-                                                    <% if (drug != null) { %>
-                                                        <td><%= drug.getTradeName() %></td>
-                                                    <% } %>
-                                                <% } %>
-                                                <% Prescriptions prescription = prescriptions.get(j); %>
-                                                <td><%= prescription.getId().getDin() %></td>
-                                                <td><%= prescription.getQuantity() %></td>
-                                                <td><%= prescription.getRefills() %></td>
-                                                <td><%= dateTimeFormat.format(prescription.getExpiry()) %></td>
+                                                <% Object[] prescription = prescriptions.get(j); %>
+                                                <td><%= prescription[0] %></td>
+                                                <td><%= prescription[1] %></td>
+                                                <td><%= prescription[2] %></td>
+                                                <td><%= prescription[3] %></td>
+                                                <td><%= dateTimeFormat.format(prescription[4]) %></td>
                                             </tr>
                                         <% } %>
                                     </table>
@@ -229,7 +230,7 @@
                                         <% for (int j = 0; j < operations.size(); j++) { %>
                                             <% Scheduledoperations operation = operations.get(j); %>
                                             <td><%= operation.getOperationName() %></td>
-                                            <td><%= dateTimeFormat.format(operation.getId().getOperationDateTime()) %></td>
+                                            <td><%= dateTimeFormat.format(operation.getOperationDateTime()) %></td>
                                             <td><%= operation.getDoctorId() %></td>
                                         <% } %>
                                     </table>
