@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Users` (
   `UserID` VARCHAR(16) NOT NULL,
   `Password` VARCHAR(256) NOT NULL,
   `Role` VARCHAR(16) NOT NULL,
-  PRIMARY KEY (`userID`))
+  PRIMARY KEY (`UserID`))
 ENGINE = InnoDB;
 
 

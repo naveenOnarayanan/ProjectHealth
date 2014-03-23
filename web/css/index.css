@@ -133,3 +133,7 @@ ul.nav.navbar-nav li:hover {
     padding-bottom: 6px;
     padding-top: 10px;
 }
+
+.doctorSelect {
+    width: 432px;
+}

@@ -13,8 +13,13 @@
         <servlet-class>ece358.PatientLookup</servlet-class>
     </servlet>
     <servlet>
+<<<<<<< HEAD
         <servlet-name>Prescriptions</servlet-name>
         <servlet-class>ece358.PrescriptionsServlet</servlet-class>
+=======
+        <servlet-name>DoctorLookupServlet</servlet-name>
+        <servlet-class>ece358.DoctorLookupServlet</servlet-class>
+>>>>>>> b6a430f2835589a2f401222d25338af066767b7b
     </servlet>
     <servlet-mapping>
         <servlet-name>QueryServlet</servlet-name>
@@ -27,6 +32,10 @@
     <servlet-mapping>
         <servlet-name>PatientLookup</servlet-name>
         <url-pattern>/PatientLookup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DoctorLookupServlet</servlet-name>
+        <url-pattern>/DoctorLookupServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
