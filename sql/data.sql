@@ -52,29 +52,29 @@ INSERT INTO `hospital_main`.`country` (`Code`, `Name`) VALUES ('CAN', 'Canada');
 #users
 DELETE FROM hospital_main.users;
 
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('jhalmo', 'josh', 'doctor');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('tlannister', 'tyrion', 'staff');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('dtargaryen', 'daenerys', 'patient');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('jsnow', 'jon', 'staff');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('gzhou', 'gordon', 'doctor');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('jmormont', 'jorah', 'patient');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('pbaelish', 'petyr', 'patient');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('jlannister', 'jaime', 'staff');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('dseaworth', 'davos', 'patient');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('sbaratheon', 'stannis', 'patient');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('mtyrell', 'margaery', 'patient');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('ecameracci', 'eric', 'staff');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('bstark', 'bran', 'patient');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('sstark', 'sansa', 'patient');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('nnarayanan', 'naveen', 'doctor');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('astark', 'arya', 'staff');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('tgreyjoy', 'theon', 'staff');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('jbaratheon', 'joffrey', 'patient');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('starly', 'samwell', 'finance');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('sclegane', 'sandor', 'staff');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('cstark', 'catelyn', 'patient');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('rstark', 'robb', 'patient');
-INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('estark', 'eddard', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('jhalmo', '386a85d8c88778b00b1355608363c7e3078857f3e9633cfd0802d3bf1c0b5b83', 'doctor');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('tlannister', '94c792191e17d3ee525a2e534b8fbdced0e12523b0bc6b70d75f2aaabace48db', 'staff');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('dtargaryen', 'db27c449e5d5067b9419fd1cf7c47edd00523d657e046dd2f83d0cd90af4eaa2', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('jsnow', 'bb472edb86809a761936d90c70aeb4346618aa71da7a00c16e334863499108fd', 'Doctor');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('gzhou', '9fe93417853739c1c18c2e8b051860d1a317824f1aa91304d16f3fe832486f7a', 'doctor');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('jmormont', 'deac5824a9da4679fd1a0a60b57f6a7a0cb4d986b7c9a1c495a3649319eb7594', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('pbaelish', 'f6dfbac1595f62cc8dae6154e22243d0d7d454669316da5df80154b3bf15136f', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('jlannister', '2a097b21dfbe7d9b3356a0a4979c5d8f5d4bb47111a9a39656f00dab3d0ddd09', 'staff');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('dseaworth', '32117daa13e13a660a73cd4ae0cb0345b19eb73b343d7bb32e04006bda2f8edf', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('sbaratheon', 'a7cb19c2e3b997210acd1eb6a12658e22be7c61944aec8288a31fa450c652432', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('mtyrell', '5b6998d988223a2452abab62a7483e04d8e143bbcc660918eaae8ed33f57aff7', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('ecameracci', '6f9edcd3408cbda14a837e6a44fc5b7f64ccc9a2477c1498fcb13c777ffb9605', 'staff');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('bstark', '051945a27551270c442208045a38bf38bf4c5b819f1db0f0511ceafa74a2af59', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('sstark', 'e8a5ecf39c3d5e2976d8acbf0e990fc9b8e1482128d1c2144c3f41693852c33f', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('nnarayanan', 'a5bb9829c699828fa7abf756356dfbbac04cea5a90346435286036c953f7c65f', 'doctor');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('astark', 'b02e06485c54bb8d503d44ab75693665ccfb580a0d5cbd12c488d8c4aab51f37', 'staff');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('tgreyjoy', '4865e43e019d52d21125c9e440c647a3bd412c66ff19272b9d128281d2404ba2', 'staff');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('jbaratheon', 'd2f272763efca04d0705fbb03ca84ab10329dc0419390a681ad07c6a1c3009f3', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('starly', 'd6cf30c7139dc46f779bc4151c0466cbce66b6c1b8246d213bb7fdc5432aa2b5', 'finance');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('sclegane', '8d6216813e05489cc3eadbdb74f597b8946824ad82f75177d9399f7980a5d037', 'staff');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('cstark', '5334f1d47daa445295cd3e7ec7a0928f3c925333c06b614f3d35695d28c2bad8', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('rstark', 'bbe632c0baeeae82cf72865c745de20ae725faf418f8bfcd174f944a3f12acac', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('estark', '3c04b49bd6d1a58956db3c96bf4ca5617b2cc89994d1c7951733d440ad1b888c', 'patient');
 
 
 #staff
@@ -82,7 +82,7 @@ DELETE FROM hospital_main.staff;
 
 INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('jhalmo', 'Josh', 'Halmo', NULL, 'Doctor', 1);
 INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('tlannister', 'Tyrion', 'Lannister', 'jhalmo', 'Nurse', 1);
-INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('jsnow', 'Jon', 'Snow', 'jhalmo', 'Doctor', 1);
+INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('jsnow', 'Jon', 'Snow', NULL, 'Surgeon', 1);
 INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('gzhou', 'Gordon', 'Zhou', NULL, 'Doctor', 1);
 INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('jlannister', 'Jaime', 'Lannister', 'gzhou', 'Receptionist', 1);
 INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('ecameracci', 'Eric', 'Cameracci', 'nnarayanan', 'Assistant', 1);
@@ -162,10 +162,10 @@ INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage
 #scheduled operations
 DELETE FROM hospital_main.scheduledoperations;
 
-INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('3', '2014-03-28 13:00:00', 'Arm Amputation', 'nnarayanan');
-INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('9', '2014-04-15 9:00:00', 'Plastic Surgury', 'jhalmo');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('3', '2014-03-28 13:00:00', 'Arm Amputation', 'jsnow');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('9', '2014-04-15 9:00:00', 'Plastic Surgury', 'jsnow');
 INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('11', '2014-04-03 10:30:00', 'CT Scan', 'gzhou');
 INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('16', '2014-05-09 04:15:00', 'Vasectomy', 'jhalmo');
-INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('17', '2014-07-17 19:45:00', 'Heart Transplant', 'nnarayanan');
-INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('18', '2014-12-01 12:05:00', 'Kidney Transplant', 'gzhou');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('17', '2014-07-17 19:45:00', 'Heart Transplant', 'jsnow');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('18', '2014-12-01 12:05:00', 'Kidney Transplant', 'jsnow');
 INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('22', '2015-01-22 11:35:00', 'C-Section', 'nnarayanan');

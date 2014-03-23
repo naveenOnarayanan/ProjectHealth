@@ -1,29 +1,27 @@
--------GISTS---------
-Updating navbar based on user role (HTML)
-https://gist.github.com/naveenOnarayanan/b04242892f9bb2ae2578
+            Username        Password
+Patients    dtargaryen      daenerys
+            jmormont        jorah
+            pbaelish        petyr
+            dseaworth       davos
+            sbaratheon      stannis
+            mtyrell         margaery
+            bstark          bran
+            sstark          sansa
+            jbaratheon      joffrey
+            cstark          catelyn
+            rstark          robb
+            estark          eddard
 
-Header content for UI in JSP
-https://gist.github.com/naveenOnarayanan/f0b6ec675db190758188
-
---------TASKS-----------
-1. Navbar options:
-	PATIENT
-		Personal Information
-		Records
-			Appointments
-			Prescriptions
-			Diagnosis
-			
-	DOCTOR
-		Patient Lookup
-		Record Lookup
+Staff       tlannister      tyrion
+            jlannister      jaime
+            ecameracci      eric
+            astark          arya
+            tgreyjoy        theon
+            sclegane        sandor
 		
-	STAFF
-		Appointments
-		Patient Records
-
-	FINANCE
-		Doctor Lookup
-
-
-2. Encrypt the password string
+Doctor      jhalmo          josh
+            jsnow           jon
+            gzhou           gordon
+            nnarayanan      naveen
+		
+Finance     starly          samwell

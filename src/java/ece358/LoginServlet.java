@@ -12,9 +12,10 @@ import ece358.models.Staff;
 import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.security.NoSuchAlgorithmException;
+import java.security.MessageDigest;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,10 +48,22 @@ public class LoginServlet extends HttpServlet {
             try {
                 String username = request.getParameter("username");
                 String password = request.getParameter("password");
+
+                String hashedPassword;
+
+                MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+                messageDigest.update(password.getBytes());
+                byte hashedPasswordData[] = messageDigest.digest();
+
+                StringBuilder hashedPasswordBuffer = new StringBuilder();
+                for (int i = 0; i < hashedPasswordData.length; i++)
+                    hashedPasswordBuffer.append(Integer.toString((hashedPasswordData[i] & 0xFF) + 0x100, 16).substring(1));
+
+                hashedPassword = hashedPasswordBuffer.toString();
                 
                 Users user = (Users) SQLSessionUtil.get(Users.class, username);
                 
-                if (user == null || !user.getPassword().equals(password)) {
+                if (user == null || !user.getPassword().equals(hashedPassword)) {
                     request.setAttribute("error", "Invalid Username and Password");
                 } else {
                     if(user.getRole().equals("doctor") || user.getRole().equals("staff") ||user.getRole().equals("finance"))
@@ -76,6 +89,8 @@ public class LoginServlet extends HttpServlet {
             } catch (SQLException ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (NoSuchAlgorithmException ex) {
                 Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

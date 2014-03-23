@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Visitation` (
   `Comments` TEXT NULL,
   `DateTime` DATETIME NULL,
   `Timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `ApptComplete` TINYINT(1) NULL,
+  `ApptComplete` TINYINT(1) NULL DEFAULT 0,
   `Cancelled` TINYINT(1) NULL,
   PRIMARY KEY (`RecordID`))
 ENGINE = InnoDB;
@@ -133,7 +133,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Users` (
   `UserID` VARCHAR(16) NOT NULL,
-  `Password` VARCHAR(256) NOT NULL,
+  `Password` VARCHAR(64) NOT NULL,
   `Role` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`userID`))
 ENGINE = InnoDB;

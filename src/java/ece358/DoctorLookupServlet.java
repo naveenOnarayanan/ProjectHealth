@@ -6,9 +6,6 @@
 
 package ece358;
 
-import ece358.models.Drugs;
-import ece358.models.PrescriptionInfo;
-import ece358.models.Prescriptions;
 import ece358.models.Scheduledoperations;
 import ece358.models.Staff;
 import ece358.models.Users;
@@ -16,6 +13,7 @@ import ece358.models.Visitation;
 import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
@@ -68,8 +66,9 @@ public class DoctorLookupServlet extends HttpServlet {
             startDateTime = webFormat.parse(startDateTimeString);
             endDateTime = webFormat.parse(endDateTimeString);
         }
-        catch (Exception e)
+        catch (ParseException ex)
         {
+            //Do nothing, just use the current date time
         }
         
         request.setAttribute("startDateTime", webFormat.format(startDateTime));
