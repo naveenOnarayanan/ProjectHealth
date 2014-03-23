@@ -44,6 +44,7 @@
         </script>
         <div id="navbar-container"></div>
         <h1>Operations</h1>
+        <h4>Upcoming Operations</h4>
         <div id="content">
             <table class="table table-hover">
                 <thead>
@@ -55,13 +56,38 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%if(schedoperations != null){%>
-                    <%for(int i = 0; i<schedoperations.size(); i++){%>
+                    <%if(schedoperationsFuture != null){%>
+                    <%for(int i = 0; i<schedoperationsFuture.size(); i++){%>
                     <tr>
-                        <td><%=schedoperations.get(i).getId().getVisitId()%></td>
-                        <td onclick="populateOperationModal('<%=operations.get(i).getName()%>','<%=operations.get(i).getDescription()%>','<%=operations.get(i).getEstTime().getHours()%>','<%=operations.get(i).getEstTime().getMinutes()%>')" style="cursor:pointer"><%=schedoperations.get(i).getOperationName()%></td>
-                        <td><%=schedoperations.get(i).getId().getOperationDateTime().toString()%></td>
-                        <td>Dr.<%=surgeons.get(i).getLastName()%></td>
+                        <td><%=schedoperationsFuture.get(i).getVisitId()%></td>
+                        <td onclick="populateOperationModal('<%=operationsFuture.get(i).getName()%>','<%=operationsFuture.get(i).getDescription()%>','<%=operationsFuture.get(i).getEstTime().getHours()%>','<%=operationsFuture.get(i).getEstTime().getMinutes()%>')" style="cursor:pointer"><%=schedoperationsFuture.get(i).getOperationName()%></td>
+                        <td><%=schedoperationsFuture.get(i).getOperationDateTime().toString()%></td>
+                        <td>Dr.<%=surgeonsFuture.get(i).getLastName()%></td>
+                    </tr>
+                    <%}
+                    }%>
+                </tbody>
+            </table>
+        </div>
+        <h4>Past Operations</h4>
+        <div id="content">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Related Appointment Number</th>
+                        <th>Operation</th>
+                        <th>Date</th>
+                        <th>Surgeon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%if(schedoperationsPast != null){%>
+                    <%for(int i = 0; i<schedoperationsPast.size(); i++){%>
+                    <tr>
+                        <td><%=schedoperationsPast.get(i).getVisitId()%></td>
+                        <td onclick="populateOperationModal('<%=operationsPast.get(i).getName()%>','<%=operationsPast.get(i).getDescription()%>','<%=operationsPast.get(i).getEstTime().getHours()%>','<%=operationsPast.get(i).getEstTime().getMinutes()%>')" style="cursor:pointer"><%=schedoperationsPast.get(i).getOperationName()%></td>
+                        <td><%=schedoperationsPast.get(i).getOperationDateTime().toString()%></td>
+                        <td>Dr.<%=surgeonsPast.get(i).getLastName()%></td>
                     </tr>
                     <%}
                     }%>

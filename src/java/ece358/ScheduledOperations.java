@@ -105,9 +105,9 @@ public class ScheduledOperations extends HttpServlet {
         request.setAttribute("schedoperationsPast", schedoperationsPast);
         request.setAttribute("surgeonsPast", surgeonsPast);
         request.setAttribute("operationsPast", operationsPast);
-        request.setAttribute("schedoperationsPast", schedoperationsFuture);
-        request.setAttribute("surgeonsPast", surgeonsFuture);
-        request.setAttribute("operationsPast", operationsFuture);
+        request.setAttribute("schedoperationsFuture", schedoperationsFuture);
+        request.setAttribute("surgeonsFuture", surgeonsFuture);
+        request.setAttribute("operationsFuture", operationsFuture);
         getServletContext().getRequestDispatcher("/ScheduledOperations.jsp").forward(request, response);
     }
 

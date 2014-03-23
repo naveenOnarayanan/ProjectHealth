@@ -46,7 +46,7 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ScheduledOperations</servlet-name>
-        <url-pattern>/ScheduleOperations</url-pattern>
+        <url-pattern>/ScheduledOperations</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
