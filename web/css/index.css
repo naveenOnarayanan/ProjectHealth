@@ -131,7 +131,6 @@ ul.nav.navbar-nav li:hover {
 .table-header {
     margin-top: 1px;
     margin-bottom: 10.5px;
-    margin-left: 22%;
 }
 
 .table-search-box {
@@ -152,4 +151,9 @@ ul.nav.navbar-nav li:hover {
 
 .doctorSelect {
     width: 432px;
+}
+
+.scrollingTBody{
+    height: 50px;
+    overflow-y: auto;
 }
