@@ -220,7 +220,7 @@ public class PatientLookup extends HttpServlet {
                     Map<String, String[]> parameterMap = request.getParameterMap();
                     String DefaultDoctorID = request.getParameter("DefaultDoctorID");
                     String PatientUserID = request.getParameter("PatientUserID");
-                    SQLSessionUtil.executeUpdate("DELETE FROM doctorpatientperm WHERE PatientID='" + PatientUserID + "'");
+                    SQLSessionUtil.executeQuery("DELETE FROM doctorpatientperm WHERE PatientID='" + PatientUserID + "'");
                     for(Map.Entry<String,String[]> parameter : parameterMap.entrySet())
                     {
                         if(parameter.getKey().contains("SecondaryDoctorID"))
@@ -241,7 +241,7 @@ public class PatientLookup extends HttpServlet {
             } catch (Exception e) {
                 request.setAttribute("exception", e);
                 System.out.println(e);
-                url = "/PatientLookup.jsp?mode=1";
+                url = "/error.jsp";
             }
             getServletContext().getRequestDispatcher(url).forward(request, response);
     }

@@ -108,7 +108,7 @@ public class PersonalInfo extends HttpServlet {
         } catch (Exception e) {
             request.setAttribute("exception", e);
             System.out.println(e);
-            url = "/PersonalInfo.jsp";
+            url = "/error.jsp";
         }
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
