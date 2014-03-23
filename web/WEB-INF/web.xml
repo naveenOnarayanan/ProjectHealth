@@ -13,6 +13,14 @@
         <servlet-class>ece358.PatientLookup</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Prescriptions</servlet-name>
+        <servlet-class>ece358.PrescriptionsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DoctorLookupServlet</servlet-name>
+        <servlet-class>ece358.DoctorLookupServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>DoctorLookupServlet</servlet-name>
         <servlet-class>ece358.DoctorLookupServlet</servlet-class>
     </servlet>

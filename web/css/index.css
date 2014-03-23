@@ -115,6 +115,29 @@ ul.nav.navbar-nav li:hover {
 .hidden {
     display: none;
 }
+
+.table-header {
+    margin-top: 1px;
+    margin-bottom: 10.5px;
+    margin-left: 197px;
+}
+
+.table-search-box {
+    padding: 5px;
+    width: 400px;
+    font-size: 16px;
+}
+
+.search-button {
+    width: 70px;
+    padding-bottom: 6px;
+    padding-top: 10px;
+}
+
+.doctorSelect {
+    width: 432px;
+}
+
 .doctorSelect {
     width: 432px;
 }
