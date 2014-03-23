@@ -129,7 +129,7 @@ public class PrescriptionsServlet extends HttpServlet {
             request.setAttribute("error", e.getMessage());
             request.setAttribute("queryServletError", queryServletError);
             System.out.println(e);
-            url = "/main.jsp";
+            url = "/error.jsp";
         }
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
