@@ -71,8 +71,8 @@ public class PersonalInfo extends HttpServlet {
                 request.setAttribute("PrimaryContactNo", patient.getPrimaryContactNo() != null ? patient.getPrimaryContactNo() : "");
                 request.setAttribute("SIN", patient.getSin() != null ? patient.getSin() : "");
                 request.setAttribute("Visits", patient.getVisits() != null ? patient.getVisits() : "");
-                List<Country> countries  = (List<Country>) SQLSessionUtil.selectType(Country.class, "FROM Country");
-                List<Province> provinces  = (List<Province>) SQLSessionUtil.selectType(Province.class, "FROM Province");
+                List<Country> countries  = (List<Country>) SQLSessionUtil.selectType(Country.class, "SELECT * FROM Country");
+                List<Province> provinces  = (List<Province>) SQLSessionUtil.selectType(Province.class, "SELECT * FROM Province");
                 request.setAttribute("Countries", countries);
                 request.setAttribute("Provinces", provinces);
                 url = "/PersonalInfo.jsp";
