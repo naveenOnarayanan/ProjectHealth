@@ -38,6 +38,12 @@ public class ScheduledOperations extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        Users sessionUser = (Users) request.getSession().getAttribute("user");
+        if (sessionUser == null) {
+            getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+            return;
+        }
+        
         String url = "";
         try{
             Users user = (Users) request.getSession().getAttribute("user");
