@@ -80,4 +80,14 @@ public class HibernateUtil {
         session.close();
             
     }
+    
+    public static Object directSQL(String query) {
+        Session session = getSessionFactory().openSession();
+        session.beginTransaction();
+        Object result = session.createSQLQuery(query).list();
+        session.getTransaction().commit();
+        session.close();
+
+        return result;
+    }
 }

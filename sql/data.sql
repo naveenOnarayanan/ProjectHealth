@@ -148,7 +148,7 @@ INSERT INTO `hospital_main`.`doctorpatientperm` (`PatientID`, `DoctorID`, `SecDo
 #prescriptions
 DELETE FROM hospital_main.prescriptions;
 
-INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('0', '00013285', '250', '1', 'Once in before breakfast', '2015-04-15 11:59:59');
+INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('1', '00013285', '250', '1', 'Once in before breakfast', '2015-04-15 11:59:59');
 INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('2', '02237726', '500', '5', 'Maximum 3 times per day', '2016-09-05 11:59:59');
 INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('4', '02248809', '100', '8', 'Once before bed', '2020-01-02 11:59:59');
 INSERT INTO hospital_main.prescriptions (VisitID, DIN, Quantity, Refills, Dosage, Expiry) VALUES ('6', '02237726', '300', '3', 'Whenever there is pain', '2015-01-09 11:59:59');
