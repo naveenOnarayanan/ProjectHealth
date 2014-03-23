@@ -46,8 +46,7 @@
         <% List<Visitation> appointments = (List<Visitation>)request.getAttribute("appointments"); %>
         <% Object[] patientIDs = (Object[])request.getAttribute("patientIDs"); %>
         <% Object[] patientVisits = (Object[])request.getAttribute("patientVisits"); %>
-        <% List<List<Prescriptions>> visitPrescriptions = (List<List<Prescriptions>>)request.getAttribute("visitPrescriptions"); %>
-        <% List<List<Drugs>> visitDrugInformation = (List<List<Drugs>>)request.getAttribute("drugInformation"); %>
+        <% List<List<Object[]>> visitPrescriptions = (List<List<Object[]>>)request.getAttribute("visitPrescriptions"); %>
         <% List<List<Scheduledoperations>> visitOperations = (List<List<Scheduledoperations>>)request.getAttribute("visitOperations"); %>
         
         <script>
@@ -202,21 +201,15 @@
                                             <th>Refills</th>
                                             <th>Expiry</th>
                                         </thead>
-                                        <% List<Prescriptions> prescriptions = visitPrescriptions.get(i); %>
-                                        <% List<Drugs> drugInformation = visitDrugInformation.get(i); %>
+                                        <% List<Object[]> prescriptions = visitPrescriptions.get(i); %>
                                         <% for (int j = 0; j < prescriptions.size(); j++) { %>
                                             <tr>
-                                                <% if (drugInformation.size() > j) { %>
-                                                    <% Drugs drug = drugInformation.get(j); %>
-                                                    <% if (drug != null) { %>
-                                                        <td><%= drug.getTradeName() %></td>
-                                                    <% } %>
-                                                <% } %>
-                                                <% Prescriptions prescription = prescriptions.get(j); %>
-                                                <td><%= prescription.getDin() %></td>
-                                                <td><%= prescription.getQuantity() %></td>
-                                                <td><%= prescription.getRefills() %></td>
-                                                <td><%= dateTimeFormat.format(prescription.getExpiry()) %></td>
+                                                <% Object[] prescription = prescriptions.get(j); %>
+                                                <td><%= prescription[0] %></td>
+                                                <td><%= prescription[1] %></td>
+                                                <td><%= prescription[2] %></td>
+                                                <td><%= prescription[3] %></td>
+                                                <td><%= dateTimeFormat.format(prescription[4]) %></td>
                                             </tr>
                                         <% } %>
                                     </table>

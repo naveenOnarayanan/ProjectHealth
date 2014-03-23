@@ -7,6 +7,7 @@
 package ece358;
 
 import ece358.models.Drugs;
+import ece358.models.PrescriptionInfo;
 import ece358.models.Prescriptions;
 import ece358.models.Scheduledoperations;
 import ece358.models.Staff;
@@ -122,33 +123,18 @@ public class DoctorLookupServlet extends HttpServlet {
                 request.setAttribute("patientIDs", patientIDs.toArray());
                 request.setAttribute("patientVisits", patientVisits.toArray());
                 
-                List<List<Prescriptions>> visitPrescriptions = new ArrayList<List<Prescriptions>>();
-                List<List<Drugs>> drugInformation = new ArrayList<List<Drugs>>();
+                List<List<Object[]>> prescriptions = new ArrayList<List<Object[]>>();
                 List<List<Scheduledoperations>> visitOperations = new ArrayList<List<Scheduledoperations>>();
                 Iterator<Visitation> visitationIterator = appointments.iterator();
                 while (visitationIterator.hasNext())
                 {
                     Visitation visitation = visitationIterator.next();
-                    query = "SELECT p.* " +
-                            "FROM Prescriptions AS p " +
-                            "WHERE visitId = '" + visitation.getVisitId() + "'";
-                    List<Prescriptions> prescriptions = (List<Prescriptions>)SQLSessionUtil.selectType(Prescriptions.class, query);
                     
-                    visitPrescriptions.add(prescriptions);
-                    
-                    List<Drugs> drugs = new ArrayList();
-                    Iterator<Prescriptions> prescriptionIterator = prescriptions.iterator();
-                    while (prescriptionIterator.hasNext())
-                    {
-                        Prescriptions prescription = prescriptionIterator.next();
-                        query = "SELECT d.* " + 
-                                "FROM Drugs AS d " + 
-                                "WHERE DIN = '" + prescription.getDin() + "'";
-                        List<Drugs> drugsList = (List<Drugs>)SQLSessionUtil.selectType(Drugs.class, query);
-                        drugs.add(drugsList.iterator().next());
-                    }
-                    drugInformation.add(drugs);
-                    
+                    query = "SELECT d.TradeName, d.DIN, p.Quantity, p.Refills, p.Expiry " +
+                            "FROM Prescriptions AS p, Drugs AS d " +
+                            "WHERE p.VisitID = '" + visitation.getVisitId() + "' " +
+                            "AND p.DIN = d.DIN";
+                    prescriptions.add((List<Object[]>) SQLSessionUtil.executeQuery(query));
                     
                     query = "SELECT so.* " +
                             "FROM Scheduledoperations AS so " +
@@ -156,8 +142,7 @@ public class DoctorLookupServlet extends HttpServlet {
                     List<Scheduledoperations> scheduledOperations = (List<Scheduledoperations>)SQLSessionUtil.selectType(Scheduledoperations.class, query);
                     visitOperations.add(scheduledOperations);
                 }
-                request.setAttribute("visitPrescriptions", visitPrescriptions);
-                request.setAttribute("drugInformation", drugInformation);
+                request.setAttribute("visitPrescriptions", prescriptions);
                 request.setAttribute("visitOperations", visitOperations);
             }
             
