@@ -9,17 +9,11 @@ package ece358;
 import ece358.models.*;
 import ece358.utils.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,12 +38,12 @@ public class PatientLookup extends HttpServlet {
             throws ServletException, IOException {
         
             Users sessionUser = (Users) request.getSession().getAttribute("user");
-            String sessionUsername = sessionUser.getUserId();
-
             if (sessionUser == null) {
                 getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
                 return;
             }
+            String sessionUsername = sessionUser.getUserId();
+
             
             String url;
             try {
