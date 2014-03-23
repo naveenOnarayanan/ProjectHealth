@@ -10,6 +10,7 @@ import ece358.models.*;
 import ece358.utils.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -112,7 +114,7 @@ public class PatientLookup extends HttpServlet {
                                 secondaryDoctors = SQLSessionUtil.executeQuery("SELECT DP.SecDoctorID, S2.FirstName, S2.LastName, DP.Expiry " +
                                          "FROM hospital_main.doctorpatientperm as DP, hospital_main.staff as S1, hospital_main.staff as S2 " +
                                          "WHERE DP.DoctorID = S1.UserID AND DP.SecDoctorID = S2.UserID AND DP.DoctorID='" + patient.getDefaultDoctorId() + 
-                                         "' AND DP.PatientID='"+ patient.getUserId() +"' AND DP.Expiry > CURDATE()");
+                                         "' AND DP.PatientID='"+ patient.getUserId() +"' AND DP.Expiry >= CURDATE()");
                                 request.setAttribute("SecondaryDoctors", secondaryDoctors);
                         }
                         catch(Exception e)
@@ -218,24 +220,14 @@ public class PatientLookup extends HttpServlet {
                     Map<String, String[]> parameterMap = request.getParameterMap();
                     String DefaultDoctorID = request.getParameter("DefaultDoctorID");
                     String PatientUserID = request.getParameter("PatientUserID");
-                    SQLSessionUtil.executeQuery("DELETE FROM doctorpatientperm WHERE PatientID='" + PatientUserID + "'");
+                    SQLSessionUtil.executeUpdate("DELETE FROM doctorpatientperm WHERE PatientID='" + PatientUserID + "'");
                     for(Map.Entry<String,String[]> parameter : parameterMap.entrySet())
                     {
                         if(parameter.getKey().contains("SecondaryDoctorID"))
                         {
                             String dateString = request.getParameter(parameter.getKey().replace("SecondaryDoctorID", "SecondaryDoctorDT"));
-                            System.out.println(dateString);
-                            System.out.println(dateString.substring(0,4));
-                            System.out.println(dateString.substring(5,7));
-                             System.out.println(dateString.substring(8,10));
-                            String yyyy = dateString.substring(0,4).trim();
-                            String mm = dateString.substring(5,7).trim();
-                            String dd = dateString.substring(8,10).trim();
-                            java.util.Date date = new java.util.Date(Integer.parseInt(yyyy), Integer.parseInt(mm), Integer.parseInt(dd));
-                                
-                            //Calendar calendar = Calendar.getInstance();
-                            //calendar.set(Integer.parseInt(yyyy), Integer.parseInt(mm), Integer.parseInt(dd));
-                            Doctorpatientperm dpp = new Doctorpatientperm(PatientUserID, DefaultDoctorID, parameter.getValue()[0], date);
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                            Doctorpatientperm dpp = new Doctorpatientperm(PatientUserID, DefaultDoctorID, parameter.getValue()[0], format.parse(dateString));
                             SQLSessionUtil.add(dpp);
                         }
                     }
