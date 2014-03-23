@@ -69,6 +69,11 @@ ul.nav.navbar-nav li:hover {
     padding-right: 200px;
 }
 
+#dynamic-table {
+    padding-left: 11%;
+    padding-right: 11%;
+}
+
 .appointment-date {
     width: 10%;
 }
@@ -135,7 +140,7 @@ ul.nav.navbar-nav li:hover {
 
 .table-search-box {
     padding: 5px;
-    width: 400px;
+    width: 100%;
     font-size: 16px;
 }
 
@@ -156,4 +161,10 @@ ul.nav.navbar-nav li:hover {
 .scrollingTBody{
     height: 50px;
     overflow-y: auto;
+}
+
+.center-block {
+    display: table;
+    margin-left: 11%;
+    width: 78%;
 }

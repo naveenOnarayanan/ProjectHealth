@@ -66,6 +66,10 @@ public class DoctorLookupServlet extends HttpServlet {
             startDateTime = webFormat.parse(startDateTimeString);
             endDateTime = webFormat.parse(endDateTimeString);
         }
+        catch (NullPointerException ex)
+        {
+            //Do nothing, just use the current date time
+        }
         catch (ParseException ex)
         {
             //Do nothing, just use the current date time
