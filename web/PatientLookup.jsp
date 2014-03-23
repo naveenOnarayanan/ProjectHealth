@@ -65,7 +65,7 @@
            String PhoneNumberRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){4}$";
            String HealthCardRegex = "^([0-9]){4}-([0-9]){3}-([0-9]){3}-([ABCDEFGHIJKLMNOPQRSTUVWXYZ]){2}$";
            String SINRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){3}$";%>
-        <% String buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=2\">Edit</button>";%>
+        <% String buttons = "<button class=\"btn btn-success\" type = \"submit\" formaction=\"PatientLookup?mode=2\">Edit</button>";%>
         <% String disabled = "";
            if(mode == 1)
            {
@@ -73,21 +73,21 @@
                if(PatientUserID == null || PatientUserID == "")
                {
                    PatientUserID = PatientsList.get(0).getUserId();
-                   buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=2\" disabled>Edit</button>";
+                   buttons = "<button class=\"btn btn-success\" type = \"submit\" formaction=\"PatientLookup?mode=2\" disabled>Edit</button>";
                }
            }
            else if(mode == 2)
            {
                 if(PatientUserID == null || PatientUserID == "")
                    PatientUserID = PatientsList.get(0).getUserId();
-               buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=1&PatientUserID=" + PatientUserID + "\" formnovalidate>Cancel</button>"
+               buttons = "<button class=\"btn btn-success\" type = \"submit\" formaction=\"PatientLookup?mode=1&PatientUserID=" + PatientUserID + "\" formnovalidate>Cancel</button>"
                        + "&nbsp&nbsp&nbsp"
-                       + "<input class=\"square-button\" type=\"submit\"></button>";
+                       + "<input class=\"btn btn-success\" type=\"submit\"></button>";
            }
            else if(mode == 4){
-                  buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=1\" formnovalidate>Cancel</button>"
+                  buttons = "<button class=\"btn btn-success\" type = \"submit\" formaction=\"PatientLookup?mode=1\" formnovalidate>Cancel</button>"
                        + "&nbsp&nbsp&nbsp"
-                       + "<input class=\"square-button\" type=\"submit\"></button>";
+                       + "<input class=\"btn btn-success\" type=\"submit\"></button>";
             
             }%>
            <% HashMap<String,String> errors = (HashMap<String,String>) request.getAttribute("errors");%>
@@ -130,7 +130,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><button class="square-button" type = "submit">Search</button></td>
+                        <td><button class="btn btn-success" type = "submit">Search</button></td>
                     </tr>
                 </table> 
             </form>
@@ -155,14 +155,14 @@
                             }
                         }%>
                         </select>
-                        <button type="submit" style="width:100%; margin-top: 10px" formaction="PatientLookup?mode=4">New Patient</button>
+                        <button class="btn btn-success" type="submit" style="width:100%; margin-top: 10px" formaction="PatientLookup?mode=4">New Patient</button>
                     </form>
                 </div>
                 <div style="display: table-cell; float:left; padding-left: 100px">
                     <h4>Patient Information</h4>
                     <% if(errors != null && errors.size() != 0){ %>
                         <div class="alert fade in rounded-div" width="900" style="background-color:#FF9494">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <button class = "btn btn-success" type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <h3>Try Again</h3>
                                     <ul>
                                     <% Collection<String> entries = errors.values();
@@ -283,11 +283,10 @@
                                 <td align="left"><%=buttons%></td>
                             </tr>
                             <tr>
-                                <td>
-                                    <button type="button" onclick="window.location = '#';">View Appointments</button>&nbsp;
-                                    <button type="button" onclick="window.location = '#';">View Prescriptions</button>
+                                <td colspan="2">
+                                    <button class="btn btn-success" type="button" onclick="window.location = '#';">View Appointments</button>&nbsp;
+                                    <button class="btn btn-success" type="button" onclick="window.location = '#';">View Prescriptions</button>
                                 </td>
-                                <td></td>
                                 <td></td>
                                 <td>
 
@@ -305,7 +304,7 @@
                                               sDoctorExpiry.push("<%=s[3]%>");
                                         <%}%>
                                         </script>
-                                    <button type="button" onClick="$('#sDoctor-modal').modal('show');clearDoctors();populateDoctors(sDoctorIDs,sDoctorFNames,sDoctorLNames,sDoctorExpiry);">Assign Secondary Doctors</button>
+                                    <button class="btn btn-success" type="button" onClick="$('#sDoctor-modal').modal('show');clearDoctors();populateDoctors(sDoctorIDs,sDoctorFNames,sDoctorLNames,sDoctorExpiry);">Assign Secondary Doctors</button>
                                     <%}%>
                                 </td>
                             </tr>
@@ -335,14 +334,14 @@
                             <%}
                             }%>
                     </select>
-                    <button type="button" id="addSDoctorButton" onClick="addDoctor()" style="margin-left:10px">&plus;</button>
+                    <button class="btn btn-success" type="button" id="addSDoctorButton" onClick="addDoctor()" style="margin-left:10px">&plus;</button>
                     <div id="sDoctor-modal-list" name="sDoctor-modal-list">
                         
                     </div>
                  </div>
                 <div class="modal-footer">
-                   <button type="button" data-dismiss="modal">Close</button>
-                   <button type="button" onClick="writeDoctors()">Save</button>
+                   <button class="btn btn-success" type="button" data-dismiss="modal">Close</button>
+                   <button class="btn btn-success" type="button" onClick="writeDoctors()">Save</button>
                </div>
              </div>
            </div>

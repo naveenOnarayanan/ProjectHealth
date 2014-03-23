@@ -51,7 +51,7 @@
         <% List<Province> Provinces = (List<Province>) request.getAttribute("Provinces");%>
         <% String PostalCodeRegex = "^[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ][ ][0-9][[ABCEGHJKLMNPRSTVWXYZ][0-9]";
            String PhoneNumberRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){4}$";%>
-        <% String buttons = "<button type = \"submit\" class=\"square-button\" formaction=\"PersonalInfo?mode=2\">Edit</button>";%>
+        <% String buttons = "<button type = \"submit\" class=\"btn btn-success\" formaction=\"PersonalInfo?mode=2\">Edit</button>";%>
         <% String disabled = "";
            if(mode == 1)
            {
@@ -59,9 +59,9 @@
            }
            else if(mode == 2)
            {
-               buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PersonalInfo?mode=1\" formnovalidate>Cancel</button>"
+               buttons = "<button class=\"btn btn-success\" type = \"submit\" formaction=\"PersonalInfo?mode=1\" formnovalidate>Cancel</button>"
                        + "&nbsp&nbsp&nbsp"
-                       + "<input class=\"square-button\" type=\"submit\"></button>";
+                       + "<input class=\"btn btn-success\" type=\"submit\"></button>";
            }%>
            <% HashMap<String,String> errors = (HashMap<String,String>) request.getAttribute("errors");%>
 
