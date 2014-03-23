@@ -82,7 +82,7 @@
         
         <table style="width: 100%">
             <tr>
-                <th style="width: 67%"><h1 class="table-header">Prescriptions</h1></th>
+                <th style="width: 67%; padding-left: 11%"><h1 class="table-header">Prescriptions</h1></th>
                 <% if (!user.getRole().equals(Constants.PATIENT)) {%>
                 <th>
                     <input id="filter-id" type="text" class="table-search-box" placeholder="Filter results by UserID">
@@ -96,15 +96,15 @@
                 <thead>
                     <tr>
                         <% if (!user.getRole().equals(Constants.PATIENT)) {%>
-                        <th>Patient</th>
-                        <th>DIN</th>
+                        <th style="width: 10%">Patient</th>
+                        <th style="width: 8%">DIN</th>
                         <%}%>
-                        <th>Drug Name</th>
-                        <th>Quantity (in mg)</th>
-                        <th>Refills</th>
+                        <th style="width: 15%">Drug Name</th>
+                        <th style="width: 10%">Quantity (in mg)</th>
+                        <th style="width: 6%">Refills</th>
                         <th>Dosage</th>
-                        <th>Prescribed Date</th>
-                        <th>Expiry</th>
+                        <th style="width: 12%">Prescribed Date</th>
+                        <th style="width: 12%">Expiry</th>
                     </tr>
                 </thead>
                 <%
