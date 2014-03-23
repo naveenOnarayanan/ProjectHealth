@@ -84,21 +84,24 @@ public class DoctorLookupServlet extends HttpServlet {
             {
                 SimpleDateFormat sqlFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 
-                String query = "SELECT v " + 
+                String query = "SELECT v.* " + 
                         "FROM Visitation AS v " + 
                         "WHERE DoctorID = '" + doctorID + "' " +
                         "AND DateTime > '" + sqlFormat.format(startDateTime) + "' " +
-                        "AND DateTime < '" + sqlFormat.format(endDateTime) + "'";
+                        "AND DateTime < '" + sqlFormat.format(endDateTime) + "' " +
+                        "AND Timestamp = (SELECT MAX(V2.Timestamp) FROM Visitation V2 WHERE V2.VisitID=V.VisitID)";
                 
                 List<Visitation> appointments = (List<Visitation>)SQLSessionUtil.selectType(Visitation.class, query);
                 request.setAttribute("appointments", appointments);
                 
-                query = "SELECT DISTINCT v.patientId " +
-                        "FROM Visitation AS v " +
-                        "WHERE v.doctorId = '" + doctorID + "' " +
-                        "AND v.dateTime > '" + sqlFormat.format(startDateTime) + "' " +
-                        "AND v.dateTime < '" + sqlFormat.format(endDateTime) + "'";
-                List<String> uniquePatients = (List<String>)SQLSessionUtil.selectType(String.class, query);
+                List<String> uniquePatients = new ArrayList<String>();
+                Iterator<Visitation> appointmentsIterator = appointments.iterator();
+                while (appointmentsIterator.hasNext())
+                {
+                    Visitation visit = appointmentsIterator.next();
+                    if (!uniquePatients.contains(visit.getPatientId()))
+                        uniquePatients.add(visit.getPatientId());
+                }
                 List<String> patientIDs = new ArrayList<String>();
                 List<Integer> patientVisits = new ArrayList<Integer>();
                 Iterator<String> uniquePatientIterator = uniquePatients.iterator();
@@ -106,12 +109,13 @@ public class DoctorLookupServlet extends HttpServlet {
                 {
                     String patientID = uniquePatientIterator.next();
                     patientIDs.add(patientID);
-                    query = "SELECT v " +
+                    query = "SELECT v.* " +
                             "FROM Visitation AS v " +
-                            "WHERE v.doctorId = '" + doctorID + "' " +
-                            "AND v.patientId = '" + patientID + "' " +
+                            "WHERE v.doctorID = '" + doctorID + "' " +
+                            "AND v.patientID = '" + patientID + "' " +
                             "AND v.dateTime > '" + sqlFormat.format(startDateTime) + "' " +
-                            "AND v.dateTime < '" + sqlFormat.format(endDateTime) + "'";
+                            "AND v.dateTime < '" + sqlFormat.format(endDateTime) + "' " +
+                            "AND Timestamp = (SELECT MAX(V2.Timestamp) FROM Visitation V2 WHERE V2.VisitID=V.VisitID)";
                     List<Visitation> patientAppointments = (List<Visitation>)SQLSessionUtil.selectType(Visitation.class, query);
                     patientVisits.add(patientAppointments.size());
                 }
@@ -172,7 +176,7 @@ public class DoctorLookupServlet extends HttpServlet {
     private HttpServletRequest AddDoctors(HttpServletRequest request) throws InstantiationException, IllegalAccessException, SQLException, ClassNotFoundException
     {
         StringBuilder query = new StringBuilder();
-        query.append("FROM Staff WHERE JobTitle = 'Doctor' OR JobTitle = 'Surgeon'");
+        query.append("SELECT s.* FROM Staff as s WHERE JobTitle = 'Doctor' OR JobTitle = 'Surgeon'");
         
         List<Staff> doctors = (List<Staff>) SQLSessionUtil.selectType(Staff.class, query.toString());
         request.setAttribute("doctors", doctors);
