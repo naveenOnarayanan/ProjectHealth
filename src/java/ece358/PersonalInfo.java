@@ -14,7 +14,6 @@ import ece358.models.Province;
 import ece358.utils.PatientValidation;
 import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.HashMap;
 import javax.servlet.ServletException;
@@ -43,12 +42,11 @@ public class PersonalInfo extends HttpServlet {
             throws ServletException, IOException {
         
         Users sessionUser = (Users) request.getSession().getAttribute("user");
-        String sessionUsername = sessionUser.getUserId();
-
         if (sessionUser == null) {
             getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
+        String sessionUsername = sessionUser.getUserId();
 
         String url;
         try {

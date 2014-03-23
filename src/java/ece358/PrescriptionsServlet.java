@@ -6,24 +6,17 @@
 
 package ece358;
 
-import ece358.models.Patients;
 import ece358.models.Users;
-import ece358.models.Prescriptions;
-import ece358.models.Drugs;
 import ece358.models.PrescriptionInfo;
-import ece358.models.Visitation;
 import ece358.utils.Constants;
-import ece358.utils.PatientValidation;
 import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.HashMap;
 import javax.servlet.annotation.WebServlet;
 import java.util.Date;
 
