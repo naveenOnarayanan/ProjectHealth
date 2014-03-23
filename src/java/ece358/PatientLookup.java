@@ -6,21 +6,18 @@
 
 package ece358;
 
-import ece358.models.Country;
-import ece358.models.Patients;
-import ece358.models.Staff;
-import ece358.models.Province;
-import ece358.models.Users;
-import ece358.utils.PatientValidation;
-import ece358.utils.SQLSessionUtil;
+import ece358.models.*;
+import ece358.utils.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Calendar;
+import java.util.Objects;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -107,7 +104,22 @@ public class PatientLookup extends HttpServlet {
                         request.setAttribute("LastNameLookup","");
                     if(request.getAttribute("PatientUserIDLookup") == null)
                         request.setAttribute("PatientUserIDLookup", "");
-
+                    
+                    if(sessionUser.getRole().equals(Constants.DOCTOR) && patient.getDefaultDoctorId().equals(sessionUsername))
+                    {
+                        List<Object[]> secondaryDoctors = new ArrayList<Object[]>();
+                        try{
+                                secondaryDoctors = SQLSessionUtil.executeQuery("SELECT DP.SecDoctorID, S2.FirstName, S2.LastName, DP.Expiry " +
+                                         "FROM hospital_main.doctorpatientperm as DP, hospital_main.staff as S1, hospital_main.staff as S2 " +
+                                         "WHERE DP.DoctorID = S1.UserID AND DP.SecDoctorID = S2.UserID AND DP.DoctorID='" + patient.getDefaultDoctorId() + 
+                                         "' AND DP.PatientID='"+ patient.getUserId() +"' AND DP.Expiry > CURDATE()");
+                                request.setAttribute("SecondaryDoctors", secondaryDoctors);
+                        }
+                        catch(Exception e)
+                        {
+                            
+                        }
+                    }
                     url = "/PatientLookup.jsp";
                 }
                 else if(mode == 3)//Submit
@@ -120,7 +132,7 @@ public class PatientLookup extends HttpServlet {
                     if(errors.isEmpty())
                     {
                         Patients patient = new Patients();
-                        if( PatientUserID == null || PatientUserID == "")
+                        if( PatientUserID == null || PatientUserID.isEmpty())
                         {
                             String FirstName = request.getParameter("FirstName").toLowerCase();
                             String LastName = request.getParameter("LastName").toLowerCase();
@@ -201,6 +213,34 @@ public class PatientLookup extends HttpServlet {
 
                     url = "/PatientLookup.jsp";
                 }
+                else if(mode == 5)//Store DoctorePatientPermissions
+                {
+                    Map<String, String[]> parameterMap = request.getParameterMap();
+                    String DefaultDoctorID = request.getParameter("DefaultDoctorID");
+                    String PatientUserID = request.getParameter("PatientUserID");
+                    SQLSessionUtil.executeQuery("DELETE FROM doctorpatientperm WHERE PatientID='" + PatientUserID + "'");
+                    for(Map.Entry<String,String[]> parameter : parameterMap.entrySet())
+                    {
+                        if(parameter.getKey().contains("SecondaryDoctorID"))
+                        {
+                            String dateString = request.getParameter(parameter.getKey().replace("SecondaryDoctorID", "SecondaryDoctorDT"));
+                            System.out.println(dateString);
+                            System.out.println(dateString.substring(0,4));
+                            System.out.println(dateString.substring(5,7));
+                             System.out.println(dateString.substring(8,10));
+                            String yyyy = dateString.substring(0,4).trim();
+                            String mm = dateString.substring(5,7).trim();
+                            String dd = dateString.substring(8,10).trim();
+                            java.util.Date date = new java.util.Date(Integer.parseInt(yyyy), Integer.parseInt(mm), Integer.parseInt(dd));
+                                
+                            //Calendar calendar = Calendar.getInstance();
+                            //calendar.set(Integer.parseInt(yyyy), Integer.parseInt(mm), Integer.parseInt(dd));
+                            Doctorpatientperm dpp = new Doctorpatientperm(PatientUserID, DefaultDoctorID, parameter.getValue()[0], date);
+                            SQLSessionUtil.add(dpp);
+                        }
+                    }
+                    url = "/PatientLookup?mode=1";
+                }
                 else
                 {
                     url = "/PatientLookup?mode=1";
@@ -213,14 +253,15 @@ public class PatientLookup extends HttpServlet {
             }
             getServletContext().getRequestDispatcher(url).forward(request, response);
     }
-    private HttpServletRequest NarrowResults(HttpServletRequest request) throws InstantiationException, IllegalAccessException, SQLException, ClassNotFoundException
+    private HttpServletRequest NarrowResults(HttpServletRequest request)
     {
                     String FirstNameLookup = request.getParameter("FirstNameLookup");
                     String LastNameLookup = request.getParameter("LastNameLookup");
                     String PatientUserIDLookup = request.getParameter("PatientUserIDLookup");
                     String LastVisitLookup = request.getParameter("LastVisitLookup");
-                    StringBuilder QueryString = new StringBuilder("SELECT * FROM Patients ");
+                    StringBuilder QueryString = new StringBuilder();
                     int conditionCount = 0;
+                    QueryString.append("SELECT * FROM Patients ");
                     if(FirstNameLookup != null && !FirstNameLookup.equals(""))
                     {
                         QueryString.append("WHERE FirstName = '");
@@ -249,11 +290,17 @@ public class PatientLookup extends HttpServlet {
                         conditionCount++;
                     }
                     //QueryString.append(";");
-                    List<Patients> patients = (List<Patients>) SQLSessionUtil.selectType(Patients.class, QueryString.toString());
-                    request.setAttribute("Patients", patients);
-                    request.setAttribute("FirstNameLookup", FirstNameLookup);
-                    request.setAttribute("LastNameLookup", LastNameLookup);
-                    request.setAttribute("PatientUserIDLookup", PatientUserIDLookup);
+                    try{
+                        List<Patients> patients = (List<Patients>) SQLSessionUtil.selectType(Patients.class, QueryString.toString());
+                        request.setAttribute("Patients", patients);
+                        request.setAttribute("FirstNameLookup", FirstNameLookup);
+                        request.setAttribute("LastNameLookup", LastNameLookup);
+                        request.setAttribute("PatientUserIDLookup", PatientUserIDLookup);
+                    }
+                    catch(Exception E)
+                    {
+                        
+                    }
                     return request;
     }
 

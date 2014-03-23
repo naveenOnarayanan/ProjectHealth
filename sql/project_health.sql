@@ -135,7 +135,7 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Users` (
   `UserID` VARCHAR(16) NOT NULL,
   `Password` VARCHAR(256) NOT NULL,
   `Role` VARCHAR(16) NOT NULL,
-  PRIMARY KEY (`UserID`))
+  PRIMARY KEY (`userID`))
 ENGINE = InnoDB;
 
 
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`DoctorPatientPerm` (
   `PatientID` VARCHAR(16) NOT NULL,
   `DoctorID` VARCHAR(16) NOT NULL,
   `SecDoctorID` VARCHAR(16) NOT NULL,
-  `Expiry` DATETIME NULL,
+  `Expiry` DATE NULL,
   PRIMARY KEY (`PatientID`,`DoctorID`,`SecDoctorID`))
 ENGINE = InnoDB;
 
