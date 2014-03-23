@@ -80,18 +80,18 @@
         
         <%  Users user = (Users) request.getSession().getAttribute("user"); %>
         
-        <table style="width: 100%">
+        <table class="center-block">
             <tr>
-                <th style="width: 67%; padding-left: 11%"><h1 class="table-header">Prescriptions</h1></th>
+                <th style="width: 70%;"><h1 class="table-header">Prescriptions</h1></th>
                 <% if (!user.getRole().equals(Constants.PATIENT)) {%>
-                <th>
+                <th style="width: 30%">
                     <input id="filter-id" type="text" class="table-search-box" placeholder="Filter results by UserID">
                 </th>
                 <%}%>
             </tr>
         </table>
         
-        <div id="content">
+        <div id="dynamic-table">
             <table id="prescriptions" class="table table-hover default-table">
                 <thead>
                     <tr>
