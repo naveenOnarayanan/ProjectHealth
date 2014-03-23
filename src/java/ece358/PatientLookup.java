@@ -60,12 +60,16 @@ public class PatientLookup extends HttpServlet {
 
                     List<Patients> patients = (List<Patients>)request.getAttribute("Patients");
                     String selectedPatient = request.getParameter("PatientSelect");
-                    if(selectedPatient == null)
+                    if(selectedPatient == null || selectedPatient.isEmpty())
                     {
                         selectedPatient = request.getParameter("PatientUserID");
                     }
                     Patients patient;
-                    if(selectedPatient == null)
+                    if(selectedPatient == null || selectedPatient.isEmpty())
+                    {
+                        selectedPatient = patients.get(0).getUserId();
+                    }
+                    if(selectedPatient == null || selectedPatient.isEmpty())
                     {
                         patient = patient = new Patients("","","","","","","","","","","","",0,"","","",false);
                     }

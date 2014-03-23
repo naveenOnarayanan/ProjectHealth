@@ -76,14 +76,20 @@
                    buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=2\" disabled>Edit</button>";
                }
            }
-           else if(mode == 2 || mode == 4)
+           else if(mode == 2)
            {
-                if(PatientUserID == null || PatientUserID == "" && mode != 4)
+                if(PatientUserID == null || PatientUserID == "")
                    PatientUserID = PatientsList.get(0).getUserId();
                buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=1&PatientUserID=" + PatientUserID + "\" formnovalidate>Cancel</button>"
                        + "&nbsp&nbsp&nbsp"
                        + "<input class=\"square-button\" type=\"submit\"></button>";
-           }%>
+           }
+           else if(mode == 4){
+                  buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=1\" formnovalidate>Cancel</button>"
+                       + "&nbsp&nbsp&nbsp"
+                       + "<input class=\"square-button\" type=\"submit\"></button>";
+            
+            }%>
            <% HashMap<String,String> errors = (HashMap<String,String>) request.getAttribute("errors");%>
            <% Boolean allowDoctorManage = false; %>
            <% if (DefaultDoctorID.equals(((Users)request.getSession().getAttribute("user")).getUserId()))
