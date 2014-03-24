@@ -15,7 +15,22 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <% Boolean FullView = (Boolean)request.getAttribute("FullView");%>
+        <% String error = (String) request.getAttribute("error"); %>
+        <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
+        <% List<Scheduledoperations> schedoperationsPast = (List<Scheduledoperations>) request.getAttribute("schedoperationsPast"); %>
+        <% List<Staff> surgeonsPast = (List<Staff>) request.getAttribute("surgeonsPast"); %>
+        <% List<Staff> doctorsPast = (List<Staff>) request.getAttribute("doctorsPast"); %>
+        <% List<Operations> operationsPast= (List<Operations>) request.getAttribute("operationsPast"); %>
+        <% List<Patients> patientsPast= (List<Patients>) request.getAttribute("patientsPast"); %>
+        <% List<Scheduledoperations> schedoperationsFuture = (List<Scheduledoperations>) request.getAttribute("schedoperationsFuture"); %>
+        <% List<Staff> surgeonsFuture = (List<Staff>) request.getAttribute("surgeonsFuture"); %>
+        <% List<Staff> doctorsFuture = (List<Staff>) request.getAttribute("doctorsFuture"); %>
+        <% List<Operations> operationsFuture = (List<Operations>) request.getAttribute("operationsFuture"); %>
+        <% List<Patients> patientsFuture = (List<Patients>) request.getAttribute("patientsFuture"); %>
+        <% SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <% if (FullView) {%>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
@@ -31,21 +46,9 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
         <link rel="stylesheet" href="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.css"/>
+
         <link rel="stylesheet" href="css/index.css"/>
-        <% String error = (String) request.getAttribute("error"); %>
-        <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
-         <% List<Scheduledoperations> schedoperationsPast = (List<Scheduledoperations>) request.getAttribute("schedoperationsPast"); %>
-         <% List<Staff> surgeonsPast = (List<Staff>) request.getAttribute("surgeonsPast"); %>
-         <% List<Staff> doctorsPast = (List<Staff>) request.getAttribute("doctorsPast"); %>
-         <% List<Operations> operationsPast= (List<Operations>) request.getAttribute("operationsPast"); %>
-         <% List<Patients> patientsPast= (List<Patients>) request.getAttribute("patientsPast"); %>
-         <% List<Scheduledoperations> schedoperationsFuture = (List<Scheduledoperations>) request.getAttribute("schedoperationsFuture"); %>
-         <% List<Staff> surgeonsFuture = (List<Staff>) request.getAttribute("surgeonsFuture"); %>
-         <% List<Staff> doctorsFuture = (List<Staff>) request.getAttribute("doctorsFuture"); %>
-         <% List<Operations> operationsFuture = (List<Operations>) request.getAttribute("operationsFuture"); %>
-         <% List<Patients> patientsFuture = (List<Patients>) request.getAttribute("patientsFuture"); %>
-         <% SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");%>
-         <% Boolean FullView = (Boolean)request.getAttribute("FullView");%>
+        <%}%>
          <title>Scheduled Operations</title>
     </head>
     <body>
@@ -101,12 +104,12 @@
         <div id="content">
         <h1>Scheduled Operations</h1>
         <ul class="nav nav-tabs">
-               <li class="tab-button active" id="upcoming-operations-tab"><a href="#upcoming" data-toggle="tab">Upcoming Operations</a></li>
-               <li class="tab-button" id="past-operations-tab"><a href="#past" data-toggle="tab">Past Operations</a></li>
+               <li class="tab-button active" id="upcoming-operations-tab"><a href="#upcoming-operation" data-toggle="tab">Upcoming Operations</a></li>
+               <li class="tab-button" id="past-operations-tab"><a href="#past-operations" data-toggle="tab">Past Operations</a></li>
        </ul>
         <br>
         <div class="tab-content">
-            <div class="tab-pane active" id="upcoming">
+            <div class="tab-pane active" id="upcoming-operation">
                     <% if (!queryServletError) { %>
                     <table class="table table-hover tablesorter default-table" id="UpcomingOperationsTable">
                         <thead>
@@ -170,7 +173,7 @@
                     </table>
                     <% } %>
                 </div>
-                <div class="tab-pane" id="past">
+                <div class="tab-pane" id="past-operations">
                     <% if (!queryServletError) { %>
                     <table class="table table-hover default-table">
                         <thead>
