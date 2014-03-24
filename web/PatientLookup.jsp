@@ -30,6 +30,7 @@
              $(document).ready(function() { $("#Country").select2(); });
              $(document).ready(function() { $("#DefaultDoctorID").select2(); });
              $(document).ready(function() { $("#SecondaryDoctor").select2(); });
+             $(document).ready(function() { $("#DoctorLookup").select2(); });
         </script>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
@@ -55,6 +56,8 @@
         <% String FirstNameLookup = (String) request.getAttribute("FirstNameLookup"); %>
         <% String LastNameLookup = (String) request.getAttribute("LastNameLookup"); %>
         <% String PatientUserIDLookup = (String) request.getAttribute("PatientUserIDLookup"); %>
+        <% String HealthCardLookup = (String) request.getAttribute("HealthCardLookup"); %>
+        <% String DoctorLookup = (String) request.getAttribute("DoctorLookup"); %>
         <% int mode  = Integer.parseInt((String)request.getParameter("mode"));%>
         <% List<Country> Countries = (List<Country>) request.getAttribute("Countries");%>
         <% List<Province> Provinces = (List<Province>) request.getAttribute("Provinces");%>
@@ -65,25 +68,32 @@
            String PhoneNumberRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){4}$";
            String HealthCardRegex = "^([0-9]){4}-([0-9]){3}-([0-9]){3}-([ABCDEFGHIJKLMNOPQRSTUVWXYZ]){2}$";
            String SINRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){3}$";%>
-        <% String buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=2\">Edit</button>";%>
+        <% String buttons = "<button class=\"btn btn-success\" type = \"submit\" formaction=\"PatientLookup?mode=2\">Edit</button>";%>
         <% String disabled = "";
            if(mode == 1)
            {
                disabled = "disabled";
                if(PatientUserID == null || PatientUserID == "")
                {
-                   PatientUserID = PatientsList.get(0).getUserId();
-                   buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=2\" disabled>Edit</button>";
+                   if(PatientsList != null && !PatientsList.isEmpty())
+                        PatientUserID = PatientsList.get(0).getUserId();
+                   buttons = "<button class=\"btn btn-success\" type = \"submit\" formaction=\"PatientLookup?mode=2\" disabled>Edit</button>";
                }
            }
-           else if(mode == 2 || mode == 4)
+           else if(mode == 2)
            {
-                if(PatientUserID == null || PatientUserID == "" && mode != 4)
+                if((PatientUserID == null || PatientUserID == "") && (PatientsList != null && !PatientsList.isEmpty()))
                    PatientUserID = PatientsList.get(0).getUserId();
-               buttons = "<button class=\"square-button\" type = \"submit\" formaction=\"PatientLookup?mode=1&PatientUserID=" + PatientUserID + "\" formnovalidate>Cancel</button>"
+               buttons = "<button class=\"btn btn-success\" type = \"submit\" formaction=\"PatientLookup?mode=1&PatientUserID=" + PatientUserID + "\" formnovalidate>Cancel</button>"
                        + "&nbsp&nbsp&nbsp"
-                       + "<input class=\"square-button\" type=\"submit\"></button>";
-           }%>
+                       + "<input class=\"btn btn-success\" type=\"submit\"></button>";
+           }
+           else if(mode == 4){
+                  buttons = "<button class=\"btn btn-success\" type = \"submit\" formaction=\"PatientLookup?mode=1\" formnovalidate>Cancel</button>"
+                       + "&nbsp&nbsp&nbsp"
+                       + "<input class=\"btn btn-success\" type=\"submit\"></button>";
+            
+            }%>
            <% HashMap<String,String> errors = (HashMap<String,String>) request.getAttribute("errors");%>
            <% Boolean allowDoctorManage = false; %>
            <% if (DefaultDoctorID.equals(((Users)request.getSession().getAttribute("user")).getUserId()))
@@ -117,14 +127,28 @@
                     <tr>
                         <td>Last Name:</td>
                         <td><input type = "text" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input></td>
-                        <td>Last Visit: (not yet implemented)</td>
-                        <td><input type = "date" id="LastVisitLookup" name ="LastVisitLookup" disabled></input></td>
+                        <td>Health Card Number:<br>(0000-000-000-AA)</td>
+                        <td><input type = "text" id="HealthCardLookup" name ="HealthCardLookup" value="<%=HealthCardLookup%>"></input></td>
                     </tr>
                     <tr>
+                        <td>Doctor:</td>
+                        <td><select id="DoctorLookup" name ="DoctorLookup" style="width:200px">
+                                <option value=" " selected></option>
+                                         <%for(Staff s : Doctors)
+                                            {
+                                                String DID = s.getUserId();
+                                                String FName = s.getFirstName();
+                                                String LName = s.getLastName();
+                                                if(DID.equals(DoctorLookup) && DID != null){%>
+                                                 <option value="<%=DID%>" selected><%=LName%>, <%=FName%></option>
+                                            <%}
+                                                else{%>
+                                                <option value="<%=DID%>"><%=LName%>, <%=FName%></option>
+                                                <%}
+                                            }%>
+                                    </select></td>
                         <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><button class="square-button" type = "submit">Search</button></td>
+                        <td><button class="btn btn-success" type = "submit" onClick="clearSearch()">Clear</button>&nbsp;&nbsp;<button class="btn btn-success" type = "submit">Search</button></td>
                     </tr>
                 </table> 
             </form>
@@ -138,7 +162,7 @@
                         <input type = "hidden" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input>
                         <input type = "hidden" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input>
                         <select id="PatientSelect" name="PatientSelect" onChange="document.PatientSelectForm.submit();"size="20" style="width:100%">
-                        <% if(PatientsList != null){
+                            <% if(PatientsList != null && !PatientsList.isEmpty()){
                             for(Patients p : PatientsList){
                                 if(PatientUserID.equals(p.getUserId())){%>
                                 <option value="<%=p.getUserId()%>"selected><%=p.getFirstName() + " " + p.getLastName()%></option><br>
@@ -149,14 +173,14 @@
                             }
                         }%>
                         </select>
-                        <button type="submit" style="width:100%; margin-top: 10px" formaction="PatientLookup?mode=4">New Patient</button>
+                        <button class="btn btn-success" type="submit" style="width:100%; margin-top: 10px" formaction="PatientLookup?mode=4">New Patient</button>
                     </form>
                 </div>
                 <div style="display: table-cell; float:left; padding-left: 100px">
                     <h4>Patient Information</h4>
                     <% if(errors != null && errors.size() != 0){ %>
                         <div class="alert fade in rounded-div" width="900" style="background-color:#FF9494">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <button class = "btn btn-success" type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <h3>Try Again</h3>
                                     <ul>
                                     <% Collection<String> entries = errors.values();
@@ -277,11 +301,10 @@
                                 <td align="left"><%=buttons%></td>
                             </tr>
                             <tr>
-                                <td>
-                                    <button type="button" onclick="window.location = '#';">View Appointments</button>&nbsp;
-                                    <button type="button" onclick="window.location = '#';">View Prescriptions</button>
+                                <td colspan="2">
+                                    <button class="btn btn-success" type="button" onclick="window.location = '#';">View Appointments</button>&nbsp;
+                                    <button class="btn btn-success" type="button" onclick="window.location = '#';">View Prescriptions</button>
                                 </td>
-                                <td></td>
                                 <td></td>
                                 <td>
 
@@ -299,7 +322,7 @@
                                               sDoctorExpiry.push("<%=s[3]%>");
                                         <%}%>
                                         </script>
-                                    <button type="button" onClick="$('#sDoctor-modal').modal('show');clearDoctors();populateDoctors(sDoctorIDs,sDoctorFNames,sDoctorLNames,sDoctorExpiry);">Assign Secondary Doctors</button>
+                                    <button class="btn btn-success" type="button" onClick="$('#sDoctor-modal').modal('show');clearDoctors();populateDoctors(sDoctorIDs,sDoctorFNames,sDoctorLNames,sDoctorExpiry);">Assign Secondary Doctors</button>
                                     <%}%>
                                 </td>
                             </tr>
@@ -318,7 +341,7 @@
                  <h4 class="modal-title">Secondary Doctors</h4>
                </div>
                  <div class="modal-body" id="sDoctor-modal-body" style="text-align:center">
-                    <select id="SecondaryDoctor" name ="SecondaryDoctor" style="width:200px; margin-left:10px">
+                    <select id="SecondaryDoctor" name ="SecondaryDoctor" style="width:200px;">
                           <%for(Staff s : Doctors)
                             {
                                 String DID = s.getUserId();
@@ -335,8 +358,8 @@
                     </div>
                  </div>
                 <div class="modal-footer">
-                   <button type="button" data-dismiss="modal">Close</button>
-                   <button type="button" onClick="writeDoctors()">Save</button>
+                   <button class="btn btn-success" type="button" data-dismiss="modal">Close</button>
+                   <button class="btn btn-success" type="button" onClick="writeDoctors()">Save</button>
                </div>
              </div>
            </div>

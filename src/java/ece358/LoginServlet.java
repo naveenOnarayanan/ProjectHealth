@@ -81,24 +81,16 @@ public class LoginServlet extends HttpServlet {
                     url = "/main.jsp";
                 }
                 request.getSession().setAttribute("user", user);
-                getServletContext().getRequestDispatcher(url).forward(request, response);
-            } catch (InstantiationException ex) {
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (NoSuchAlgorithmException ex) {
-                Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (Exception e) {
+                url="/index.jsp";
+                request.setAttribute("error", "Invalid Username and Password");
             }
         }
-        else 
-        {
+        else {
             request.getSession().setAttribute("user", null);
-            getServletContext().getRequestDispatcher(url).forward(request, response);
         }
+
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

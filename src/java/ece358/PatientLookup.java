@@ -54,12 +54,16 @@ public class PatientLookup extends HttpServlet {
 
                     List<Patients> patients = (List<Patients>)request.getAttribute("Patients");
                     String selectedPatient = request.getParameter("PatientSelect");
-                    if(selectedPatient == null)
+                    if(selectedPatient == null || selectedPatient.isEmpty())
                     {
                         selectedPatient = request.getParameter("PatientUserID");
                     }
                     Patients patient;
-                    if(selectedPatient == null)
+                    if((selectedPatient == null || selectedPatient.isEmpty()) && (patients != null && !patients.isEmpty()))
+                    {
+                        selectedPatient = patients.get(0).getUserId();
+                    }
+                    if(selectedPatient == null || selectedPatient.isEmpty())
                     {
                         patient = patient = new Patients("","","","","","","","","","","","",0,"","","",false);
                     }
@@ -100,6 +104,11 @@ public class PatientLookup extends HttpServlet {
                         request.setAttribute("LastNameLookup","");
                     if(request.getAttribute("PatientUserIDLookup") == null)
                         request.setAttribute("PatientUserIDLookup", "");
+                    if(request.getAttribute("HealthCardLookup") == null)
+                        request.setAttribute("HealthCardLookup", "");
+                    if(request.getAttribute("DoctorLookup") == null)
+                        request.setAttribute("DoctorLookup", "");
+                    
                     
                     if(sessionUser.getRole().equals(Constants.DOCTOR) && patient.getDefaultDoctorId().equals(sessionUsername))
                     {
@@ -214,7 +223,7 @@ public class PatientLookup extends HttpServlet {
                     Map<String, String[]> parameterMap = request.getParameterMap();
                     String DefaultDoctorID = request.getParameter("DefaultDoctorID");
                     String PatientUserID = request.getParameter("PatientUserID");
-                    SQLSessionUtil.executeQuery("DELETE FROM doctorpatientperm WHERE PatientID='" + PatientUserID + "'");
+                    SQLSessionUtil.executeUpdate("DELETE FROM doctorpatientperm WHERE PatientID='" + PatientUserID + "'");
                     for(Map.Entry<String,String[]> parameter : parameterMap.entrySet())
                     {
                         if(parameter.getKey().contains("SecondaryDoctorID"))
@@ -244,34 +253,55 @@ public class PatientLookup extends HttpServlet {
                     String FirstNameLookup = request.getParameter("FirstNameLookup");
                     String LastNameLookup = request.getParameter("LastNameLookup");
                     String PatientUserIDLookup = request.getParameter("PatientUserIDLookup");
-                    String LastVisitLookup = request.getParameter("LastVisitLookup");
+                    String HealthCardLookup = request.getParameter("HealthCardLookup");
+                    String DoctorLookup = request.getParameter("DoctorLookup");
                     StringBuilder QueryString = new StringBuilder();
                     int conditionCount = 0;
                     QueryString.append("SELECT * FROM Patients ");
                     if(FirstNameLookup != null && !FirstNameLookup.equals(""))
                     {
-                        QueryString.append("WHERE FirstName = '");
+                        QueryString.append("WHERE FirstName LIKE '%");
                         QueryString.append(FirstNameLookup);
-                        QueryString.append("' ");
+                        QueryString.append("%' ");
                         conditionCount++;
                     }
                     if(LastNameLookup != null && !LastNameLookup.equals(""))
                     {
                         if(conditionCount > 0)
-                            QueryString.append("and LastName = '");
+                            QueryString.append("and LastName LIKE '%");
                         else
-                            QueryString.append("WHERE LastName = '");
+                            QueryString.append("WHERE LastName LIKE '%");
                         QueryString.append(LastNameLookup);
-                        QueryString.append("' ");
+                        QueryString.append("%' ");
                         conditionCount++;
                     }
                     if(PatientUserIDLookup != null && !PatientUserIDLookup.equals(""))
                     {
                         if(conditionCount > 0)
-                            QueryString.append("and UserID = '");
+                            QueryString.append("and UserID LIKE '%");
                         else
-                            QueryString.append("WHERE UserID = '");
+                            QueryString.append("WHERE UserID LIKE '%");
                         QueryString.append(PatientUserIDLookup);
+                        QueryString.append("%' ");
+                        conditionCount++;
+                    }
+                    if(HealthCardLookup != null && !HealthCardLookup.equals(""))
+                    {
+                        if(conditionCount > 0)
+                            QueryString.append("and HealthCardNumber LIKE '%");
+                        else
+                            QueryString.append("WHERE HealthCardNumber LIKE '%");
+                        QueryString.append(HealthCardLookup);
+                        QueryString.append("%' ");
+                        conditionCount++;
+                    }
+                    if(DoctorLookup != null && !DoctorLookup.equals(" "))
+                    {
+                        if(conditionCount > 0)
+                            QueryString.append("and DefaultDoctorID = '");
+                        else
+                            QueryString.append("WHERE DefaultDoctorID = '");
+                        QueryString.append(DoctorLookup);
                         QueryString.append("' ");
                         conditionCount++;
                     }
@@ -282,6 +312,8 @@ public class PatientLookup extends HttpServlet {
                         request.setAttribute("FirstNameLookup", FirstNameLookup);
                         request.setAttribute("LastNameLookup", LastNameLookup);
                         request.setAttribute("PatientUserIDLookup", PatientUserIDLookup);
+                        request.setAttribute("HealthCardLookup", HealthCardLookup);
+                        request.setAttribute("DoctorLookup", DoctorLookup);
                     }
                     catch(Exception E)
                     {
