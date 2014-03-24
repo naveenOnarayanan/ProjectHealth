@@ -6,6 +6,7 @@ import ece358.models.mapping.MySQLObjectMapping;
 import java.lang.reflect.Field;
 import java.sql.ResultSet;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,11 +28,14 @@ public class Visitation  implements MySQLObjectMapping {
      public Date timestamp;
      public Boolean apptComplete;
      public Boolean cancelled;
+     
+     // Custom object
+     private List<Object[]> prescriptions;
+     private List<Scheduledoperations> operations;
 
     public Visitation() {
     }
 
-	
     public Visitation(int recordId, int visitId, String patientId, String doctorId) {
         this.recordId = recordId;
         this.visitId = visitId;
@@ -155,6 +159,22 @@ public class Visitation  implements MySQLObjectMapping {
 
     public void setCancelled(Boolean cancelled) {
         this.cancelled = cancelled;
+    }
+
+    public List<Object[]> getPrescriptions() {
+        return this.prescriptions;
+    }
+
+    public void setPrescriptions(List<Object[]> prescriptions) {
+        this.prescriptions = prescriptions;
+    }
+
+    public List<Scheduledoperations> getOperations() {
+        return this.operations;
+    }
+
+    public void setOperations(List<Scheduledoperations> operations) {
+        this.operations = operations;
     }
 
     @Override

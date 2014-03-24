@@ -35,16 +35,16 @@
         </script>
 
         <div id="navbar-container"></div>
-        <%
-           if (error != null && !error.equals("")) { 
-        %>
-               <div class="alert alert-dismissable alert-danger">
-                   <button type="button" class="close" data-dismiss="alert">x</button>
-                   <%= error %>
-               </div>
-        <%
-           } 
-        %>
+<%
+   if (error != null && !error.equals("")) { 
+%>
+       <div class="alert alert-dismissable alert-danger">
+           <button type="button" class="close" data-dismiss="alert">x</button>
+           <%= error %>
+       </div>
+<%
+   } 
+%>
         <ul>
             <button><a href="QueryServlet?qnum=2">Update user 0</a></button>
             <button><a href="QueryServlet?qnum=3">Add user</a></button>

@@ -1,16 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,7 +6,11 @@
 
 package ece358;
 
+import ece358.models.Drugs;
+import ece358.models.Operations;
 import ece358.models.Patients;
+import ece358.models.Prescriptions;
+import ece358.models.Scheduledoperations;
 import ece358.models.Staff;
 import ece358.models.Users;
 import ece358.models.Visitation;
@@ -30,6 +21,7 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -65,40 +57,88 @@ public class AppointmentServlet extends HttpServlet {
 
         boolean queryServletError = false;
         
-        String url;
+        String url = "/appointments.jsp";
         try {
+            
+            String appointmentVisitID = (String) request.getParameter("visitID");
+            String appointmentDate = (String) request.getParameter("datetime");
+            String appointmentPatientID = (String) request.getParameter("patientID");
+            String appointmentDoctorID = (String) request.getParameter("doctorID");
+            String appointmentSymptoms = (String) request.getParameter("symptoms");
+            String appointmentDiagnosis = (String) request.getParameter("diagnosis");
+            String appointmentType = (String) request.getParameter("type");
+            String appointmentLength = (String) request.getParameter("length");
+            String appointmentComments = (String) request.getParameter("comments");
+            String appointmentPrescriptions = (String) request.getParameter("prescriptions-list");
+            String appointmentOperations = (String) request.getParameter("operations-list");
+            
             if (sessionUser.getRole().equals(Constants.PATIENT)) {
-                String query =  "SELECT V FROM Visitation AS V " + 
-                                "WHERE V.patientId = '" + sessionUser.getUserId() + "' AND V.timestamp=" +
-                                "(SELECT MAX(V2.timestamp) FROM Visitation V2 WHERE V2.visitId=V.visitId AND V2.doctorId=V.doctorId) " +
-                                "ORDER BY V.visitId";
+                String query =  "SELECT V.* FROM Visitation AS V " + 
+                                "WHERE V.PatientID = '" + sessionUser.getUserId() + "' AND V.Timestamp=" +
+                                "(SELECT MAX(V2.Timestamp) FROM Visitation V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
+                                "ORDER BY V.VisitID";
 
                 List<Visitation> appointments = (List<Visitation>) SQLSessionUtil.selectType(Visitation.class, query);
                 final Patients patientInfo = (Patients) SQLSessionUtil.get(Patients.class, sessionUser.getUserId());
 
-                query = "SELECT DISTINCT S FROM Staff S, Visitation V " +
-                        "WHERE V.patientId='" + sessionUser.getUserId() + "' AND S.userId=V.doctorId";
+                query = "SELECT DISTINCT S.* FROM Staff AS S, Visitation AS V " +
+                        "WHERE V.PatientID='" + sessionUser.getUserId() + "' AND S.UserID=V.DoctorID";
 
                 List<Staff> doctors = (List<Staff>) SQLSessionUtil.selectType(Staff.class, query);
+                
+                List<Visitation> upcomingAppointments = new ArrayList<Visitation>();
+                List<Visitation> pastAppointments = new ArrayList<Visitation>();
 
-                request.setAttribute("appointments", appointments);
+                Date today = new Date();
+
+                for (int i = 0; i < appointments.size(); i++) {
+                    query = "SELECT DISTINCT P.DIN, D.TradeName " +
+                            "FROM Prescriptions AS P " +
+                            "INNER JOIN Drugs AS D " +
+                            "WHERE P.VisitID='" + appointments.get(i).getVisitId() + "' AND P.DIN=D.DIN";
+                    List<Object[]> prescriptions = SQLSessionUtil.executeQuery(query);
+                    
+                    query = "SELECT S.* " +
+                                "FROM ScheduledOperations AS S " +
+                                "WHERE S.VisitID=" + appointments.get(i).getVisitId();
+
+                    appointments.get(i).setOperations((List<Scheduledoperations>)SQLSessionUtil.selectType(Scheduledoperations.class, query));
+                    appointments.get(i).setPrescriptions(prescriptions);
+                    
+                    if (today.before(appointments.get(i).getDateTime())) {
+                        upcomingAppointments.add(appointments.get(i));
+                    } else {
+                        pastAppointments.add(appointments.get(i));
+                    }
+                }
+
+                request.setAttribute("pastAppointments", pastAppointments);
+                request.setAttribute("upcomingAppointments", upcomingAppointments);
                 request.setAttribute("doctors", doctors);
                 request.setAttribute("patients", new ArrayList<Patients>(){{add(patientInfo);}});
+                request.setAttribute("drugs", new ArrayList<Drugs>());
             } else if (sessionUser.getRole().equals(Constants.STAFF)) {
-                if (requestType != null && requestType.equals(Constants.ACTION_UPDATE)) {
+                if (requestType != null && requestType.equals(Constants.ACTION_INSERT)) {
                     
-                    String appointmentVisitID = (String) request.getParameter("visitID");
-                    String appointmentDate = (String) request.getParameter("datetime");
-                    String appointmentPatientID = (String) request.getParameter("patientID");
-                    String appointmentDoctorID = (String) request.getParameter("doctorID");
-                    String appointmentSymptoms = (String) request.getParameter("symptoms");
-                    String appointmentDiagnosis = (String) request.getParameter("diagnosis");
-                    String appointmentType = (String) request.getParameter("type");
-                    String appointmentLength = (String) request.getParameter("length");
-                    String appointmentComments = (String) request.getParameter("comments");
+                    if (appointmentPatientID == null) {
+                        url = "/AppointmentServlet?action=";
+                        request.setAttribute("error", "Invalid data");
+                        getServletContext().getRequestDispatcher(url).forward(request, response);
+                        return;
+                    }
+
+                    Visitation visit = new Visitation();
+                    visit.setDateTime(new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(appointmentDate));
+                    visit.setPatientId(appointmentPatientID);
+                    visit.setDoctorId(appointmentDoctorID);
+                    visit.setSymptoms(appointmentSymptoms);
+                    visit.setType(appointmentType);
+
+                    SQLSessionUtil.add(visit);
+                } else if (requestType != null && requestType.equals(Constants.ACTION_UPDATE)) {
 
                     if (appointmentDoctorID == null || appointmentPatientID == null) {
-                        url = request.getRequestURI();
+                        url = "/AppointmentServlet?action=";
                         request.setAttribute("error", "Invalid data");
                         getServletContext().getRequestDispatcher(url).forward(request, response);
                         return;
@@ -117,15 +157,13 @@ public class AppointmentServlet extends HttpServlet {
 
                     SQLSessionUtil.add(visit);
                     url = "/AppointmentServlet?action=";
-                    getServletContext().getRequestDispatcher(url).forward(request, response);
-                    return;
                 } else {
                     Staff staffInfo = (Staff) SQLSessionUtil.get(Staff.class, sessionUser.getUserId());
                     final Staff doctorInfo = (Staff) SQLSessionUtil.get(Staff.class, staffInfo.getManagingDoctorId());
                     String query =  "SELECT V.* FROM Visitation AS V " + 
                                     "WHERE V.DoctorID = '" + staffInfo.getManagingDoctorId() + "' AND V.Timestamp=" +
                                     "(SELECT MAX(V2.Timestamp) FROM Visitation AS V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
-                                    "ORDER BY V.VisitID";
+                                    "ORDER BY V.DateTime DESC";
 
                     List<Visitation> appointments = (List<Visitation>) SQLSessionUtil.selectType(Visitation.class, query);
 
@@ -133,40 +171,151 @@ public class AppointmentServlet extends HttpServlet {
                             "WHERE V.DoctorID='" + staffInfo.getManagingDoctorId() + "' AND P.UserID=V.PatientID";
 
                     List<Patients> patients = (List<Patients>) SQLSessionUtil.selectType(Patients.class, query);
-                    request.setAttribute("appointments", appointments);
+                    
+                    List<Visitation> upcomingAppointments = new ArrayList<Visitation>();
+                    List<Visitation> pastAppointments = new ArrayList<Visitation>();
+                    
+                    Date today = new Date();
+                    
+                    for (int i = 0; i < appointments.size(); i++) {
+                        query = "SELECT DISTINCT P.*, D.TradeName " +
+                            "FROM Prescriptions AS P " +
+                            "INNER JOIN Drugs AS D " +
+                            "WHERE VisitID=" + appointments.get(i).getVisitId() + " AND P.DIN=D.DIN";
+                        List<Object[]> prescriptions = SQLSessionUtil.executeQuery(query);
+
+                        query = "SELECT S.* " +
+                                "FROM ScheduledOperations AS S " +
+                                "WHERE S.VisitID=" + appointments.get(i).getVisitId();
+                        
+                        appointments.get(i).setOperations((List<Scheduledoperations>)SQLSessionUtil.selectType(Scheduledoperations.class, query));
+                        appointments.get(i).setPrescriptions(prescriptions);
+                        
+                        if (today.before(appointments.get(i).getDateTime())) {
+                            upcomingAppointments.add(appointments.get(i));
+                        } else {
+                            pastAppointments.add(appointments.get(i));
+                        }
+                        
+                    }
+
+                    List<Drugs> drugs = (List<Drugs>) SQLSessionUtil.selectType(Drugs.class, "SELECT * FROM Drugs");
+
+                    request.setAttribute("pastAppointments", pastAppointments);
+                    request.setAttribute("upcomingAppointments", upcomingAppointments);
                     request.setAttribute("doctors", new ArrayList<Staff>() {{add(doctorInfo);}});
                     request.setAttribute("patients", patients);
+                    request.setAttribute("drugs", drugs);
                 }
             } else if (sessionUser.getRole().equals(Constants.DOCTOR)) {
-                /*
-                StringBuilder query = new StringBuilder("FROM Visitation as v, ")
-                */
-                List<String> conditionList = new ArrayList<String>();
-                
-                //Patient First Name
-                String patientFirstName = (String)request.getSession().getAttribute("patientFirstName");
-                if (patientFirstName != null && !patientFirstName.isEmpty()) {
-                    conditionList.add("Patient.FirstName = '" + patientFirstName + "'");
+                if (requestType != null && requestType.equals(Constants.ACTION_UPDATE)) {
+                    if (appointmentDoctorID == null || appointmentPatientID == null) {
+                        url = "/AppointmentServlet?action=";
+                        request.setAttribute("error", "Invalid data");
+                        getServletContext().getRequestDispatcher(url).forward(request, response);
+                        return;
+                    }
+
+                    Integer visitId = Integer.parseInt(appointmentVisitID);
+
+                    Visitation visit = new Visitation();
+                    visit.setVisitId(visitId);
+                    visit.setDateTime(new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(appointmentDate));
+                    visit.setPatientId(appointmentPatientID);
+                    visit.setDoctorId(appointmentDoctorID);
+                    visit.setSymptoms(appointmentSymptoms);
+                    visit.setDiagnosis(appointmentDiagnosis);
+                    visit.setType(appointmentType);
+                    visit.setLength(new Time((new SimpleDateFormat("HH:mm").parse(appointmentLength)).getTime()));
+                    visit.setComments(appointmentComments);
+
+                    SQLSessionUtil.add(visit);
+
+                    if (appointmentPrescriptions != null && !appointmentPrescriptions.isEmpty()) {
+                        String[] prescriptionInfos = appointmentPrescriptions.split(";");
+                        for (String prescriptionInfo : prescriptionInfos) {
+                            Prescriptions prescription = new Prescriptions();
+                            String[] prescriptionArray = prescriptionInfo.split("|");
+                            prescription.setDin(Integer.valueOf(prescriptionArray[0]));
+                            prescription.setQuantity(Integer.valueOf(prescriptionArray[1]));
+                            prescription.setRefills(Integer.valueOf(prescriptionArray[2]));
+                            prescription.setDosage(prescriptionArray[3]);
+                            prescription.setExpiry(new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(prescriptionArray[4]));
+                            SQLSessionUtil.add(prescription);
+                        }
+                    }
+                    
+                    if (appointmentOperations != null && !appointmentOperations.isEmpty()) {
+                        String[] operationsInfos = appointmentOperations.split(";");
+                        for (String operationInfo : operationsInfos) {
+                            Scheduledoperations operation = new Scheduledoperations();
+                            String[] operationArray = operationInfo.split("\\|");
+                            operation.setVisitId(visitId);
+                            operation.setOperationDateTime(new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(operationArray[0]));
+                            operation.setOperationName(operationArray[1]);
+                            operation.setDoctorId(operationArray[2]);
+                            SQLSessionUtil.add(operation);
+                        }
+                    }
+                    url = "/AppointmentServlet?action=";
+                } else {
+                    List<Staff> doctorInfo = (List<Staff> ) SQLSessionUtil.selectType(Staff.class, "SELECT S.* FROM Staff AS S, " +
+                            "(SELECT D.DoctorID FROM DoctorPatientPerm AS D WHERE D.SecDoctorID='" + sessionUser.getUserId() + "') AS R " +
+                            "WHERE S.UserID='" + sessionUser.getUserId() + "' OR R.DoctorID=S.UserID");
+                    String query =  "SELECT V.* " +
+                                    "FROM Visitation AS V, " +
+                                            "(SELECT DISTINCT D.PatientID FROM doctorpatientperm AS D WHERE D.SecDoctorID='" + sessionUser.getUserId() + "') AS S " +
+                                    "WHERE (V.DoctorID='" + sessionUser.getUserId() + "' OR S.PatientID=V.PatientID) AND V.Timestamp= " +
+                                            "(SELECT MAX(V2.Timestamp) FROM Visitation AS V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
+                                    "ORDER BY V.VisitID ";
+
+                    List<Visitation> appointments = (List<Visitation>) SQLSessionUtil.selectType(Visitation.class, query);
+
+                    query = "SELECT DISTINCT P.* FROM Patients AS P, Visitation AS V, DoctorPatientPerm as D " +
+                            "WHERE (V.DoctorID='" + sessionUser.getUserId() + "' OR (V.PatientID=D.PatientID AND SecDoctorID='" + 
+                            sessionUser.getUserId() + "'))  AND P.UserID=V.PatientID";
+
+                    List<Patients> patients = (List<Patients>) SQLSessionUtil.selectType(Patients.class, query);
+                    
+                    List<Visitation> upcomingAppointments = new ArrayList<Visitation>();
+                    List<Visitation> pastAppointments = new ArrayList<Visitation>();
+                    
+                    Date today = new Date();
+                    
+                    for (int i = 0; i < appointments.size(); i++) {
+                        query = "SELECT DISTINCT P.*, D.TradeName " +
+                            "FROM Prescriptions AS P " +
+                            "INNER JOIN Drugs AS D " +
+                            "WHERE VisitID=" + appointments.get(i).getVisitId() + " AND P.DIN=D.DIN";
+                        List<Object[]> prescriptions = SQLSessionUtil.executeQuery(query);
+                        
+                        query = "SELECT S.* " +
+                                "FROM ScheduledOperations AS S " +
+                                "WHERE S.VisitID=" + appointments.get(i).getVisitId();
+
+                        appointments.get(i).setOperations((List<Scheduledoperations>)SQLSessionUtil.selectType(Scheduledoperations.class, query));
+                        appointments.get(i).setPrescriptions(prescriptions);
+                        
+                        if (today.before(appointments.get(i).getDateTime())) {
+                            upcomingAppointments.add(appointments.get(i));
+                        } else {
+                            pastAppointments.add(appointments.get(i));
+                        }
+                    }
+
+                    List<Operations> operations = (List<Operations>) SQLSessionUtil.selectType(Operations.class, "SELECT * FROM Operations");
+                    List<Object[]> allStaff = SQLSessionUtil.executeQuery("SELECT UserID, FirstName, LastName, JobTitle FROM Staff");
+                    List<Drugs> drugs = (List<Drugs>) SQLSessionUtil.selectType(Drugs.class, "SELECT * FROM Drugs");
+
+                    request.setAttribute("pastAppointments", pastAppointments);
+                    request.setAttribute("upcomingAppointments", upcomingAppointments);
+                    request.setAttribute("doctors", doctorInfo);
+                    request.setAttribute("patients", patients);
+                    request.setAttribute("drugs", drugs);
+                    request.setAttribute("operations", operations);
+                    request.setAttribute("staff", allStaff);
                 }
-                
-                //Patient Last Name
-                String patientLastName = (String)request.getSession().getAttribute("patientFirstName");
-                if (patientLastName != null && !patientLastName.isEmpty()) {
-                    conditionList.add("Patient.LastName = '" + patientLastName + "'");
-                }
-                
-                //Freeform
-                String freeform = (String)request.getSession().getAttribute("freeform");
-                if (freeform != null && !freeform.isEmpty()) {
-                    conditionList.add("Visitation. = '" + freeform + "'");
-                }
-            } else if (sessionUser.getRole().equals("finance")) {
-                //TODO
-            } else {
-                //TODO
             }
-            url = "/appointments.jsp";
-            request.setAttribute("queryServletError", queryServletError);
         } catch (Exception e) {
             queryServletError = true;
             request.setAttribute("error", e.getMessage());

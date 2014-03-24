@@ -18,4 +18,5 @@ public class Constants {
    
     public static String ACTION = "action";
     public static String ACTION_UPDATE = "update";
+    public static String ACTION_INSERT = "insert";
 }
