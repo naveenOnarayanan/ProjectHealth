@@ -19,6 +19,9 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
+        <script type="text/javascript" src="http://mottie.github.io/tablesorter/js/jquery.tablesorter.js"></script>
+        <script type="text/javascript" src="http://mottie.github.io/tablesorter/js/jquery.tablesorter.widgets.js"></script>
+        <script type="text/javascript" src="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/scheduledoperations.js"></script>
 
@@ -26,6 +29,7 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
+        <link rel="stylesheet" href="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.css"/>
         <link rel="stylesheet" href="css/index.css"/>
          <% List<Scheduledoperations> schedoperationsPast = (List<Scheduledoperations>) request.getAttribute("schedoperationsPast"); %>
          <% List<Staff> surgeonsPast = (List<Staff>) request.getAttribute("surgeonsPast"); %>
@@ -47,11 +51,39 @@
            "<%=request.getSession().getAttribute("lastname")%>");
         })
         </script>
+        <script defer="defer">
+	$(document).ready(function() 
+            { 
+                $("#UpcomingOperationsTable")
+                        .tablesorter({
+                            widthFixed: true,
+                            headerTemplate: '{content} {icon}',
+                            widgets: ["uitheme", "filter", "zebra"],
+                        })
+                        .tablesorterPager({
+                            container: $("#UpcomingPager"),
+                            cssGoto: ".pagenum",
+                            output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
+                }); 
+                $("#PastOperationsTable")
+                        .tablesorter({
+                            widthFixed: true,
+                            headerTemplate: '{content} {icon}',
+                            widgets: ["uitheme", "filter", "zebra"],
+                        })
+                        .tablesorterPager({
+                            container: $("#PastPager"),
+                            cssGoto: ".pagenum",
+                            output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
+                }); 
+                
+            }); 
+        </script>
         <div id="navbar-container"></div>
         <h1>Operations</h1>
         <h4>Upcoming Operations</h4>
         <div id="content">
-            <table class="table table-hover">
+            <table class="table table-hover tablesorter" id="UpcomingOperationsTable">
                 <thead>
                     <tr>
                         <th>Related Appointment Number</th>
@@ -67,6 +99,28 @@
                         <%}%>
                     </tr>
                 </thead>
+                <tfoot id="UpcomingPager">
+                <tr>
+                    <th colspan="7" class="ts-pager form-horizontal">
+                        <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
+                        </button>
+                        <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>
+                        </button>	<span class="pagedisplay"></span> 
+                        <!-- this can be any element, including an input -->
+                        <button type="button" class="btn-xsm next"><i class="icon-arrow-right glyphicon glyphicon-forward"></i>
+                        </button>
+                        <button type="button" class="btn-xsm last"><i class="icon-step-forward glyphicon glyphicon-step-forward"></i>
+                        </button>
+                        <select class="pagesize input-mini" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                        </select>
+                        <select class="pagenum input-mini" title="Select page number"></select>
+                    </th>
+                </tr>
+                </tfoot>
                 <tbody>
                     <%if(schedoperationsFuture != null){%>
                     <%for(int i = 0; i<schedoperationsFuture.size(); i++){%>
@@ -106,6 +160,28 @@
                         <%}%>
                     </tr>
                 </thead>
+                <tfoot id="PastPager">
+                <tr>
+                    <th colspan="7" class="ts-pager form-horizontal">
+                        <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
+                        </button>
+                        <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>
+                        </button>	<span class="pagedisplay"></span> 
+                        <!-- this can be any element, including an input -->
+                        <button type="button" class="btn-xsm next"><i class="icon-arrow-right glyphicon glyphicon-forward"></i>
+                        </button>
+                        <button type="button" class="btn-xsm last"><i class="icon-step-forward glyphicon glyphicon-step-forward"></i>
+                        </button>
+                        <select class="pagesize input-mini" title="Select page size">
+                            <option selected="selected" value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                            <option value="40">40</option>
+                        </select>
+                        <select class="pagenum input-mini" title="Select page number"></select>
+                    </th>
+                </tr>
+                </tfoot>
                 <tbody>
                     <%if(schedoperationsPast != null){%>
                     <%for(int i = 0; i<schedoperationsPast.size(); i++){%>
