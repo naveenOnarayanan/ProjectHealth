@@ -38,6 +38,9 @@
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/2.1.30/css/bootstrap-datetimepicker.min.css"/>
         
+        <% String error = (String) request.getAttribute("error"); %>
+        <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
+        
         <% String selectedDoctorID = (String)request.getAttribute("selectedDoctorID"); %>
         <% List<Staff> doctors = (List<Staff>)request.getAttribute("doctors"); %>
         <% String startDateTime = (String)request.getAttribute("startDateTime"); %>
@@ -79,6 +82,14 @@
         });
         </script>
         <div id="navbar-container"></div>
+        
+        <% if (error != null && !error.equals("")) { %>
+            <div class="alert alert-dismissable alert-danger">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <%= error %>
+            </div>
+        <% } %>
+        
         <div class="doctorLookup">
             <form method="post" action="DoctorLookupServlet?mode=2" name="DoctorSelectForm">
                 <table style="width: 100%">
@@ -129,7 +140,7 @@
                 </table>
             </form>
         </div>
-        <% if (appointments != null) { %>
+        <% if (appointments != null && !queryServletError) { %>
         <table style="width: 100%">
             <tr>
             <div>
