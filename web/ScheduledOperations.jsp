@@ -45,10 +45,11 @@
          <% List<Operations> operationsFuture = (List<Operations>) request.getAttribute("operationsFuture"); %>
          <% List<Patients> patientsFuture = (List<Patients>) request.getAttribute("patientsFuture"); %>
          <% SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");%>
-         <% Boolean AllowFilter = (Boolean)request.getAttribute("AllowFilter");%>
+         <% Boolean FullView = (Boolean)request.getAttribute("FullView");%>
          <title>Scheduled Operations</title>
     </head>
     <body>
+        <%if(FullView){%>
         <script>
         $(function() {
            getNavbar("<%= ((Users) request.getSession().getAttribute("user")).getRole()%>", 
@@ -56,7 +57,6 @@
            "<%=request.getSession().getAttribute("lastname")%>");
         })
         </script>
-        <%if(AllowFilter){%>
         <script defer="defer">
 	$(document).ready(function() 
             { 
@@ -95,152 +95,146 @@
             </div>
         <% } %>
         
-        <table class="center-block">
-            <tr style="width: 100%">
-                <th>
-                    <h1>Scheduled Operations</h1>
-                </th>
-            </tr>
-            <tr style="width: 100%">
-                <th>
-                    <h4>Upcoming Operations</h4>
-                </th>                
-            </tr>
-        </table>  
+
+        <%if(FullView){%>
+        <%}%>
         <div id="content">
-            <% if (!queryServletError) { %>
-            <table class="table table-hover tablesorter default-table" id="UpcomingOperationsTable">
-                <thead>
-                    <tr>
-                        <th>Related Appointment Number</th>
-                        <%if(!patientsFuture.isEmpty()){%>
-                        <th>Patient ID</th>
-                        <th>Patient Name</th>
+        <h1>Scheduled Operations</h1>
+        <ul class="nav nav-tabs">
+               <li class="tab-button active" id="upcoming-operations-tab"><a href="#upcoming" data-toggle="tab">Upcoming Operations</a></li>
+               <li class="tab-button" id="past-operations-tab"><a href="#past" data-toggle="tab">Past Operations</a></li>
+       </ul>
+        <br>
+        <div class="tab-content">
+            <div class="tab-pane active" id="upcoming">
+                    <% if (!queryServletError) { %>
+                    <table class="table table-hover tablesorter default-table" id="UpcomingOperationsTable">
+                        <thead>
+                            <tr>
+                                <th>Related Appointment Number</th>
+                                <%if(!patientsFuture.isEmpty()){%>
+                                <th>Patient ID</th>
+                                <th>Patient Name</th>
+                                <%}%>
+                                <th>Operation</th>
+                                <th>Date</th>
+                                <th>Surgeon</th>
+                                <%if(!doctorsFuture.isEmpty()){%>
+                                <th>Primary Doctor</th>
+                                <%}%>
+                            </tr>
+                        </thead>
+                        <%if(FullView){%>
+                        <tfoot id="UpcomingPager">
+                        <tr>
+                            <th colspan="7" class="ts-pager form-horizontal">
+                                <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
+                                </button>
+                                <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>
+                                </button>	<span class="pagedisplay"></span> 
+                                <!-- this can be any element, including an input -->
+                                <button type="button" class="btn-xsm next"><i class="icon-arrow-right glyphicon glyphicon-forward"></i>
+                                </button>
+                                <button type="button" class="btn-xsm last"><i class="icon-step-forward glyphicon glyphicon-step-forward"></i>
+                                </button>
+                                <select class="pagesize input-mini" title="Select page size">
+                                    <option selected="selected" value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="40">40</option>
+                                </select>
+                                <select class="pagenum input-mini" title="Select page number"></select>
+                            </th>
+                        </tr>
+                        </tfoot>
                         <%}%>
-                        <th>Operation</th>
-                        <th>Date</th>
-                        <th>Surgeon</th>
-                        <%if(!doctorsFuture.isEmpty()){%>
-                        <th>Primary Doctor</th>
+                        <tbody>
+                            <%if(schedoperationsFuture != null){%>
+                            <%for(int i = 0; i<schedoperationsFuture.size(); i++){%>
+                            <tr>
+                                <td><%=schedoperationsFuture.get(i).getVisitId()%></td>
+                                <%if(!patientsFuture.isEmpty()){%>
+                                <td><%=patientsFuture.get(i).getUserId()%></td>
+                                <td><%=patientsFuture.get(i).getFirstName()%> <%=patientsFuture.get(i).getLastName()%></td>
+                                <%}%>
+                                <td onclick="populateOperationModal('<%=operationsFuture.get(i).getName()%>','<%=operationsFuture.get(i).getDescription()%>','<%=operationsFuture.get(i).getEstTime().getHours()%>','<%=operationsFuture.get(i).getEstTime().getMinutes()%>')" style="cursor:pointer"><%=schedoperationsFuture.get(i).getOperationName()%></td>
+                                <td><%=dateFormat.format(schedoperationsFuture.get(i).getOperationDateTime())%></td>
+                                <td>Dr.<%=surgeonsFuture.get(i).getLastName()%></td>
+                                <%if(!doctorsFuture.isEmpty()){%>
+                                <td>Dr.<%=doctorsFuture.get(i).getLastName()%></td>
+                                <%}%>
+                            </tr>
+                            <%}
+                            }%>
+                        </tbody>
+                    </table>
+                    <% } %>
+                </div>
+                <div class="tab-pane" id="past">
+                    <% if (!queryServletError) { %>
+                    <table class="table table-hover default-table">
+                        <thead>
+                            <tr>
+                                <th>Related Appointment Number</th>
+                                <%if(!patientsPast.isEmpty() || schedoperationsPast.isEmpty()){%>
+                                <th>Patient ID</th>
+                                <th>Patient Name</th>
+                                <%}%>
+                                <th>Operation</th>
+                                <th>Date</th>
+                                <th>Surgeon</th>
+                                <%if(!doctorsPast.isEmpty() || schedoperationsPast.isEmpty()){%>
+                                <th>Primary Doctor</th>
+                                <%}%>
+                            </tr>
+                        </thead>
+                        <%if(FullView){%>
+                        <tfoot id="PastPager">
+                        <tr>
+                            <th colspan="7" class="ts-pager form-horizontal">
+                                <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
+                                </button>
+                                <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>
+                                </button>	<span class="pagedisplay"></span> 
+                                <!-- this can be any element, including an input -->
+                                <button type="button" class="btn-xsm next"><i class="icon-arrow-right glyphicon glyphicon-forward"></i>
+                                </button>
+                                <button type="button" class="btn-xsm last"><i class="icon-step-forward glyphicon glyphicon-step-forward"></i>
+                                </button>
+                                <select class="pagesize input-mini" title="Select page size">
+                                    <option selected="selected" value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="40">40</option>
+                                </select>
+                                <select class="pagenum input-mini" title="Select page number"></select>
+                            </th>
+                        </tr>
+                        </tfoot>
                         <%}%>
-                    </tr>
-                </thead>
-                <%if(AllowFilter){%>
-                <tfoot id="UpcomingPager">
-                <tr>
-                    <th colspan="7" class="ts-pager form-horizontal">
-                        <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
-                        </button>
-                        <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>
-                        </button>	<span class="pagedisplay"></span> 
-                        <!-- this can be any element, including an input -->
-                        <button type="button" class="btn-xsm next"><i class="icon-arrow-right glyphicon glyphicon-forward"></i>
-                        </button>
-                        <button type="button" class="btn-xsm last"><i class="icon-step-forward glyphicon glyphicon-step-forward"></i>
-                        </button>
-                        <select class="pagesize input-mini" title="Select page size">
-                            <option selected="selected" value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="40">40</option>
-                        </select>
-                        <select class="pagenum input-mini" title="Select page number"></select>
-                    </th>
-                </tr>
-                </tfoot>
-                <%}%>
-                <tbody>
-                    <%if(schedoperationsFuture != null){%>
-                    <%for(int i = 0; i<schedoperationsFuture.size(); i++){%>
-                    <tr>
-                        <td><%=schedoperationsFuture.get(i).getVisitId()%></td>
-                        <%if(!patientsFuture.isEmpty()){%>
-                        <td><%=patientsFuture.get(i).getUserId()%></td>
-                        <td><%=patientsFuture.get(i).getFirstName()%> <%=patientsFuture.get(i).getLastName()%></td>
-                        <%}%>
-                        <td onclick="populateOperationModal('<%=operationsFuture.get(i).getName()%>','<%=operationsFuture.get(i).getDescription()%>','<%=operationsFuture.get(i).getEstTime().getHours()%>','<%=operationsFuture.get(i).getEstTime().getMinutes()%>')" style="cursor:pointer"><%=schedoperationsFuture.get(i).getOperationName()%></td>
-                        <td><%=dateFormat.format(schedoperationsFuture.get(i).getOperationDateTime())%></td>
-                        <td>Dr.<%=surgeonsFuture.get(i).getLastName()%></td>
-                        <%if(!doctorsFuture.isEmpty()){%>
-                        <td>Dr.<%=doctorsFuture.get(i).getLastName()%></td>
-                        <%}%>
-                    </tr>
-                    <%}
-                    }%>
-                </tbody>
-            </table>
-            <% } %>
-        </div>
-        <table class="center-block">
-            <tr>
-                <th>
-                    <h4>Past Operations</h4>
-                </th>
-            </tr>
-        </table>
-        <div id="content">
-            <% if (!queryServletError) { %>
-            <table class="table table-hover default-table">
-                <thead>
-                    <tr>
-                        <th>Related Appointment Number</th>
-                        <%if(!patientsPast.isEmpty() || schedoperationsPast.isEmpty()){%>
-                        <th>Patient ID</th>
-                        <th>Patient Name</th>
-                        <%}%>
-                        <th>Operation</th>
-                        <th>Date</th>
-                        <th>Surgeon</th>
-                        <%if(!doctorsPast.isEmpty() || schedoperationsPast.isEmpty()){%>
-                        <th>Primary Doctor</th>
-                        <%}%>
-                    </tr>
-                </thead>
-                <%if(AllowFilter){%>
-                <tfoot id="PastPager">
-                <tr>
-                    <th colspan="7" class="ts-pager form-horizontal">
-                        <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
-                        </button>
-                        <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>
-                        </button>	<span class="pagedisplay"></span> 
-                        <!-- this can be any element, including an input -->
-                        <button type="button" class="btn-xsm next"><i class="icon-arrow-right glyphicon glyphicon-forward"></i>
-                        </button>
-                        <button type="button" class="btn-xsm last"><i class="icon-step-forward glyphicon glyphicon-step-forward"></i>
-                        </button>
-                        <select class="pagesize input-mini" title="Select page size">
-                            <option selected="selected" value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                            <option value="40">40</option>
-                        </select>
-                        <select class="pagenum input-mini" title="Select page number"></select>
-                    </th>
-                </tr>
-                </tfoot>
-                <%}%>
-                <tbody>
-                    <%if(schedoperationsPast != null){%>
-                    <%for(int i = 0; i<schedoperationsPast.size(); i++){%>
-                    <tr>
-                        <td><%=schedoperationsPast.get(i).getVisitId()%></td>
-                        <%if(!patientsPast.isEmpty()){%>
-                        <td><%=patientsPast.get(i).getUserId()%></td>
-                        <td><%=patientsPast.get(i).getFirstName()%> <%=patientsFuture.get(i).getLastName()%></td>
-                        <%}%>
-                        <td onclick="populateOperationModal('<%=operationsPast.get(i).getName()%>','<%=operationsPast.get(i).getDescription()%>','<%=operationsPast.get(i).getEstTime().getHours()%>','<%=operationsPast.get(i).getEstTime().getMinutes()%>')" style="cursor:pointer"><%=schedoperationsPast.get(i).getOperationName()%></td>
-                        <td><%=dateFormat.format(schedoperationsFuture.get(i).getOperationDateTime())%></td>
-                        <td>Dr.<%=surgeonsPast.get(i).getLastName()%></td>
-                        <%if(!doctorsPast.isEmpty()){%>
-                        <td>Dr.<%=doctorsPast.get(i).getLastName()%></td>
-                        <%}%>
-                    </tr>
-                    <%}
-                    }%>
-                </tbody>
-            </table>
-            <% } %>
+                        <tbody>
+                            <%if(schedoperationsPast != null){%>
+                            <%for(int i = 0; i<schedoperationsPast.size(); i++){%>
+                            <tr>
+                                <td><%=schedoperationsPast.get(i).getVisitId()%></td>
+                                <%if(!patientsPast.isEmpty()){%>
+                                <td><%=patientsPast.get(i).getUserId()%></td>
+                                <td><%=patientsPast.get(i).getFirstName()%> <%=patientsFuture.get(i).getLastName()%></td>
+                                <%}%>
+                                <td onclick="populateOperationModal('<%=operationsPast.get(i).getName()%>','<%=operationsPast.get(i).getDescription()%>','<%=operationsPast.get(i).getEstTime().getHours()%>','<%=operationsPast.get(i).getEstTime().getMinutes()%>')" style="cursor:pointer"><%=schedoperationsPast.get(i).getOperationName()%></td>
+                                <td><%=dateFormat.format(schedoperationsFuture.get(i).getOperationDateTime())%></td>
+                                <td>Dr.<%=surgeonsPast.get(i).getLastName()%></td>
+                                <%if(!doctorsPast.isEmpty()){%>
+                                <td>Dr.<%=doctorsPast.get(i).getLastName()%></td>
+                                <%}%>
+                            </tr>
+                            <%}
+                            }%>
+                        </tbody>
+                    </table>
+                    <% } %>
+                </div>
+            </div>
         </div>
                 
         <div class="modal fade" id="operation-modal" tabindex="-1" role="dialog" aria-labelledby="Operations" aria-hidden="true">

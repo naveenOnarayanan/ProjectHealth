@@ -81,11 +81,11 @@ public class ScheduledOperations extends HttpServlet {
             if(VisitID != null && !VisitID.isEmpty())
             {
                 queryString += " && SO.VisitID = '" + VisitID + "'";
-                request.setAttribute("AllowFilter", false);
+                request.setAttribute("FullView", false);
             }
             else
             {
-                request.setAttribute("AllowFilter", true);
+                request.setAttribute("FullView", true);
             }
             List<Object[]> result = SQLSessionUtil.executeQuery(queryString);
 
