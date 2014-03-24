@@ -132,7 +132,7 @@ public class DoctorLookupServlet extends HttpServlet {
                 {
                     Visitation visitation = visitationIterator.next();
                     
-                    query = "SELECT d.TradeName, d.DIN, p.Quantity, p.Refills, p.Expiry " +
+                    query = "SELECT d.TradeName, p.Quantity, p.Refills, p.Dosage, p.Expiry " +
                             "FROM Prescriptions AS p, Drugs AS d " +
                             "WHERE p.VisitID = '" + visitation.getVisitId() + "' " +
                             "AND p.DIN = d.DIN";

@@ -197,54 +197,52 @@
                             <td class="appointment-patient"><%= appointments.get(i).getPatientId() %></td>
                             <td class="appointment-length"><%= appointments.get(i).getLength() %></td>
                             <td class="appointment-diagnosis"><%= appointments.get(i).getDiagnosis() %></td>
-                            <td>
+                            <td class="appointment-prescriptions">
                                 <% if (visitPrescriptions != null && visitPrescriptions.get(i).size() > 0) { %>
-                                    <table>
-                                        <col width="100"/>
-                                        <col width="100"/>
-                                        <col width="100"/>
-                                        <col width="100"/>
-                                        <col width="100"/>
-                                        <thead>
-                                            <th>Name</th>
-                                            <th>DIN</th>
-                                            <th>Quantity</th>
-                                            <th>Refills</th>
-                                            <th>Expiry</th>
-                                        </thead>
-                                        <% List<Object[]> prescriptions = visitPrescriptions.get(i); %>
-                                        <% for (int j = 0; j < prescriptions.size(); j++) { %>
+                                    <% List<Object[]> prescriptions = visitPrescriptions.get(i); %>
+                                    <% for (int j = 0; j < prescriptions.size(); j++) { %>
+                                        <% Object[] prescription = prescriptions.get(j); %>
+                                        <div class="list-group">
+                                        <a class="list-group-item">
+                                            <h6 class="list-group-item-heading"><%= prescription[0] %></h6>
+                                        </a>
+                                        <table class="table table-hover table-bordered table-condensed" id="past-prescription-info-<%= j %>">
                                             <tr>
-                                                <% Object[] prescription = prescriptions.get(j); %>
-                                                <td><%= prescription[0] %></td>
-                                                <td><%= prescription[1] %></td>
-                                                <td><%= prescription[2] %></td>
-                                                <td><%= prescription[3] %></td>
-                                                <td><%= dateTimeFormat.format(prescription[4]) %></td>
+                                                <td><b>Quantity</b></td><td><%= prescription[1] %></td>
                                             </tr>
-                                        <% } %>
-                                    </table>
+                                            <tr>
+                                                <td><b>Refills</b></td><td><%= prescription[2] %></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Dosage</b></td><td><%= prescription[3] %></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Expiry</b></td><td><%= dateTimeFormat.format(prescription[4]) %></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <% } %>
                                 <% } %>
                             </td>
-                            <td>
+                            <td class="appointment-operations">
                                 <% if (visitOperations != null && visitOperations.get(i).size() > 0) { %>
-                                    <table>
-                                        <col width="150"/>
-                                        <col width="150"/>
-                                        <col width="100"/>
-                                        <thead>
-                                            <th>Operation Name</th>
-                                            <th>Date</th>
-                                            <th>Surgeon</th>
-                                        </thead>
-                                        <% List<Scheduledoperations> operations = visitOperations.get(i); %>
-                                        <% for (int j = 0; j < operations.size(); j++) { %>
-                                            <% Scheduledoperations operation = operations.get(j); %>
-                                            <td><%= operation.getOperationName() %></td>
-                                            <td><%= dateTimeFormat.format(operation.getOperationDateTime()) %></td>
-                                            <td><%= operation.getDoctorId() %></td>
-                                        <% } %>
-                                    </table>
+                                    <% List<Scheduledoperations> operations = visitOperations.get(i); %>
+                                    <% for (int j = 0; j < operations.size(); j++) { %>
+                                        <% Scheduledoperations operation = operations.get(j); %>
+                                        <div class="list-group">
+                                        <a class="list-group-item">
+                                            <h6 class="list-group-item-heading"><%= operation.getOperationName() %></h6>
+                                        </a>
+                                        <table class="table table-hover table-bordered table-condensed" id="past-prescription-info-<%= j %>">
+                                            <tr>
+                                                <td><b>Surgeon</b></td><td><%= operation.getDoctorId() %></td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Date</b></td><td><%= dateTimeFormat.format(operation.getOperationDateTime()) %></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <% } %>
                                 <% } %>
                             </td>
                         </tr>
