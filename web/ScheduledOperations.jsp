@@ -39,7 +39,6 @@
         <script type="text/javascript" src="http://mottie.github.io/tablesorter/js/jquery.tablesorter.widgets.js"></script>
         <script type="text/javascript" src="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
-        <script type="text/javascript" src="js/scheduledoperations.js"></script>
 
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
@@ -49,7 +48,8 @@
 
         <link rel="stylesheet" href="css/index.css"/>
         <%}%>
-         <title>Scheduled Operations</title>
+        <script type="text/javascript" src="js/scheduledoperations.js"></script>
+        <title>Scheduled Operations</title>
     </head>
     <body>
         <%if(FullView){%>
