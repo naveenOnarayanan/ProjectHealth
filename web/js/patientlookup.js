@@ -3,6 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+$(document).ready(function(){
+    $("#Transfered").bootstrapSwitch();
+    $("#Transfered").bootstrapSwitch('onText', 'Yes');
+    $("#Transfered").bootstrapSwitch('offText', 'No');
+});
 function addDoctor(selectedDoctor, firstName, lastName, expiry)
 {
     var modalList = document.getElementById("sDoctor-modal-list");

@@ -23,6 +23,12 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <% String error = (String) request.getAttribute("error"); %>
+        <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
+        <% List<PrescriptionInfo> prescriptions = (List<PrescriptionInfo>) request.getAttribute("prescriptions"); %>
+        <% Boolean FullView = (Boolean) request.getAttribute("FullView"); %>
+        <%  Users user = (Users) request.getSession().getAttribute("user"); %>
+        <% if (FullView) {%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
@@ -38,10 +44,7 @@
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/2.1.30/css/bootstrap-datetimepicker.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
         
-        <% String error = (String) request.getAttribute("error"); %>
-        <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
         
-        <% List<PrescriptionInfo> prescriptions = (List<PrescriptionInfo>) request.getAttribute("prescriptions"); %>
         
         <script>
             $(document).ready(function() {
@@ -68,10 +71,12 @@
                });
            });
         </script>
+        <%}%>
 
         <title>Prescriptions</title>
     </head>
     <body>
+        <% if (FullView) {%>
         <script>
             $(function() {
                 getNavbar("<%= ((Users) request.getSession().getAttribute("user")).getRole()%>", 
@@ -87,14 +92,13 @@
                 <button type="button" class="close" data-dismiss="alert">x</button>
                 <%= error %>
             </div>
-        <% } %>
-        
-        <%  Users user = (Users) request.getSession().getAttribute("user"); %>
+        <%  }
+          }%>
         
         <table class="center-block">
             <tr>
                 <th style="width: 70%;"><h1 class="table-header">Prescriptions</h1></th>
-                <% if (!user.getRole().equals(Constants.PATIENT)) {%>
+                <% if (!user.getRole().equals(Constants.PATIENT) && FullView) {%>
                 <th style="width: 30%">
                     <input id="filter-id" type="text" class="table-search-box" placeholder="Filter results by UserID">
                 </th>

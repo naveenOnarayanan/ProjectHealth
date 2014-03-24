@@ -83,11 +83,6 @@ ul.nav.navbar-nav li:hover {
     border-style: dashed;
     border-width: 1px;
 }
-#appointments tr td {
-    word-wrap: break-word;
-    vertical-align:central;
-    height: 100px;
-}
 
 .default-table {
     table-layout: fixed;

@@ -45,10 +45,18 @@ public class PrescriptionsServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
+        String visitIDQuery = (String) request.getParameter("VisitID");
+        
+        if (visitIDQuery != null && !visitIDQuery.isEmpty()) {
+            request.setAttribute("FullView", false);
+        } else {
+            request.setAttribute("FullView", true);
+        }
         
         boolean queryServletError = false;
         try {
             String query = "";
+            
             if (sessionUser.getRole().equals(Constants.PATIENT)){
                 query = "SELECT active.PatientID, active.DIN, drugs.TradeName, " +
                         "active.Quantity, active.Refills, active.Dosage, " +
@@ -56,7 +64,9 @@ public class PrescriptionsServlet extends HttpServlet {
                         "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime ,prescriptions.*" +
                                 "FROM visitation " +
                                 "INNER JOIN prescriptions " +
-                                "ON visitation.VisitID = prescriptions.VisitID) as active " +
+                                "ON visitation.VisitID = prescriptions.VisitID "  +
+                                    ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "WHERE visitation.VisitID=" + visitIDQuery : "") + 
+                            ") as active " +
                         "INNER JOIN drugs " +
                         "ON active.DIN = drugs.DIN " +
                         "WHERE active.PatientID = '" + sessionUser.getUserId() + "' " +
@@ -77,7 +87,9 @@ public class PrescriptionsServlet extends HttpServlet {
                                 "FROM visitation " +
                                 "INNER JOIN prescriptions " +
                                 "ON visitation.VisitID = prescriptions.VisitID " +
-                                "WHERE visitation.DoctorID = '" + managingDoctor + "')as active " +
+                                "WHERE visitation.DoctorID = '" + managingDoctor + "' " +
+                                    ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND visitation.VisitID=" + visitIDQuery : "") + 
+                                ")as active " +
                         "INNER JOIN drugs " +
                         "ON active.DIN = drugs.DIN " +
                         "ORDER BY VisitID";
@@ -91,6 +103,7 @@ public class PrescriptionsServlet extends HttpServlet {
                                 "INNER JOIN prescriptions " +
                                 "ON visitation.VisitID = prescriptions.VisitID " +
                                 "WHERE visitation.DoctorID = '" + sessionUser.getUserId() + "' " +
+                                    ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND visitation.VisitID=" + visitIDQuery : "") + " " +
                                 "OR visitation.PatientID IN " +
                                 "(SELECT D.patientID " +
                                 "FROM doctorpatientperm as D " +

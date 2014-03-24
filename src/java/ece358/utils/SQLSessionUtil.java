@@ -131,7 +131,7 @@ public class SQLSessionUtil {
         StringBuilder whereConditionBuilder = new StringBuilder(" WHERE ");
         
         StringBuilder queryBuilder = new StringBuilder(" UPDATE ");
-        queryBuilder.append(clazz.getName().toLowerCase());
+        queryBuilder.append(clazz.getSimpleName().toLowerCase());
         queryBuilder.append(" SET");
         Field[] fields = clazz.getDeclaredFields();
         Field[] publicFields = clazz.getFields();
@@ -141,10 +141,11 @@ public class SQLSessionUtil {
 
                 queryBuilder.append(" ");
                 queryBuilder.append(fieldname);
+                queryBuilder.append("=");
 
                 Object fieldValue = fields[i].get(updateObj);
                 if (fields[i].getType().equals(Date.class)) {
-                    queryBuilder.append("='");
+                    queryBuilder.append("'");
                     queryBuilder.append(((Date) fieldValue).toString());
                     queryBuilder.append("'");
                 } else if (fields[i].getType().equals(Boolean.class)) {
@@ -152,17 +153,20 @@ public class SQLSessionUtil {
                 } else if (fields[i].getType().equals(Integer.class)){
                     queryBuilder.append((Integer) fieldValue);
                 } else {
-                    queryBuilder.append("='");
+                    queryBuilder.append("'");
                     queryBuilder.append((String) fieldValue);
                     queryBuilder.append("'");
                 }
+                if(i < (publicFields.length-1))
+                    queryBuilder.append(",");
             } else {
                 whereConditionBuilder.append(" ");
                 whereConditionBuilder.append(upperCaseFirstCharacterAndID(fields[i].getName()));
+                whereConditionBuilder.append("=");
                 
                 Object fieldValue = fields[i].get(updateObj);
                 if (fields[i].getType().equals(Date.class)) {
-                    whereConditionBuilder.append("='");
+                    whereConditionBuilder.append("'");
                     whereConditionBuilder.append(((Date) fieldValue).toString());
                     whereConditionBuilder.append("'");
                 } else if (fields[i].getType().equals(Boolean.class)) {
@@ -170,11 +174,12 @@ public class SQLSessionUtil {
                 } else if (fields[i].getType().equals(Integer.class)){
                     whereConditionBuilder.append((Integer) fieldValue);
                 } else {
-                    whereConditionBuilder.append("='");
+                    whereConditionBuilder.append("'");
                     whereConditionBuilder.append((String) fieldValue);
                     whereConditionBuilder.append("'");
                 }
             }
+            
         }
 
         executeUpdate(queryBuilder.toString() + whereConditionBuilder.toString());

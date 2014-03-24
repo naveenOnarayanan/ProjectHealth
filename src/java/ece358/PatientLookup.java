@@ -91,6 +91,7 @@ public class PatientLookup extends HttpServlet {
                     request.setAttribute("PrimaryContactNo", patient.getPrimaryContactNo() != null ? patient.getPrimaryContactNo() : "");
                     request.setAttribute("SIN", patient.getSin() != null ? patient.getSin() : "");
                     request.setAttribute("Visits", patient.getVisits() != null ? patient.getVisits() : "");
+                    request.setAttribute("Transfered", patient.getTransfered());
                     List<Country> countries  = (List<Country>) SQLSessionUtil.selectType(Country.class, "SELECT * FROM Country");
                     List<Province> provinces  = (List<Province>) SQLSessionUtil.selectType(Province.class, "SELECT * FROM Province");
                     List<Staff> doctors = (List<Staff>) SQLSessionUtil.selectType(Staff.class, "SELECT * FROM Staff WHERE JobTitle='Doctor' ORDER BY LastName");
@@ -171,6 +172,8 @@ public class PatientLookup extends HttpServlet {
                         patient.setSin(request.getParameter("SIN"));
                         patient.setDefaultDoctorId(request.getParameter("DefaultDoctorID"));
                         patient.setHealthStatus(request.getParameter("HealthStatus"));
+                        patient.setTransfered(request.getParameter("Transfered").equals("on") ? true : false);
+                        
                         
                         if(insert)
                             SQLSessionUtil.add(patient);
@@ -202,6 +205,7 @@ public class PatientLookup extends HttpServlet {
                     request.setAttribute("PrimaryContactNo", "");
                     request.setAttribute("SIN", "");
                     request.setAttribute("Visits", "");
+                    request.setAttribute("Transfered", false);
                     
                     List<Country> countries  = (List<Country>) SQLSessionUtil.selectType(Country.class, "SELECT * FROM Country");
                     List<Province> provinces  = (List<Province>) SQLSessionUtil.selectType(Province.class, "SELECT * FROM Province");
@@ -296,7 +300,7 @@ public class PatientLookup extends HttpServlet {
                         QueryString.append("%' ");
                         conditionCount++;
                     }
-                    if(DoctorLookup != null && !DoctorLookup.equals(" "))
+                    if(DoctorLookup != null && !DoctorLookup.equals(" ") && !DoctorLookup.equals(""))
                     {
                         if(conditionCount > 0)
                             QueryString.append("and DefaultDoctorID = '");
