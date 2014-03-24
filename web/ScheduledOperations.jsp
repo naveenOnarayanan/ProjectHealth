@@ -80,10 +80,20 @@
             }); 
         </script>
         <div id="navbar-container"></div>
-        <h1>Operations</h1>
-        <h4>Upcoming Operations</h4>
+        <table class="center-block">
+            <tr style="width: 100%">
+                <th>
+                    <h1>Scheduled Operations</h1>
+                </th>
+            </tr>
+            <tr style="width: 100%">
+                <th>
+                    <h4>Upcoming Operations</h4>
+                </th>                
+            </tr>
+        </table>  
         <div id="content">
-            <table class="table table-hover tablesorter" id="UpcomingOperationsTable">
+            <table class="table table-hover tablesorter default-table" id="UpcomingOperationsTable">
                 <thead>
                     <tr>
                         <th>Related Appointment Number</th>
@@ -142,20 +152,26 @@
                 </tbody>
             </table>
         </div>
-        <h4>Past Operations</h4>
+        <table class="center-block">
+            <tr>
+                <th>
+                    <h4>Past Operations</h4>
+                </th>
+            </tr>
+        </table>
         <div id="content">
-            <table class="table table-hover">
+            <table class="table table-hover default-table">
                 <thead>
                     <tr>
                         <th>Related Appointment Number</th>
-                        <%if(!patientsPast.isEmpty()){%>
+                        <%if(!patientsPast.isEmpty() || schedoperationsPast.isEmpty()){%>
                         <th>Patient ID</th>
                         <th>Patient Name</th>
                         <%}%>
                         <th>Operation</th>
                         <th>Date</th>
                         <th>Surgeon</th>
-                        <%if(!doctorsPast.isEmpty()){%>
+                        <%if(!doctorsPast.isEmpty() || schedoperationsPast.isEmpty()){%>
                         <th>Primary Doctor</th>
                         <%}%>
                     </tr>
