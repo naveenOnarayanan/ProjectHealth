@@ -91,3 +91,12 @@ function writeDoctors()
      console.log(url);
     window.location = url;
 }
+
+function clearSearch()
+{
+    document.getElementById("FirstNameLookup").value = "";
+    document.getElementById("LastNameLookup").value = "";
+    document.getElementById("PatientUserIDLookup").value = "";
+    document.getElementById("HealthCardLookup").value = "";
+    $('#DoctorLookup').select2('val',' ');
+}
