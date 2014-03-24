@@ -23,6 +23,7 @@
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.0rc/js/bootstrap-switch.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/patientlookup.js"></script>
         <script>
@@ -36,6 +37,7 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.0rc/css/bootstrap2/bootstrap-switch.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
         <% String error = (String) request.getAttribute("error"); %>
         <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
@@ -55,6 +57,7 @@
         <% String SIN = (String) request.getAttribute("SIN"); %>
         <% String Vists = (String) request.getAttribute("Vists"); %>
         <% String PatientUserID = (String) request.getAttribute("PatientUserID"); %>
+        <% Boolean Transfered = (Boolean)request.getAttribute("Transfered");%>
         <% String FirstNameLookup = (String) request.getAttribute("FirstNameLookup"); %>
         <% String LastNameLookup = (String) request.getAttribute("LastNameLookup"); %>
         <% String PatientUserIDLookup = (String) request.getAttribute("PatientUserIDLookup"); %>
@@ -326,15 +329,21 @@
                             <tr>
                                 <td class="medium-text">Email:</td>
                                 <td><input class="patient-info-chart" type = "email" id="Email" name ="Email" value = "<%=Email%>" <%=disabled%>></input></td>
-                                <td></td>
-                                <td align="left"><%=buttons%></td>
+                                <td class="medium-text">Transfered:</td>
+                                <td>
+                                    <%if(Transfered){%>
+                                    <input type="checkbox" id="Transfered" name="Transfered" checked <%=disabled%>>
+                                    <%}else{%>
+                                    <input type="checkbox" id="Transfered" name="Transfered" <%=disabled%>>
+                                    <%}%>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
                                     <button class="btn btn-success" type="button" onclick="window.location = '#';">View Appointments</button>&nbsp;
                                     <button class="btn btn-success" type="button" onclick="window.location = '#';">View Prescriptions</button>
                                 </td>
-                                <td></td>
+                                <td style="text-align: right"><%=buttons%></td>
                                 <td>
 
                                     <% if(allowDoctorManage){%>

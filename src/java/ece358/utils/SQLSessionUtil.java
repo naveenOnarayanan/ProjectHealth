@@ -131,7 +131,7 @@ public class SQLSessionUtil {
         StringBuilder whereConditionBuilder = new StringBuilder(" WHERE ");
         
         StringBuilder queryBuilder = new StringBuilder(" UPDATE ");
-        queryBuilder.append(clazz.getName().toLowerCase());
+        queryBuilder.append(clazz.getSimpleName().toLowerCase());
         queryBuilder.append(" SET");
         Field[] fields = clazz.getDeclaredFields();
         Field[] publicFields = clazz.getFields();
@@ -157,9 +157,12 @@ public class SQLSessionUtil {
                     queryBuilder.append((String) fieldValue);
                     queryBuilder.append("'");
                 }
+                if(i < (publicFields.length-1))
+                    queryBuilder.append(",");
             } else {
                 whereConditionBuilder.append(" ");
                 whereConditionBuilder.append(upperCaseFirstCharacterAndID(fields[i].getName()));
+                whereConditionBuilder.append("=");
                 
                 Object fieldValue = fields[i].get(updateObj);
                 if (fields[i].getType().equals(Date.class)) {
@@ -176,6 +179,7 @@ public class SQLSessionUtil {
                     whereConditionBuilder.append("'");
                 }
             }
+            
         }
 
         executeUpdate(queryBuilder.toString() + whereConditionBuilder.toString());
