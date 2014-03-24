@@ -31,6 +31,8 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
+        <% String error = (String) request.getAttribute("error"); %>
+        <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
         <% String Address = (String) request.getAttribute("Address"); %>
         <% String City = (String) request.getAttribute("City"); %>
         <% String Province = (String) request.getAttribute("Province"); %>
@@ -78,6 +80,15 @@
         </script>
 
         <div id="navbar-container"></div>
+        
+        <% if (error != null && !error.equals("")) { %>
+            <div class="alert alert-dismissable alert-danger">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <%= error %>
+            </div>
+        <% } %>
+        
+        <% if (!queryServletError) { %>
         <h1>Personal Information</h1>
         <form method ="post" action="/ProjectHealth/PersonalInfo?mode=3" style="padding-left:10px">
             <% if(errors != null && errors.size() != 0){ %>
@@ -181,7 +192,7 @@
                 </tr>
             </table>
             </form>
-                
+          <% } %>      
     </body>
 
 </html>

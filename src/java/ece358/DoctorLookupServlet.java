@@ -79,7 +79,6 @@ public class DoctorLookupServlet extends HttpServlet {
         request.setAttribute("endDateTime", webFormat.format(endDateTime));
         
         boolean queryServletError = false;
-        String url;
         try {
             int mode = Integer.parseInt(request.getParameter("mode"));
             AddDoctors(request);
@@ -149,16 +148,14 @@ public class DoctorLookupServlet extends HttpServlet {
                 request.setAttribute("visitOperations", visitOperations);
             }
             
-            url = "/DoctorLookup.jsp";
             request.setAttribute("queryServletError", queryServletError);
         } catch (Exception e) {
             queryServletError = true;
             request.setAttribute("error", e.getMessage());
             request.setAttribute("queryServletError", queryServletError);
             System.out.println(e);
-            url = "/DoctorLookup.jsp";
         }
-        getServletContext().getRequestDispatcher(url).forward(request, response);
+        getServletContext().getRequestDispatcher("/DoctorLookup.jsp").forward(request, response);
     }
     
     private HttpServletRequest AddDoctors(HttpServletRequest request) throws InstantiationException, IllegalAccessException, SQLException, ClassNotFoundException

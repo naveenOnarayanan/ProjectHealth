@@ -44,7 +44,7 @@ public class PatientLookup extends HttpServlet {
             }
             String sessionUsername = sessionUser.getUserId();
 
-            
+            boolean queryServletError = false;
             String url;
             try {
                 int mode = Integer.parseInt(request.getParameter("mode"));
@@ -240,12 +240,13 @@ public class PatientLookup extends HttpServlet {
                 {
                     url = "/PatientLookup?mode=1";
                 }
-
             } catch (Exception e) {
-                request.setAttribute("exception", e);
+                queryServletError = true;
+                request.setAttribute("error", e.getMessage());
                 System.out.println(e);
-                url = "/error.jsp";
+                url = "/PatientLookup.jsp";
             }
+            request.setAttribute("queryServletError", queryServletError);
             getServletContext().getRequestDispatcher(url).forward(request, response);
     }
     private HttpServletRequest NarrowResults(HttpServletRequest request)

@@ -31,6 +31,8 @@
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
         <link rel="stylesheet" href="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.css"/>
         <link rel="stylesheet" href="css/index.css"/>
+        <% String error = (String) request.getAttribute("error"); %>
+        <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
          <% List<Scheduledoperations> schedoperationsPast = (List<Scheduledoperations>) request.getAttribute("schedoperationsPast"); %>
          <% List<Staff> surgeonsPast = (List<Staff>) request.getAttribute("surgeonsPast"); %>
          <% List<Staff> doctorsPast = (List<Staff>) request.getAttribute("doctorsPast"); %>
@@ -80,10 +82,29 @@
             }); 
         </script>
         <div id="navbar-container"></div>
-        <h1>Operations</h1>
-        <h4>Upcoming Operations</h4>
+        
+        <% if (error != null && !error.equals("")) { %>
+            <div class="alert alert-dismissable alert-danger">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <%= error %>
+            </div>
+        <% } %>
+        
+        <table class="center-block">
+            <tr style="width: 100%">
+                <th>
+                    <h1>Scheduled Operations</h1>
+                </th>
+            </tr>
+            <tr style="width: 100%">
+                <th>
+                    <h4>Upcoming Operations</h4>
+                </th>                
+            </tr>
+        </table>  
         <div id="content">
-            <table class="table table-hover tablesorter" id="UpcomingOperationsTable">
+            <% if (!queryServletError) { %>
+            <table class="table table-hover tablesorter default-table" id="UpcomingOperationsTable">
                 <thead>
                     <tr>
                         <th>Related Appointment Number</th>
@@ -141,21 +162,29 @@
                     }%>
                 </tbody>
             </table>
+            <% } %>
         </div>
-        <h4>Past Operations</h4>
+        <table class="center-block">
+            <tr>
+                <th>
+                    <h4>Past Operations</h4>
+                </th>
+            </tr>
+        </table>
         <div id="content">
-            <table class="table table-hover">
+            <% if (!queryServletError) { %>
+            <table class="table table-hover default-table">
                 <thead>
                     <tr>
                         <th>Related Appointment Number</th>
-                        <%if(!patientsPast.isEmpty()){%>
+                        <%if(!patientsPast.isEmpty() || schedoperationsPast.isEmpty()){%>
                         <th>Patient ID</th>
                         <th>Patient Name</th>
                         <%}%>
                         <th>Operation</th>
                         <th>Date</th>
                         <th>Surgeon</th>
-                        <%if(!doctorsPast.isEmpty()){%>
+                        <%if(!doctorsPast.isEmpty() || schedoperationsPast.isEmpty()){%>
                         <th>Primary Doctor</th>
                         <%}%>
                     </tr>
@@ -202,6 +231,7 @@
                     }%>
                 </tbody>
             </table>
+            <% } %>
         </div>
                 
         <div class="modal fade" id="operation-modal" tabindex="-1" role="dialog" aria-labelledby="Operations" aria-hidden="true">

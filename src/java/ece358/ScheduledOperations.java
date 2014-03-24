@@ -45,6 +45,7 @@ public class ScheduledOperations extends HttpServlet {
         }
         
         String url = "";
+        boolean queryServletError = false;
         try{
             Users user = (Users) request.getSession().getAttribute("user");
             String role = user.getRole();
@@ -154,12 +155,15 @@ public class ScheduledOperations extends HttpServlet {
             request.setAttribute("operationsFuture", operationsFuture);
             request.setAttribute("patientsFuture", patientsFuture);
             url = "/ScheduledOperations.jsp";
+            request.setAttribute("queryServletError", queryServletError);
         }
         catch(Exception e)
         {
-            request.setAttribute("exception", e);
+            queryServletError = true;
+            request.setAttribute("error", e.getMessage());
+            request.setAttribute("queryServletError", queryServletError);
             System.out.println(e);
-            url = "/error.jsp";
+            url = "/ScheduledOperations.jsp";
         }
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
