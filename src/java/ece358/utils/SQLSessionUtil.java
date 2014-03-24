@@ -141,10 +141,11 @@ public class SQLSessionUtil {
 
                 queryBuilder.append(" ");
                 queryBuilder.append(fieldname);
+                queryBuilder.append("=");
 
                 Object fieldValue = fields[i].get(updateObj);
                 if (fields[i].getType().equals(Date.class)) {
-                    queryBuilder.append("='");
+                    queryBuilder.append("'");
                     queryBuilder.append(((Date) fieldValue).toString());
                     queryBuilder.append("'");
                 } else if (fields[i].getType().equals(Boolean.class)) {
@@ -152,7 +153,7 @@ public class SQLSessionUtil {
                 } else if (fields[i].getType().equals(Integer.class)){
                     queryBuilder.append((Integer) fieldValue);
                 } else {
-                    queryBuilder.append("='");
+                    queryBuilder.append("'");
                     queryBuilder.append((String) fieldValue);
                     queryBuilder.append("'");
                 }
@@ -162,7 +163,7 @@ public class SQLSessionUtil {
                 
                 Object fieldValue = fields[i].get(updateObj);
                 if (fields[i].getType().equals(Date.class)) {
-                    whereConditionBuilder.append("='");
+                    whereConditionBuilder.append("'");
                     whereConditionBuilder.append(((Date) fieldValue).toString());
                     whereConditionBuilder.append("'");
                 } else if (fields[i].getType().equals(Boolean.class)) {
@@ -170,7 +171,7 @@ public class SQLSessionUtil {
                 } else if (fields[i].getType().equals(Integer.class)){
                     whereConditionBuilder.append((Integer) fieldValue);
                 } else {
-                    whereConditionBuilder.append("='");
+                    whereConditionBuilder.append("'");
                     whereConditionBuilder.append((String) fieldValue);
                     whereConditionBuilder.append("'");
                 }
