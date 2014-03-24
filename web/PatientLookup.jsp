@@ -116,9 +116,7 @@
         })
         </script>
         <div id="navbar-container"></div>
-        <div id="content-patient-info">   
-        
-        <div style="padding-left: 5%">
+        <div id="content-patient-info">       
         
         <% if (error != null && !error.equals("")) { %>
             <div class="alert alert-dismissable alert-danger">
@@ -127,12 +125,16 @@
             </div>
         <% } %>
         
-        <h1>Patient Lookup</h1>
+        <div class="patient-info-position" style="top: 50px">
+            <h1>Patient Lookup</h1>
+        </div>        
         <% if (!queryServletError) { %>
-        <h4>Search</h4>
-        <div>
+        <div class="patient-info-position" style="top: 115px">
+            <h4>Search</h4>
+        </div>        
+        <div class="patient-info-position" style="top: 155px">
             <form method ="post" action="PatientLookup?mode=1">
-                <table class="rounded-table" width=1175 cellpadding="10" style="background-color:#F8F8F8; width: 77%">
+                <table class="rounded-table" width=1175 cellpadding="10" style="background-color:#F8F8F8; width: 100%">
                     <tr>
                         <td class="medium-text">First Name:</td>
                         <td><input class="medium-textbox" type="text" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input></td>
@@ -166,17 +168,17 @@
                                 </select></td>
                         <td></td>
                         <td>
-                            <button style="width: 25%" class="btn btn-success" type = "submit" onClick="clearSearch()">Clear</button>
+                            <button style="width: 125px" class="btn btn-success" type = "submit" onClick="clearSearch()">Clear</button>
                             &nbsp;&nbsp;
-                            <button style="width: 25%" class="btn btn-success" type = "submit">Search</button>                            
+                            <button style="width: 125px" class="btn btn-success" type = "submit">Search</button>                            
                         </td>
                     </tr>
                 </table> 
             </form>
         </div>
-        <div style="width:100%; display:table; padding-left: 11%">
+        <div class="patient-info-position" style="width:100%; display:table; top: 345px">
             <div style="display: table-row">
-                <div style="width: 254px; display: table-cell; float:left;">
+                <div style="width: 20%; display: table-cell; float: left;">
                     <h3>Patients</h3>
                     <form method="post" action="PatientLookup?mode=1" name="PatientSelectForm">
                         <input type = "hidden" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input>
@@ -199,7 +201,7 @@
                         <button class="btn btn-success" type="submit" style="width:100%; margin-top: 10px" formaction="PatientLookup?mode=4">New Patient</button>
                     </form>
                 </div>
-                <div style="display: table-cell; float:left; padding-left: 5%">
+                <div style="float: right; padding-left: 5%; width: 80%">
                     <h3>Patient Information</h3>
                     <% if(errors != null && errors.size() != 0){ %>
                         <div class="alert fade in rounded-div" width="900" style="background-color:#FF9494">
@@ -223,7 +225,7 @@
                         <input type = "hidden" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input>
                         <input type = "hidden" id="HealthCardLookup" name ="HealthCardLookup" value="<%=HealthCardLookup%>"></input>
                         <input type = "hidden" id="DoctorLookup" name ="DoctorLookup" value="<%=DoctorLookup%>"></input>
-                        <table class="rounded-table" width="900" cellpadding="10" style="float:left; background-color:#F8F8F8">
+                        <table class="rounded-table" cellpadding="10" style="width: 100%; float:left; background-color:#F8F8F8">
                             <tr>
                             <input type="hidden" id="PatientUserID" name="PatientUserID" value="<%=PatientUserID%>"></input>
                                 <td class="medium-text">First Name:</td>

@@ -198,3 +198,10 @@ ul.nav.navbar-nav li:hover {
 .tab-button {
     margin-bottom: -20px;
 }
+
+.patient-info-position {
+    position: static;
+    padding-left: 13%;
+    padding-right: 13%;
+    width: 100%;
+}
