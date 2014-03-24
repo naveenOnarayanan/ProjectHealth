@@ -4,6 +4,7 @@
     Author     : Josh
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="ece358.models.Patients"%>
 <%@page import="ece358.models.Operations"%>
 <%@page import="ece358.models.Staff"%>
@@ -43,6 +44,8 @@
          <% List<Staff> doctorsFuture = (List<Staff>) request.getAttribute("doctorsFuture"); %>
          <% List<Operations> operationsFuture = (List<Operations>) request.getAttribute("operationsFuture"); %>
          <% List<Patients> patientsFuture = (List<Patients>) request.getAttribute("patientsFuture"); %>
+         <% SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");%>
+         <% Boolean AllowFilter = (Boolean)request.getAttribute("AllowFilter");%>
          <title>Scheduled Operations</title>
     </head>
     <body>
@@ -53,6 +56,7 @@
            "<%=request.getSession().getAttribute("lastname")%>");
         })
         </script>
+        <%if(AllowFilter){%>
         <script defer="defer">
 	$(document).ready(function() 
             { 
@@ -81,6 +85,7 @@
                 
             }); 
         </script>
+        <%}%>
         <div id="navbar-container"></div>
         
         <% if (error != null && !error.equals("")) { %>
@@ -120,6 +125,7 @@
                         <%}%>
                     </tr>
                 </thead>
+                <%if(AllowFilter){%>
                 <tfoot id="UpcomingPager">
                 <tr>
                     <th colspan="7" class="ts-pager form-horizontal">
@@ -142,6 +148,7 @@
                     </th>
                 </tr>
                 </tfoot>
+                <%}%>
                 <tbody>
                     <%if(schedoperationsFuture != null){%>
                     <%for(int i = 0; i<schedoperationsFuture.size(); i++){%>
@@ -152,7 +159,7 @@
                         <td><%=patientsFuture.get(i).getFirstName()%> <%=patientsFuture.get(i).getLastName()%></td>
                         <%}%>
                         <td onclick="populateOperationModal('<%=operationsFuture.get(i).getName()%>','<%=operationsFuture.get(i).getDescription()%>','<%=operationsFuture.get(i).getEstTime().getHours()%>','<%=operationsFuture.get(i).getEstTime().getMinutes()%>')" style="cursor:pointer"><%=schedoperationsFuture.get(i).getOperationName()%></td>
-                        <td><%=schedoperationsFuture.get(i).getOperationDateTime().toString()%></td>
+                        <td><%=dateFormat.format(schedoperationsFuture.get(i).getOperationDateTime())%></td>
                         <td>Dr.<%=surgeonsFuture.get(i).getLastName()%></td>
                         <%if(!doctorsFuture.isEmpty()){%>
                         <td>Dr.<%=doctorsFuture.get(i).getLastName()%></td>
@@ -189,6 +196,7 @@
                         <%}%>
                     </tr>
                 </thead>
+                <%if(AllowFilter){%>
                 <tfoot id="PastPager">
                 <tr>
                     <th colspan="7" class="ts-pager form-horizontal">
@@ -211,6 +219,7 @@
                     </th>
                 </tr>
                 </tfoot>
+                <%}%>
                 <tbody>
                     <%if(schedoperationsPast != null){%>
                     <%for(int i = 0; i<schedoperationsPast.size(); i++){%>
@@ -221,7 +230,7 @@
                         <td><%=patientsPast.get(i).getFirstName()%> <%=patientsFuture.get(i).getLastName()%></td>
                         <%}%>
                         <td onclick="populateOperationModal('<%=operationsPast.get(i).getName()%>','<%=operationsPast.get(i).getDescription()%>','<%=operationsPast.get(i).getEstTime().getHours()%>','<%=operationsPast.get(i).getEstTime().getMinutes()%>')" style="cursor:pointer"><%=schedoperationsPast.get(i).getOperationName()%></td>
-                        <td><%=schedoperationsPast.get(i).getOperationDateTime().toString()%></td>
+                        <td><%=dateFormat.format(schedoperationsFuture.get(i).getOperationDateTime())%></td>
                         <td>Dr.<%=surgeonsPast.get(i).getLastName()%></td>
                         <%if(!doctorsPast.isEmpty()){%>
                         <td>Dr.<%=doctorsPast.get(i).getLastName()%></td>

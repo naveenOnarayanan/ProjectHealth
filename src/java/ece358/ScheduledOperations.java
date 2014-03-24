@@ -44,6 +44,8 @@ public class ScheduledOperations extends HttpServlet {
             return;
         }
         
+        String VisitID = request.getParameter("VisitID");
+        
         String url = "";
         boolean queryServletError = false;
         try{
@@ -75,6 +77,15 @@ public class ScheduledOperations extends HttpServlet {
                        "WHERE SO.VisitID=V.VisitID && S.UserID=SO.DoctorID && O.Name=SO.OperationName && P.UserID = V.PatientID && V.Timestamp= "+
                        "(SELECT max(Timestamp) FROM visitation WHERE VisitID = V.VisitID) && D.UserID=P.DefaultDoctorID && (P.DefaultDoctorID='" + user.getUserId() + "' OR SO.DoctorID='"+ user.getUserId() +"')";
                 addPatientInfo = true;
+            }
+            if(VisitID != null && !VisitID.isEmpty())
+            {
+                queryString += " && SO.VisitID = '" + VisitID + "'";
+                request.setAttribute("AllowFilter", false);
+            }
+            else
+            {
+                request.setAttribute("AllowFilter", true);
             }
             List<Object[]> result = SQLSessionUtil.executeQuery(queryString);
 
