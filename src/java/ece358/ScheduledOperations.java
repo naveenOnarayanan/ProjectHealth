@@ -73,9 +73,9 @@ public class ScheduledOperations extends HttpServlet {
             else if(role.equals(Constants.DOCTOR))
             {
                 queryString = "SELECT SO.VisitID, SO.OperationDateTime, SO.OperationName, S.FirstName, S.LastName, O.Name, O.Description, O.EstTime, V.PatientID, P.FirstName, P.LastName, D.FirstName, D.LastName "+
-                       "FROM scheduledoperations as SO, visitation as V, staff as S, staff as D, operations as O, patients as P "+
-                       "WHERE SO.VisitID=V.VisitID && S.UserID=SO.DoctorID && O.Name=SO.OperationName && P.UserID = V.PatientID && V.Timestamp= "+
-                       "(SELECT max(Timestamp) FROM visitation WHERE VisitID = V.VisitID) && D.UserID=P.DefaultDoctorID && (P.DefaultDoctorID='" + user.getUserId() + "' OR SO.DoctorID='"+ user.getUserId() +"')";
+                       "FROM scheduledoperations as SO, visitation as V, staff as S, staff as D, operations as O, patients as P, doctorpatientperm as DPP "+
+                       "WHERE SO.VisitID=V.VisitID && S.UserID=SO.DoctorID && O.Name=SO.OperationName && P.UserID = V.PatientID && DPP.PatientID=P.UserID && DPP.DoctorID=P.DefaultDoctorID && DPP.expiry >= CURDATE() && V.Timestamp= "+
+                       "(SELECT max(Timestamp) FROM visitation WHERE VisitID = V.VisitID) && D.UserID=P.DefaultDoctorID && (P.DefaultDoctorID='" + user.getUserId() + "' OR DPP.SecDoctorID='" + user.getUserId() + "' OR SO.DoctorID='"+ user.getUserId() +"')";
                 addPatientInfo = true;
             }
             if(VisitID != null && !VisitID.isEmpty())
