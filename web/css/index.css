@@ -65,8 +65,8 @@ ul.nav.navbar-nav li:hover {
 }
 
 #content {
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 #dynamic-table {
@@ -74,24 +74,7 @@ ul.nav.navbar-nav li:hover {
     padding-right: 11%;
 }
 
-.appointment-date {
-    width: 10%;
-}
-.appointment-doctor {
-    width: 20%;
-}
-.appointment-symptoms {
-    width: 20%;
-}
-.appointment-diagnosis {
-    width: 20%;
-}
-.appointment-comments {
-    width: 20%;
-}
-.appointment-edit {
-    width: 10%;
-}
+
 .appointment-edit-btn {
     margin-left: 20px;
 }

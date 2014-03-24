@@ -83,7 +83,7 @@ public class SQLSessionUtil {
         getQueryBuilder.append(fieldName);
         getQueryBuilder.append("=");
         
-        if (instanceFieldClass.getType().equals(Integer.class)) {
+        if (instanceFieldClass.getType().equals(Integer.class) || instanceFieldClass.getType().equals(Boolean.class)) {
             getQueryBuilder.append(id);
         } else {
             getQueryBuilder.append("'");
@@ -147,6 +147,8 @@ public class SQLSessionUtil {
                     queryBuilder.append("='");
                     queryBuilder.append(((Date) fieldValue).toString());
                     queryBuilder.append("'");
+                } else if (fields[i].getType().equals(Boolean.class)) {
+                    queryBuilder.append((Boolean) fieldValue);
                 } else if (fields[i].getType().equals(Integer.class)){
                     queryBuilder.append((Integer) fieldValue);
                 } else {
@@ -163,6 +165,8 @@ public class SQLSessionUtil {
                     whereConditionBuilder.append("='");
                     whereConditionBuilder.append(((Date) fieldValue).toString());
                     whereConditionBuilder.append("'");
+                } else if (fields[i].getType().equals(Boolean.class)) {
+                    whereConditionBuilder.append((Boolean) fieldValue);
                 } else if (fields[i].getType().equals(Integer.class)){
                     whereConditionBuilder.append((Integer) fieldValue);
                 } else {
