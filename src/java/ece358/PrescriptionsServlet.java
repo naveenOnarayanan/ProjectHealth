@@ -90,7 +90,12 @@ public class PrescriptionsServlet extends HttpServlet {
                                 "FROM visitation " +
                                 "INNER JOIN prescriptions " +
                                 "ON visitation.VisitID = prescriptions.VisitID " +
-                                "WHERE visitation.DoctorID = '" + sessionUser.getUserId() + "')as active " +
+                                "WHERE visitation.DoctorID = '" + sessionUser.getUserId() + "' " +
+                                "OR visitation.PatientID IN " +
+                                "(SELECT D.patientID " +
+                                "FROM doctorpatientperm as D " +
+                                "WHERE secdoctorid = '" + sessionUser.getUserId() + "') " +
+                                ") as active " +
                         "INNER JOIN drugs " +
                         "ON active.DIN = drugs.DIN " +
                         "ORDER BY VisitID";
