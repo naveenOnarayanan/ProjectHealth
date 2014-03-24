@@ -64,6 +64,7 @@
         </script>
         <div class="info-container-hidden hidden"></div>
        <div id="navbar-container"></div>
+       <% if (error == null) { %>
        <% List<Patients> patients = (List<Patients>) request.getAttribute("patients");
           List<Staff> doctors = (List<Staff>) request.getAttribute("doctors"); 
           List<Drugs> drugs = (List<Drugs>) request.getAttribute("drugs"); %>
@@ -443,5 +444,6 @@
                 </div>
             </div>
        </div>
+       <% } %>
     </body>
 </html>

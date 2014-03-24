@@ -319,10 +319,10 @@ public class AppointmentServlet extends HttpServlet {
         } catch (Exception e) {
             queryServletError = true;
             request.setAttribute("error", e.getMessage());
-            request.setAttribute("queryServletError", queryServletError);
             System.out.println(e);
-            url = "/main.jsp";
+            url = "/appointments.jsp";
         }
+        request.setAttribute("queryServletError", queryServletError);
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
     
