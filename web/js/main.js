@@ -10,7 +10,7 @@ $(function(){
     });
 });
 
-function getNavbar(role,firstname, lastname) {
+function getNavbar(role, firstname, lastname) {
     var patientNav = [];
         patientNav[0] = "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +

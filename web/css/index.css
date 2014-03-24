@@ -187,3 +187,31 @@ ul.nav.navbar-nav li:hover {
     overflow-y: auto;
     height: 100%;
 }
+
+.appointment-modal-container {
+    overflow-y: auto;
+}
+
+.btn-round {
+    border-radius: 50px;
+    width: 40px;
+    height: 40px;
+}
+
+.appointment-prescription-select {
+    width: 120px;
+}
+
+.border-dashed {
+   display: block;
+   margin: auto;
+   width: 75%; 
+}
+
+.delete {
+    border-radius: 50px;
+}
+
+.tab-button {
+    margin-bottom: -20px;
+}

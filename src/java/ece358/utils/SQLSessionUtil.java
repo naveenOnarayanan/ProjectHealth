@@ -71,7 +71,7 @@ public class SQLSessionUtil {
         statement.close();
     }
     
-    public static Object get(Class objType, String id) throws InstantiationException, IllegalAccessException, SQLException, ClassNotFoundException {
+    public static Object get(Class objType, Object id) throws InstantiationException, IllegalAccessException, SQLException, ClassNotFoundException {
         MySQLObjectMapping instanceObj = (MySQLObjectMapping) objType.newInstance();
         Field instanceFieldClass = instanceObj.getIdFields().get(0);
         String fieldName = upperCaseFirstCharacterAndID(instanceFieldClass.getName());
@@ -133,8 +133,9 @@ public class SQLSessionUtil {
         StringBuilder queryBuilder = new StringBuilder(" UPDATE ");
         queryBuilder.append(clazz.getName().toLowerCase());
         queryBuilder.append(" SET");
-        Field[] fields = clazz.getFields();
-        for (int i = 0; i < fields.length; i++) {
+        Field[] fields = clazz.getDeclaredFields();
+        Field[] publicFields = clazz.getFields();
+        for (int i = 0; i < publicFields.length; i++) {
             if (!ids.contains(fields[i])) {
                 String fieldname = upperCaseFirstCharacterAndID(fields[i].getName());
 
@@ -182,7 +183,8 @@ public class SQLSessionUtil {
         queryBuilder.append(clazz.getSimpleName().toLowerCase());
         queryBuilder.append(" VALUES (");
         Field[] fields = clazz.getDeclaredFields();
-        for (int i = 0; i < fields.length; i++) {
+        Field[] publicFields = clazz.getFields();
+        for (int i = 0; i < publicFields.length; i++) {
             Object fieldValue = fields[i].get(newObj);
             if (fields[i].getType().equals(Date.class)) {
                 if (fieldValue != null) {
@@ -209,7 +211,7 @@ public class SQLSessionUtil {
                 queryBuilder.append((String) fieldValue);
                 queryBuilder.append("'");
             }
-            if (i == fields.length - 1) {
+            if (i == publicFields.length - 1) {
                 queryBuilder.append(")");
             } else {
                 queryBuilder.append(", ");
