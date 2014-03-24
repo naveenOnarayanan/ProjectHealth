@@ -68,6 +68,10 @@
                             widthFixed: true,
                             headerTemplate: '{content} {icon}',
                             widgets: ["uitheme", "filter", "zebra"],
+                            dateFormat: "yyyy-mm-dd",
+                            headers: {
+                                4:{sorter:"shortDate"}
+                            }
                         })
                         .tablesorterPager({
                             container: $("#UpcomingPager"),
@@ -79,6 +83,10 @@
                             widthFixed: true,
                             headerTemplate: '{content} {icon}',
                             widgets: ["uitheme", "filter", "zebra"],
+                            dateFormat: "yyyy-mm-dd",
+                            headers: {
+                                4:{sorter:"shortDate"}
+                            }
                         })
                         .tablesorterPager({
                             container: $("#PastPager"),
@@ -120,7 +128,7 @@
                                 <th>Patient Name</th>
                                 <%}%>
                                 <th>Operation</th>
-                                <th>Date</th>
+                                <th data-sorter="shortDate" data-date-format="yyyy-mm-dd">Date</th>
                                 <th>Surgeon</th>
                                 <%if(!doctorsFuture.isEmpty()){%>
                                 <th>Primary Doctor</th>
@@ -184,7 +192,7 @@
                                 <th>Patient Name</th>
                                 <%}%>
                                 <th>Operation</th>
-                                <th>Date</th>
+                                <th data-sorter="shortDate" data-date-format="yyyy-mm-dd">Date</th>
                                 <th>Surgeon</th>
                                 <%if(!doctorsPast.isEmpty() || schedoperationsPast.isEmpty()){%>
                                 <th>Primary Doctor</th>
