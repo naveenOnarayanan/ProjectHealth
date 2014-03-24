@@ -116,11 +116,9 @@
         })
         </script>
         <div id="navbar-container"></div>
-<<<<<<< HEAD
         <div id="content-patient-info">   
         
-        <div style="padding-left: 11%">
-=======
+        <div style="padding-left: 5%">
         
         <% if (error != null && !error.equals("")) { %>
             <div class="alert alert-dismissable alert-danger">
@@ -131,9 +129,8 @@
         
         <h1>Patient Lookup</h1>
         <% if (!queryServletError) { %>
-        <h4 style="padding-left: 25px">Search</h4>
-        <div style="padding-left: 25px">
->>>>>>> 66067a574c97f738cb1b84fbf65cf637e70065dc
+        <h4>Search</h4>
+        <div>
             <form method ="post" action="PatientLookup?mode=1">
                 <table class="rounded-table" width=1175 cellpadding="10" style="background-color:#F8F8F8; width: 77%">
                     <tr>
@@ -393,6 +390,8 @@
                </div>
              </div>
            </div>
+        </div>
+        </div>
         </div>
 
         <% } %>
