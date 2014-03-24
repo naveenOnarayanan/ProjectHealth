@@ -296,7 +296,7 @@ public class PatientLookup extends HttpServlet {
                         QueryString.append("%' ");
                         conditionCount++;
                     }
-                    if(DoctorLookup != null && !DoctorLookup.equals(" "))
+                    if(DoctorLookup != null && !DoctorLookup.equals(" ") && !DoctorLookup.equals(""))
                     {
                         if(conditionCount > 0)
                             QueryString.append("and DefaultDoctorID = '");
