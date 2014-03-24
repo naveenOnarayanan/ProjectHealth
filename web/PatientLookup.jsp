@@ -37,6 +37,8 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
+        <% String error = (String) request.getAttribute("error"); %>
+        <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
         <% String Address = (String) request.getAttribute("Address"); %>
         <% String City = (String) request.getAttribute("City"); %>
         <% String Province = (String) request.getAttribute("Province"); %>
@@ -96,7 +98,7 @@
             }%>
            <% HashMap<String,String> errors = (HashMap<String,String>) request.getAttribute("errors");%>
            <% Boolean allowDoctorManage = false; %>
-           <% if (DefaultDoctorID.equals(((Users)request.getSession().getAttribute("user")).getUserId()))
+           <% if (DefaultDoctorID != null && DefaultDoctorID.equals(((Users)request.getSession().getAttribute("user")).getUserId()))
            {
                allowDoctorManage = true;
            }%>
@@ -114,9 +116,24 @@
         })
         </script>
         <div id="navbar-container"></div>
+<<<<<<< HEAD
         <div id="content-patient-info">   
         
         <div style="padding-left: 11%">
+=======
+        
+        <% if (error != null && !error.equals("")) { %>
+            <div class="alert alert-dismissable alert-danger">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <%= error %>
+            </div>
+        <% } %>
+        
+        <h1>Patient Lookup</h1>
+        <% if (!queryServletError) { %>
+        <h4 style="padding-left: 25px">Search</h4>
+        <div style="padding-left: 25px">
+>>>>>>> 66067a574c97f738cb1b84fbf65cf637e70065dc
             <form method ="post" action="PatientLookup?mode=1">
                 <table class="rounded-table" width=1175 cellpadding="10" style="background-color:#F8F8F8; width: 77%">
                     <tr>
@@ -135,6 +152,7 @@
                         <td class="medium-text">Doctor:</td>
                         <td><select id="DoctorLookup" name ="DoctorLookup" class="medium-textbox">
                                 <option value=" " selected></option>
+                                    <% if (Doctors != null) { %>
                                          <%for(Staff s : Doctors)
                                             {
                                                 String DID = s.getUserId();
@@ -147,7 +165,8 @@
                                                 <option value="<%=DID%>"><%=LName%>, <%=FName%></option>
                                                 <%}
                                             }%>
-                                    </select></td>
+                                    <% } %>
+                                </select></td>
                         <td></td>
                         <td>
                             <button style="width: 25%" class="btn btn-success" type = "submit" onClick="clearSearch()">Clear</button>
@@ -236,35 +255,39 @@
                             <tr>
                                 <td class="medium-text">Province:</td>
                                 <td>
-                                <select id="Province" name ="Province" class="patient-info-chart" <%=disabled%>>
-                                    <%for(Province c : Provinces)
-                                        {
-                                            String code = c.getCode();
-                                            String name = c.getName();
-                                            if(code.equals(Province)){%>
-                                             <option value="<%=code%>" selected><%=name%></option>
-                                        <%}
-                                            else{%>
-                                             <option value="<%=code%>"><%=name%></option>  
+                                <select id="Province" name ="Province" style="width:200px" <%=disabled%>>
+                                    <% if (Provinces != null) { %>
+                                        <%for(Province c : Provinces)
+                                            {
+                                                String code = c.getCode();
+                                                String name = c.getName();
+                                                if(code.equals(Province)){%>
+                                                 <option value="<%=code%>" selected><%=name%></option>
                                             <%}
-                                        }%>
+                                                else{%>
+                                                 <option value="<%=code%>"><%=name%></option>  
+                                                <%}
+                                            }%>
+                                    <% } %>
                                 </select>
                                 </td>
                                 <td class="medium-text">Doctor:</td>
                                 <td>
-                                    <select id="DefaultDoctorID" name ="DefaultDoctorID" class="patient-info-chart" <%=disabled%>>
-                                        <%for(Staff s : Doctors)
-                                            {
-                                                String DID = s.getUserId();
-                                                String FName = s.getFirstName();
-                                                String LName = s.getLastName();
-                                                if(DID.equals(DefaultDoctorID) && DID != null){%>
-                                                 <option value="<%=DID%>" selected><%=LName%>, <%=FName%></option>
-                                            <%}
-                                                else{%>
-                                                <option value="<%=DID%>"><%=LName%>, <%=FName%></option>
+                                    <select id="DefaultDoctorID" name ="DefaultDoctorID" style="width:200px" <%=disabled%>>
+                                        <% if (Doctors != null) { %>
+                                            <%for(Staff s : Doctors)
+                                                {
+                                                    String DID = s.getUserId();
+                                                    String FName = s.getFirstName();
+                                                    String LName = s.getLastName();
+                                                    if(DID.equals(DefaultDoctorID) && DID != null){%>
+                                                     <option value="<%=DID%>" selected><%=LName%>, <%=FName%></option>
                                                 <%}
-                                            }%>
+                                                    else{%>
+                                                    <option value="<%=DID%>"><%=LName%>, <%=FName%></option>
+                                                    <%}
+                                                }%>
+                                        <% } %>
                                     </select>
                                 </td>
                                 <input type = "hidden" id="DefaultDoctorID" name ="DefaultDoctorID" value = "<%=DefaultDoctorID%>" ></input>
@@ -347,6 +370,7 @@
                </div>
                  <div class="modal-body" id="sDoctor-modal-body" style="text-align:center">
                     <select id="SecondaryDoctor" name ="SecondaryDoctor" style="width:200px;">
+                        <% if (Doctors != null) { %>
                           <%for(Staff s : Doctors)
                             {
                                 String DID = s.getUserId();
@@ -356,6 +380,7 @@
                                 <option value="<%=DID%>"><%=FName%> <%=LName%></option>
                             <%}
                             }%>
+                        <% } %>
                     </select>
                     <button type="button" id="addSDoctorButton" onClick="addDoctor()" style="margin-left:10px">&plus;</button>
                     <div id="sDoctor-modal-list" name="sDoctor-modal-list">
@@ -369,7 +394,8 @@
              </div>
            </div>
         </div>
-        </div>  
+
+        <% } %>
     </body>
 
 </html>

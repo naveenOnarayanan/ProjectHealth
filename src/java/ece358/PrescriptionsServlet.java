@@ -46,9 +46,7 @@ public class PrescriptionsServlet extends HttpServlet {
             return;
         }
         
-        String url = "";
         boolean queryServletError = false;
-        
         try {
             String query = "";
             if (sessionUser.getRole().equals(Constants.PATIENT)){
@@ -115,16 +113,15 @@ public class PrescriptionsServlet extends HttpServlet {
             }
 
             request.setAttribute("prescriptions", prescriptions);
-            url = "/Prescriptions.jsp";
+            request.setAttribute("queryServletError", queryServletError);
             
         } catch (Exception e) {
             queryServletError = true;
             request.setAttribute("error", e.getMessage());
             request.setAttribute("queryServletError", queryServletError);
             System.out.println(e);
-            url = "/error.jsp";
         }
-        getServletContext().getRequestDispatcher(url).forward(request, response);
+        getServletContext().getRequestDispatcher("/Prescriptions.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

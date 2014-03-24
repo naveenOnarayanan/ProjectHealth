@@ -38,7 +38,11 @@
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/2.1.30/css/bootstrap-datetimepicker.min.css"/>
         <link rel="stylesheet" href="css/index.css"/>
         
+        <% String error = (String) request.getAttribute("error"); %>
+        <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
+        
         <% List<PrescriptionInfo> prescriptions = (List<PrescriptionInfo>) request.getAttribute("prescriptions"); %>
+        
         <script>
             $(document).ready(function() {
                var prescriptions = <%= new Gson().toJson(prescriptions) %>;
@@ -78,6 +82,13 @@
  
         <div id="navbar-container"></div>
         
+        <% if (error != null && !error.equals("")) { %>
+            <div class="alert alert-dismissable alert-danger">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <%= error %>
+            </div>
+        <% } %>
+        
         <%  Users user = (Users) request.getSession().getAttribute("user"); %>
         
         <table class="center-block">
@@ -107,8 +118,8 @@
                         <th style="width: 12%">Expiry</th>
                     </tr>
                 </thead>
-                <%
-                    for (int i = 0; i < prescriptions.size(); i++) {%>
+                <% if (!queryServletError && prescriptions != null) { %>
+                    <% for (int i = 0; i < prescriptions.size(); i++) { %>
                         <tr class="info" id="patientPrescription-<%= i %>">
                             <% if (!user.getRole().equals(Constants.PATIENT)) {%>
                             <td><%= prescriptions.get(i).getPatientID() %></td>
@@ -121,7 +132,8 @@
                             <td><%= prescriptions.get(i).issueToSimpleDateString() %></td>
                             <td><%= prescriptions.get(i).expiryToSimpleDateString() %></td>
                         </tr>
-                    <%}%>
+                    <% } %>
+                <% } %>
             </table>
         </div>
     </body>

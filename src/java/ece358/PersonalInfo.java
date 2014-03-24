@@ -49,6 +49,7 @@ public class PersonalInfo extends HttpServlet {
         String sessionUsername = sessionUser.getUserId();
 
         String url;
+        boolean queryServletError = false;
         try {
             int mode = Integer.parseInt(request.getParameter("mode"));
             if(mode == 1 || mode == 2)
@@ -103,10 +104,13 @@ public class PersonalInfo extends HttpServlet {
                 url = "/PersonalInfo?mode=1";
             }
             
+            request.setAttribute("queryServletError", queryServletError);
         } catch (Exception e) {
-            request.setAttribute("exception", e);
+            queryServletError = true;
+            request.setAttribute("error", e.getMessage());
+            request.setAttribute("queryServletError", queryServletError);
             System.out.println(e);
-            url = "/error.jsp";
+            url = "/PersonalInfo.jsp";
         }
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }

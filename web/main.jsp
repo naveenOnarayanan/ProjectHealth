@@ -45,44 +45,5 @@
         <%
            } 
         %>
-        <ul>
-            <button><a href="QueryServlet?qnum=2">Update user 0</a></button>
-            <button><a href="QueryServlet?qnum=3">Add user</a></button>
-            <button><a href="QueryServlet?qnum=4">Delete user 0</a></button>
-            <button><a href="QueryServlet?qnum=1">List all employees</a></button>
-            <% 
-                if(queryServletError != null && !queryServletError){
-            %>
-                <h1>Employee Data</h1>
-                <table border=1><tr><th>ID</th><th>First Name</th><th>Last Name</th></tr>
-                    <% 
-                        if(employeeList != null){
-                    %>
-                        <%
-                            for (Staff em : employeeList) {
-                        %>
-                        <tr>
-                            <td><%= em.getUserId()%></td>
-                            <td><%= em.getFirstName()%></td>
-                            <td><%= em.getLastName()%></td>
-                        </tr>
-                        <%
-                            }
-                        %>
-                    <% 
-                        }
-                    %>
-                </table>
-            <%
-                }
-                else if(queryServletError != null && queryServletError){
-            %>
-            <h1>Query Error</h1>
-            <%
-                    }
-            %>
-           
-        </ul>
-         
     </body>
 </html>
