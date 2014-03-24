@@ -74,7 +74,14 @@ public class LoginServlet extends HttpServlet {
                         request.getSession().setAttribute("firstname", patient.getFirstName());
                         request.getSession().setAttribute("lastname", patient.getLastName());
                     }
-                    url = "/main.jsp";
+                    if (user.getRole().equals("finance"))
+                    {
+                        url = "/DoctorLookupServlet?mode=1";
+                    }
+                    else
+                    {
+                        url = "/AppointmentServlet";
+                    }
                 }
                 request.getSession().setAttribute("user", user);
             } catch (Exception e) {

@@ -14,7 +14,7 @@ function getNavbar(role, firstname, lastname) {
     var patientNav = [];
         patientNav[0] = "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
-                "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
+                "<a class='navbar-brand' href='AppointmentServlet'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
@@ -44,7 +44,7 @@ function getNavbar(role, firstname, lastname) {
     var doctorNav =[];
         doctorNav[0] = "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
-                "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
+                "<a class='navbar-brand' href='AppointmentServlet'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
@@ -73,7 +73,7 @@ function getNavbar(role, firstname, lastname) {
     var staffNav = [];
         staffNav[0] = "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
-                "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
+                "<a class='navbar-brand' href='AppointmentServlet'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
@@ -102,7 +102,7 @@ function getNavbar(role, firstname, lastname) {
     var financeNav = [];
         financeNav[0] = "<nav class='navbar navbar-default' role='navigation'>" +
             "<div class='navbar-header'>" +
-                "<a class='navbar-brand' href='main.jsp'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
+                "<a class='navbar-brand' href='DoctorLookupServlet?mode=1'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
             "</div>" +
             "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
                 "<ul class='nav navbar-nav'>" +
