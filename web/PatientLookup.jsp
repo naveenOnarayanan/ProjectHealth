@@ -107,32 +107,33 @@
     <body>
         <script>
         $(function() {
+           $("#content-patient-info").css("height", $(window).height()-75);
            getNavbar("<%= ((Users) request.getSession().getAttribute("user")).getRole()%>", 
            "<%=request.getSession().getAttribute("firstname")%>",
            "<%=request.getSession().getAttribute("lastname")%>");
         })
         </script>
         <div id="navbar-container"></div>
-        <h1>Patient Lookup</h1>
-        <h4 style="padding-left: 25px">Search</h4>
-        <div style="padding-left: 25px">
+        <div id="content-patient-info">   
+        
+        <div style="padding-left: 11%">
             <form method ="post" action="PatientLookup?mode=1">
-                <table class="rounded-table" width=1175 cellpadding="10" style="background-color:#F8F8F8;">
+                <table class="rounded-table" width=1175 cellpadding="10" style="background-color:#F8F8F8; width: 77%">
                     <tr>
-                        <td>First Name:</td>
-                        <td><input type = "text" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input></td>
-                        <td>Patient ID:</td>
-                        <td><input type = "text" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input></td>
+                        <td class="medium-text">First Name:</td>
+                        <td><input class="medium-textbox" type="text" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input></td>
+                        <td class="medium-text">Patient ID:</td>
+                        <td><input class="medium-textbox" type="text" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input></td>
                     </tr>
                     <tr>
-                        <td>Last Name:</td>
-                        <td><input type = "text" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input></td>
-                        <td>Health Card Number:<br>(0000-000-000-AA)</td>
-                        <td><input type = "text" id="HealthCardLookup" name ="HealthCardLookup" value="<%=HealthCardLookup%>"></input></td>
+                        <td><text class="medium-text">Last Name:</td>
+                        <td><input class="medium-textbox" type="text" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input></td>
+                        <td class="medium-text" style="width: 15%">Health Card Number:<br>(0000-000-000-AA)</td>
+                        <td><input class="medium-textbox" type="text" id="HealthCardLookup" name ="HealthCardLookup" value="<%=HealthCardLookup%>"></input></td>
                     </tr>
                     <tr>
-                        <td>Doctor:</td>
-                        <td><select id="DoctorLookup" name ="DoctorLookup" style="width:200px">
+                        <td class="medium-text">Doctor:</td>
+                        <td><select id="DoctorLookup" name ="DoctorLookup" class="medium-textbox">
                                 <option value=" " selected></option>
                                          <%for(Staff s : Doctors)
                                             {
@@ -148,20 +149,24 @@
                                             }%>
                                     </select></td>
                         <td></td>
-                        <td><button class="btn btn-success" type = "submit" onClick="clearSearch()">Clear</button>&nbsp;&nbsp;<button class="btn btn-success" type = "submit">Search</button></td>
+                        <td>
+                            <button style="width: 25%" class="btn btn-success" type = "submit" onClick="clearSearch()">Clear</button>
+                            &nbsp;&nbsp;
+                            <button style="width: 25%" class="btn btn-success" type = "submit">Search</button>                            
+                        </td>
                     </tr>
                 </table> 
             </form>
         </div>
-        <div style="width:100%; display:table">
+        <div style="width:100%; display:table; padding-left: 11%">
             <div style="display: table-row">
-                <div style="width: 250px; display: table-cell; float:left; padding-left: 25px">
-                    <h4>Patients</h4>
+                <div style="width: 254px; display: table-cell; float:left;">
+                    <h3>Patients</h3>
                     <form method="post" action="PatientLookup?mode=1" name="PatientSelectForm">
                         <input type = "hidden" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input>
                         <input type = "hidden" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input>
                         <input type = "hidden" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input>
-                        <select id="PatientSelect" name="PatientSelect" onChange="document.PatientSelectForm.submit();"size="20" style="width:100%">
+                        <select class="medium-text" id="PatientSelect" name="PatientSelect" onChange="document.PatientSelectForm.submit();"size="20" style="width:100%; height: 485px">
                             <% if(PatientsList != null && !PatientsList.isEmpty()){
                             for(Patients p : PatientsList){
                                 if(PatientUserID.equals(p.getUserId())){%>
@@ -176,8 +181,8 @@
                         <button class="btn btn-success" type="submit" style="width:100%; margin-top: 10px" formaction="PatientLookup?mode=4">New Patient</button>
                     </form>
                 </div>
-                <div style="display: table-cell; float:left; padding-left: 100px">
-                    <h4>Patient Information</h4>
+                <div style="display: table-cell; float:left; padding-left: 5%">
+                    <h3>Patient Information</h3>
                     <% if(errors != null && errors.size() != 0){ %>
                         <div class="alert fade in rounded-div" width="900" style="background-color:#FF9494">
                         <button class = "btn btn-success" type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -201,37 +206,37 @@
                         <table class="rounded-table" width="900" cellpadding="10" style="float:left; background-color:#F8F8F8">
                             <tr>
                             <input type="hidden" id="PatientUserID" name="PatientUserID" value="<%=PatientUserID%>"></input>
-                                <td>First Name:</td>
-                                <td><input type = "text" id="FirstName" name ="FirstName" value = "<%=FirstName%>" <%=disabled%>></input></td>
+                                <td class="medium-text">First Name:</td>
+                                <td><input class="patient-info-chart" type = "text" id="FirstName" name ="FirstName" value = "<%=FirstName%>" <%=disabled%>></input></td>
                                 <input type = "hidden" id="FirstName" name ="FirstName" value = "<%=FirstName%>" ></input>
-                                <td>Phone Number:<br>(000-000-0000)</td>
-                                <td><input type = "tel" type = "tel" id="PhoneNumber" name ="PhoneNumber"  pattern='<%=PhoneNumberRegex%>' value = "<%=PhoneNumber%>" <%=disabled%>></input></td>
+                                <td class="medium-text">Phone Number:<br>(000-000-0000)</td>
+                                <td><input class="patient-info-chart" type = "tel" type = "tel" id="PhoneNumber" name ="PhoneNumber"  pattern='<%=PhoneNumberRegex%>' value = "<%=PhoneNumber%>" <%=disabled%>></input></td>
                             </tr>
                             <tr>
-                                <td>Last Name:</td>
-                                <td><input type = "text" id="LastName" name ="LastName" value = "<%=LastName%>" <%=disabled%>></input></td>
+                                <td class="medium-text">Last Name:</td>
+                                <td><input class="patient-info-chart" type = "text" id="LastName" name ="LastName" value = "<%=LastName%>" <%=disabled%>></input></td>
                                 <input type = "hidden" id="LastName" name ="LastName" value = "<%=LastName%>" ></input>
-                                <td>Contact Phone Number:<br>(000-000-0000)</td>
-                                <td><input type = "tel"  id="PrimaryContactNo" name ="PrimaryContactNo" pattern='<%=PhoneNumberRegex%>' value = "<%=PrimaryContactNo%>" <%=disabled%>></input></td>
+                                <td class="medium-text">Contact Phone Number:<br>(000-000-0000)</td>
+                                <td><input class="patient-info-chart" type = "tel"  id="PrimaryContactNo" name ="PrimaryContactNo" pattern='<%=PhoneNumberRegex%>' value = "<%=PrimaryContactNo%>" <%=disabled%>></input></td>
                             </tr>
                             <tr>
-                                <td>Address:</td>
-                                <td><input type = "text" id="Address" name="Address" value = "<%=Address%>" <%=disabled%>></input></td>
-                                <td>Health Card Number:<br>(0000-000-000-AA)</td>
-                                <td><input type = "tel" id="HealthCardNumber" pattern='<%=HealthCardRegex%>' name="HealthCardNumber" value = "<%=HealthCardNumber%>" <%=disabled%>></input></td>
+                                <td class="medium-text">Address:</td>
+                                <td><input class="patient-info-chart" type = "text" id="Address" name="Address" value = "<%=Address%>" <%=disabled%>></input></td>
+                                <td class="medium-text">Health Card Number:<br>(0000-000-000-AA)</td>
+                                <td><input class="patient-info-chart" type = "tel" id="HealthCardNumber" pattern='<%=HealthCardRegex%>' name="HealthCardNumber" value = "<%=HealthCardNumber%>" <%=disabled%>></input></td>
                                 <input type = "hidden" id="HealthCardNumber" name ="HealthCardNumber" value = "<%=HealthCardNumber%>"></input>
                             </tr>
                             <tr>
-                                <td>City:</td>
-                                <td><input type = "text" id="City" name ="City" value = "<%=City%>" <%=disabled%>></input></td>
-                                <td>SIN:<br>(000-000-000)</td>
-                                <td><input type = "tel" pattern='<%=SINRegex%>' id="SIN" name ="SIN" value = "<%=SIN%>" <%=disabled%>></input></td>
+                                <td class="medium-text">City:</td>
+                                <td><input class="patient-info-chart" type = "text" id="City" name ="City" value = "<%=City%>" <%=disabled%>></input></td>
+                                <td class="medium-text">SIN:<br>(000-000-000)</td>
+                                <td><input class="patient-info-chart" type = "tel" pattern='<%=SINRegex%>' id="SIN" name ="SIN" value = "<%=SIN%>" <%=disabled%>></input></td>
                                 <input type = "hidden" id="SIN" name ="SIN" value = "<%=SIN%>" ></input>
                             </tr>
                             <tr>
-                                <td>Province:</td>
+                                <td class="medium-text">Province:</td>
                                 <td>
-                                <select id="Province" name ="Province" style="width:200px" <%=disabled%>>
+                                <select id="Province" name ="Province" class="patient-info-chart" <%=disabled%>>
                                     <%for(Province c : Provinces)
                                         {
                                             String code = c.getCode();
@@ -245,9 +250,9 @@
                                         }%>
                                 </select>
                                 </td>
-                                <td>Doctor:</td>
+                                <td class="medium-text">Doctor:</td>
                                 <td>
-                                    <select id="DefaultDoctorID" name ="DefaultDoctorID" style="width:200px" <%=disabled%>>
+                                    <select id="DefaultDoctorID" name ="DefaultDoctorID" class="patient-info-chart" <%=disabled%>>
                                         <%for(Staff s : Doctors)
                                             {
                                                 String DID = s.getUserId();
@@ -265,17 +270,17 @@
                                 <input type = "hidden" id="DefaultDoctorID" name ="DefaultDoctorID" value = "<%=DefaultDoctorID%>" ></input>
                             </tr>
                             <tr>
-                                <td>Postal Code:<br>(A0A 0A0)</td>
-                                <td><input type = "tel" pattern="<%=PostalCodeRegex%>"  id="PostalCode" name ="PostalCode"  value = "<%=PostalCode%>" <%=disabled%>></input></td>
-                                <td>Health Status:</td>
-                                <td><input type = "text" id="HealthStatus" name ="HealthStatus" value = "<%=HealthStatus%>" <%=disabled%>></input></td>
+                                <td class="medium-text">Postal Code:<br>(A0A 0A0)</td>
+                                <td><input class="patient-info-chart" type = "tel" pattern="<%=PostalCodeRegex%>"  id="PostalCode" name ="PostalCode"  value = "<%=PostalCode%>" <%=disabled%>></input></td>
+                                <td class="medium-text">Health Status:</td>
+                                <td><input class="patient-info-chart" type = "text" id="HealthStatus" name ="HealthStatus" value = "<%=HealthStatus%>" <%=disabled%>></input></td>
                                 <input type = "hidden" id="HealthStatus" name ="HealthStatus" value = "<%=HealthStatus%>" ></input>
 
                             </tr>
                             <tr>
-                                <td>Country:</td>
+                                <td class="medium-text">Country:</td>
                                 <td>
-                                <select id="Country" name ="Country" style="width:200px" <%=disabled%>>
+                                <select id="Country" name ="Country" class="patient-info-chart" <%=disabled%>>
                                     <%if(Countries != null){
                                             for(Country c : Countries)
                                             {
@@ -290,13 +295,13 @@
                                     }%>
                                 </select>
                                 </td>
-                                <td>Visits:</td>
-                                <td><input type = "text" id="Visits" name ="Visits" value = "<%=Vists%>" disabled></input></td>
+                                <td class="medium-text">Visits:</td>
+                                <td><input class="patient-info-chart" type = "text" id="Visits" name ="Visits" value = "<%=Vists%>" disabled></input></td>
                                 <input type = "hidden" id="Visits" name ="Visits" value = "<%=Vists%>" ></input>
                             </tr>
                             <tr>
-                                <td>Email:</td>
-                                <td><input type = "email" id="Email" name ="Email" value = "<%=Email%>" <%=disabled%>></input></td>
+                                <td class="medium-text">Email:</td>
+                                <td><input class="patient-info-chart" type = "email" id="Email" name ="Email" value = "<%=Email%>" <%=disabled%>></input></td>
                                 <td></td>
                                 <td align="left"><%=buttons%></td>
                             </tr>
@@ -364,7 +369,7 @@
              </div>
            </div>
         </div>
-                
+        </div>  
     </body>
 
 </html>

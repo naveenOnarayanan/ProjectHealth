@@ -168,3 +168,22 @@ ul.nav.navbar-nav li:hover {
     margin-left: 11%;
     width: 78%;
 }
+
+.medium-textbox {
+    width: 65%;
+    font-size: medium;
+}
+
+.medium-text {
+    font-size: medium;
+}
+
+.patient-info-chart {
+    width: 225px;
+    font-size: medium;
+}
+
+#content-patient-info {
+    overflow-y: auto;
+    height: 100%;
+}
