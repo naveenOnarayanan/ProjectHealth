@@ -182,6 +182,8 @@
                         <input type = "hidden" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input>
                         <input type = "hidden" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input>
                         <input type = "hidden" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input>
+                        <input type = "hidden" id="HealthCardLookup" name ="HealthCardLookup" value="<%=HealthCardLookup%>"></input>
+                        <input type = "hidden" id="DoctorLookup" name ="DoctorLookup" value="<%=DoctorLookup%>"></input>
                         <select class="medium-text" id="PatientSelect" name="PatientSelect" onChange="document.PatientSelectForm.submit();"size="20" style="width:100%; height: 485px">
                             <% if(PatientsList != null && !PatientsList.isEmpty()){
                             for(Patients p : PatientsList){
@@ -219,6 +221,8 @@
                         <input type = "hidden" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input>
                         <input type = "hidden" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input>
                         <input type = "hidden" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input>
+                        <input type = "hidden" id="HealthCardLookup" name ="HealthCardLookup" value="<%=HealthCardLookup%>"></input>
+                        <input type = "hidden" id="DoctorLookup" name ="DoctorLookup" value="<%=DoctorLookup%>"></input>
                         <table class="rounded-table" width="900" cellpadding="10" style="float:left; background-color:#F8F8F8">
                             <tr>
                             <input type="hidden" id="PatientUserID" name="PatientUserID" value="<%=PatientUserID%>"></input>
