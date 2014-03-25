@@ -283,7 +283,7 @@
                             <%
                                 List<Visitation> appointments = (List<Visitation>) request.getAttribute("upcomingAppointments");
                                 for (int i = 0; i < appointments.size(); i++) {%>
-                                <tr id="upcoming-appointment-<%=i%>" data-id="<%= appointments.get(i).getVisitId()%>">
+                                <tr id="upcoming-appointment-<%=i%>" data-complete="<%= appointments.get(i).getApptComplete() %>" data-id="<%= appointments.get(i).getVisitId()%>">
                                     <td class="appointment-visit-id" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>><%= appointments.get(i).getVisitId() %></td>
                                     <td class="appointment-date" id="upcoming-date-<%= i%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>>
                                     </td>
@@ -351,7 +351,7 @@
                             <%
                                 appointments = (List<Visitation>) request.getAttribute("pastAppointments");
                                 for (int i = 0; i < appointments.size(); i++) {%>
-                                <tr id="past-appointment-<%=i%>" data-id="<%= appointments.get(i).getVisitId()%>">
+                                <tr id="past-appointment-<%=i%>" data-complete="<%= appointments.get(i).getApptComplete() %>" data-id="<%= appointments.get(i).getVisitId()%>">
                                     <td class="appointment-visit-id" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>><%= appointments.get(i).getVisitId() %></td>
                                     <td class="appointment-date" id="past-date-<%= i%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>>
                                     </td>

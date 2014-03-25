@@ -203,6 +203,14 @@ function updateAppointmentModal(index, role, appointment) {
     if (role == "staff") {
         if (index >= 0) {
             $("#appointment-modal-doctorID").select2("readonly", true);
+            
+            var appointmentComplete = $("#" + appointment + "-appointment-" + index).attr("data-complete");
+            if (appointmentComplete == "true") {
+                $("#appointment-modal-apptComplete").attr("checked", "true");
+                $("#appointment-modal-apptComplete").bootstrapSwitch('state', true);
+            } else {
+                $("#appointment-modal-apptComplete").bootstrapSwitch('state', false);
+            }
 
             $("#appointment-modal-visitID").val($("#" + appointment + "-appointment-" + index).attr("data-id"));
             $("#appointment-modal-date").data("DateTimePicker").setDate($("#" + appointment + "-appointment-" + index + " .appointment-date").text().trim());

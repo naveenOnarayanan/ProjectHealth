@@ -143,6 +143,9 @@ public class AppointmentServlet extends HttpServlet {
                     visit.setDoctorId(appointmentDoctorID);
                     visit.setSymptoms(appointmentSymptoms);
                     visit.setType(appointmentType);
+                    visit.setLength(new Time((new SimpleDateFormat("HH:mm").parse(appointmentLength)).getTime()));
+                    visit.setApptComplete((appointmentComplete != null && appointmentComplete.equals("on")) ? true : false);
+                    visit.setCancelled((appointmentCancelled != null && appointmentCancelled.equals("on")) ? true : false);
 
                     SQLSessionUtil.add(visit);
                     url = "/AppointmentServlet?action=";
