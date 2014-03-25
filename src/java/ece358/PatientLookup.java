@@ -260,6 +260,9 @@ public class PatientLookup extends HttpServlet {
                     String PatientUserIDLookup = request.getParameter("PatientUserIDLookup");
                     String HealthCardLookup = request.getParameter("HealthCardLookup");
                     String DoctorLookup = request.getParameter("DoctorLookup");
+                    Boolean TransferedLookup = false;
+                    if(request.getParameter("TransferedLookup") != null && request.getParameter("TransferedLookup").equals("on"))
+                        TransferedLookup = true;
                     StringBuilder QueryString = new StringBuilder();
                     int conditionCount = 0;
                     QueryString.append("SELECT * FROM Patients ");
@@ -310,6 +313,14 @@ public class PatientLookup extends HttpServlet {
                         QueryString.append("' ");
                         conditionCount++;
                     }
+                    
+                    if(conditionCount > 0)
+                        QueryString.append("and Transfered = ");
+                    else
+                        QueryString.append("WHERE Transfered = ");
+                    QueryString.append(TransferedLookup.toString());
+                    QueryString.append(" ");
+                    conditionCount++;
                     //QueryString.append(";");
                     try{
                         List<Patients> patients = (List<Patients>) SQLSessionUtil.selectType(Patients.class, QueryString.toString());
@@ -319,6 +330,7 @@ public class PatientLookup extends HttpServlet {
                         request.setAttribute("PatientUserIDLookup", PatientUserIDLookup);
                         request.setAttribute("HealthCardLookup", HealthCardLookup);
                         request.setAttribute("DoctorLookup", DoctorLookup);
+                        request.setAttribute("TransferedLookup", TransferedLookup);
                     }
                     catch(Exception E)
                     {
