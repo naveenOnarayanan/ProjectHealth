@@ -53,7 +53,7 @@ public class DoctorLookupServlet extends HttpServlet {
             doctorID = "";
         request.setAttribute("selectedDoctorID", doctorID);
         
-        SimpleDateFormat webFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        SimpleDateFormat webFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
         
         String startDateTimeString = (String)request.getParameter("startDateTime");
         String endDateTimeString = (String)request.getParameter("endDateTime");
@@ -90,8 +90,10 @@ public class DoctorLookupServlet extends HttpServlet {
                 String query = "SELECT v.* " + 
                         "FROM Visitation AS v " + 
                         "WHERE DoctorID = '" + doctorID + "' " +
-                        "AND DateTime > '" + sqlFormat.format(startDateTime) + "' " +
-                        "AND DateTime < '" + sqlFormat.format(endDateTime) + "' " +
+                        "AND DateTime >= '" + sqlFormat.format(startDateTime) + "' " +
+                        "AND DateTime <= '" + sqlFormat.format(endDateTime) + "' " +
+                        "AND ApptComplete = TRUE " +
+                        "AND Cancelled = FALSE " + 
                         "AND Timestamp = (SELECT MAX(V2.Timestamp) FROM Visitation V2 WHERE V2.VisitID=V.VisitID)";
                 
                 List<Visitation> appointments = (List<Visitation>)SQLSessionUtil.selectType(Visitation.class, query);
@@ -116,8 +118,10 @@ public class DoctorLookupServlet extends HttpServlet {
                             "FROM Visitation AS v " +
                             "WHERE v.doctorID = '" + doctorID + "' " +
                             "AND v.patientID = '" + patientID + "' " +
-                            "AND v.dateTime > '" + sqlFormat.format(startDateTime) + "' " +
-                            "AND v.dateTime < '" + sqlFormat.format(endDateTime) + "' " +
+                            "AND v.dateTime >= '" + sqlFormat.format(startDateTime) + "' " +
+                            "AND v.dateTime <= '" + sqlFormat.format(endDateTime) + "' " +
+                            "AND ApptComplete = TRUE " +
+                            "AND Cancelled = FALSE " + 
                             "AND Timestamp = (SELECT MAX(V2.Timestamp) FROM Visitation V2 WHERE V2.VisitID=V.VisitID)";
                     List<Visitation> patientAppointments = (List<Visitation>)SQLSessionUtil.selectType(Visitation.class, query);
                     patientVisits.add(patientAppointments.size());

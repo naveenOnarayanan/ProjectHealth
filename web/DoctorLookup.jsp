@@ -45,6 +45,7 @@
         <% List<Staff> doctors = (List<Staff>)request.getAttribute("doctors"); %>
         <% String startDateTime = (String)request.getAttribute("startDateTime"); %>
         <% String endDateTime = (String)request.getAttribute("endDateTime"); %>
+        <% SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy h:mm aa"); %>
         
         <% List<Visitation> appointments = (List<Visitation>)request.getAttribute("appointments"); %>
         <% Object[] patientIDs = (Object[])request.getAttribute("patientIDs"); %>
@@ -152,11 +153,7 @@
                     }
                 } %>
                 <th style="width: 50%"><h4 style="padding-left: 22%">Doctor: <%= doctorName %></h4></th>
-                <% SimpleDateFormat webFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm"); %>
-                <% SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa"); %>
-                <% String startDateTimeString = dateTimeFormat.format(webFormat.parse(startDateTime)); %>
-                <% String endDateTimeString = dateTimeFormat.format(webFormat.parse(endDateTime)); %>
-                <th><h4>Dates: <%= startDateTimeString %> - <%= endDateTimeString %></h4></th>
+                <th><h4>Dates: <%= startDateTime %> - <%= endDateTime %></h4></th>
             </tr>
             <tr>
                 <th style="width: 50%"><h4 style="padding-left: 22%">Patients Seen: <%= appointments.size() %></h4></th>
