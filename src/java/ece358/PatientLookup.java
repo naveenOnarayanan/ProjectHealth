@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+import java.security.MessageDigest;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -148,7 +149,20 @@ public class PatientLookup extends HttpServlet {
                             {
                                 UserName += String.valueOf(userNameCount.size());
                             }
-                            Users user = new Users(UserName, FirstName, "patient");
+                            
+                            String hashedPassword;
+
+                            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+                            messageDigest.update(FirstName.getBytes());
+                            byte hashedPasswordData[] = messageDigest.digest();
+
+                            StringBuilder hashedPasswordBuffer = new StringBuilder();
+                            for (int i = 0; i < hashedPasswordData.length; i++)
+                                hashedPasswordBuffer.append(Integer.toString((hashedPasswordData[i] & 0xFF) + 0x100, 16).substring(1));
+
+                            hashedPassword = hashedPasswordBuffer.toString();
+                            
+                            Users user = new Users(UserName, hashedPassword, "patient"); //TODO: hash
                             SQLSessionUtil.add(user);
                             patient.setUserId(UserName);
                             insert = true;
@@ -172,7 +186,9 @@ public class PatientLookup extends HttpServlet {
                         patient.setSin(request.getParameter("SIN"));
                         patient.setDefaultDoctorId(request.getParameter("DefaultDoctorID"));
                         patient.setHealthStatus(request.getParameter("HealthStatus"));
-                        patient.setTransfered(request.getParameter("Transfered").equals("on") ? true : false);
+                        patient.setVisits(0);
+                        String transferred = (String)request.getParameter("Transfered");
+                        patient.setTransfered( (transferred != null && transferred.equals("on")) ? true : false);
                         
                         
                         if(insert)

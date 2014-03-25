@@ -47,7 +47,7 @@
         <% String PhoneNumber = (String) request.getAttribute("PhoneNumber"); %>
         <% String PrimaryContactNo = (String) request.getAttribute("PrimaryContactNo"); %>
         <% String SIN = (String) request.getAttribute("SIN"); %>
-        <% String Vists = (String) request.getAttribute("Vists"); %>
+        <% String Visits = ((Integer)request.getAttribute("Visits")).toString(); %>
         <% int mode  = Integer.parseInt((String)request.getParameter("mode"));%>
         <% List<Country> Countries = (List<Country>) request.getAttribute("Countries");%>
         <% List<Province> Provinces = (List<Province>) request.getAttribute("Provinces");%>
@@ -184,8 +184,8 @@
                     </select>
                     </td>
                     <td class="medium-text">Visits:</td>
-                    <td><input class="medium-textbox" type = "text" id="Visits" name ="Visits" value = "<%=Vists%>" disabled></input></td>
-                    <input type = "hidden" id="Visits" name ="Visits" value = "<%=Vists%>" ></input>
+                    <td><input class="medium-textbox" type = "text" id="Visits" name ="Visits" value = "<%=Visits%>" disabled></input></td>
+                    <input type = "hidden" id="Visits" name ="Visits" value = "<%=Visits%>" ></input>
                 </tr>
                 <tr>
                     <td class="medium-text">Email:</td>
