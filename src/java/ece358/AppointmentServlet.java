@@ -82,7 +82,7 @@ public class AppointmentServlet extends HttpServlet {
             if (sessionUser.getRole().equals(Constants.PATIENT)) {
                 String query =  "SELECT V.* FROM Visitation AS V " + 
                                 "WHERE V.PatientID = '" + sessionUser.getUserId() + "' " + ((visitQuery) ? "AND V.VisitID=" + requestVisitId : "") + 
-                                    " AND V.Timestamp=" +
+                                    " AND V.Cancelled=false AND V.Timestamp=" +
                                         "(SELECT MAX(V2.Timestamp) FROM Visitation V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
                                 "ORDER BY V.VisitID";
 
@@ -143,6 +143,9 @@ public class AppointmentServlet extends HttpServlet {
                     visit.setDoctorId(appointmentDoctorID);
                     visit.setSymptoms(appointmentSymptoms);
                     visit.setType(appointmentType);
+                    visit.setLength(new Time((new SimpleDateFormat("HH:mm").parse(appointmentLength)).getTime()));
+                    visit.setApptComplete((appointmentComplete != null && appointmentComplete.equals("on")) ? true : false);
+                    visit.setCancelled((appointmentCancelled != null && appointmentCancelled.equals("on")) ? true : false);
 
                     SQLSessionUtil.add(visit);
                     url = "/AppointmentServlet?action=";
@@ -176,7 +179,7 @@ public class AppointmentServlet extends HttpServlet {
                     String query =  "SELECT V.* FROM Visitation AS V " + 
                                     "WHERE V.DoctorID = '" + staffInfo.getManagingDoctorId() + "' " + ((visitQuery) ? "AND V.VisitID=" + requestVisitId : "") +
                                         ((patientIdQuery) ? " AND V.PatientID='" + requestPatientId + "'" : "") +
-                                        " AND V.Timestamp=" +
+                                        " AND V.Cancelled=false AND V.Timestamp=" +
                                             "(SELECT MAX(V2.Timestamp) FROM Visitation AS V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
                                     "ORDER BY V.DateTime DESC";
 
@@ -281,17 +284,17 @@ public class AppointmentServlet extends HttpServlet {
                     String query = "SELECT DISTINCT S.* " +
                             "FROM Staff AS S " +
                             "WHERE S.UserID='" + sessionUser.getUserId() + "' OR S.UserID " +
-                                    "IN (SELECT D.DoctorID FROM DoctorPatientPerm AS D WHERE D.SecDoctorID='" + sessionUser.getUserId() + "')";
+                                    "IN (SELECT D.DoctorID FROM DoctorPatientPerm AS D WHERE D.SecDoctorID='" + sessionUser.getUserId() + "' AND D.Expiry > CURDATE())";
 
                     List<Staff> doctorInfo = (List<Staff> ) SQLSessionUtil.selectType(Staff.class, query);
 
                     query =  "SELECT V.* " +
                                     "FROM Visitation AS V " +
-                                    "WHERE V.DoctorID='" + sessionUser.getUserId() + "' OR V.PatientID IN " + 
-                                            "(SELECT DISTINCT D.PatientID FROM doctorpatientperm AS D WHERE D.SecDoctorID='" + sessionUser.getUserId() + "') " + 
+                                    "WHERE (V.DoctorID='" + sessionUser.getUserId() + "' OR V.PatientID IN " + 
+                                            "(SELECT DISTINCT D.PatientID FROM doctorpatientperm AS D WHERE D.SecDoctorID='" + sessionUser.getUserId() + "' AND D.Expiry > CURDATE())) " + 
                                                 ((visitQuery) ? "AND V.VisitID=" + requestVisitId : "") +
                                                 ((patientIdQuery) ? " AND V.PatientID='" + requestPatientId + "'" : "") +
-                                                " AND V.Timestamp= " +
+                                                " AND V.Cancelled=false AND V.Timestamp= " +
                                                     "(SELECT MAX(V2.Timestamp) FROM Visitation AS V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
                                     "ORDER BY V.VisitID ";
 

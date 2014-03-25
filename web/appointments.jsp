@@ -139,13 +139,15 @@
                                             <label for="comments">Comments</label>
                                             <textarea id="appointment-modal-comments" class="form-control" name="comments" rows="5" placeholder="Comments" <% if (user.getRole().equals(Constants.STAFF)) {%> readonly="true" <%}%>></textarea>
                                         </div>
-                                        <div class="form-group">
+                                        
+                                        <div class="form-group <% if (user.getRole().equals(Constants.DOCTOR)) {%> hidden <% } %>" >>
                                             <label for="apptComplete">Appointment Complete</label><br/>
-                                            <input type="checkbox" id="appointment-modal-apptComplete" name="apptComplete" <% if (user.getRole().equals(Constants.DOCTOR)) {%> readonly="true" <%}%>/>
+                                            <input type="checkbox" id="appointment-modal-apptComplete" name="apptComplete" />
                                         </div>
-                                        <div class="form-group">
+                                        
+                                        <div class="form-group <% if (user.getRole().equals(Constants.DOCTOR)) {%> hidden <% } %>" >
                                             <label for="apptCancelled">Appointment Cancelled</label><br/>
-                                            <input type="checkbox" id="appointment-modal-apptCancelled" name="apptCancelled" <% if (user.getRole().equals(Constants.DOCTOR)) {%> readonly="true" <%}%>/>
+                                            <input type="checkbox" id="appointment-modal-apptCancelled" name="apptCancelled" />
                                         </div>
                                     </div>
                                     <div class="tab-pane" id="prescriptions">
@@ -283,7 +285,7 @@
                             <%
                                 List<Visitation> appointments = (List<Visitation>) request.getAttribute("upcomingAppointments");
                                 for (int i = 0; i < appointments.size(); i++) {%>
-                                <tr id="upcoming-appointment-<%=i%>" data-id="<%= appointments.get(i).getVisitId()%>">
+                                <tr id="upcoming-appointment-<%=i%>" data-complete="<%= appointments.get(i).getApptComplete() %>" data-id="<%= appointments.get(i).getVisitId()%>">
                                     <td class="appointment-visit-id" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>><%= appointments.get(i).getVisitId() %></td>
                                     <td class="appointment-date" id="upcoming-date-<%= i%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>>
                                     </td>
@@ -351,7 +353,7 @@
                             <%
                                 appointments = (List<Visitation>) request.getAttribute("pastAppointments");
                                 for (int i = 0; i < appointments.size(); i++) {%>
-                                <tr id="past-appointment-<%=i%>" data-id="<%= appointments.get(i).getVisitId()%>">
+                                <tr id="past-appointment-<%=i%>" data-complete="<%= appointments.get(i).getApptComplete() %>" data-id="<%= appointments.get(i).getVisitId()%>">
                                     <td class="appointment-visit-id" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>><%= appointments.get(i).getVisitId() %></td>
                                     <td class="appointment-date" id="past-date-<%= i%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>>
                                     </td>

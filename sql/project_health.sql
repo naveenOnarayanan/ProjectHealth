@@ -108,6 +108,15 @@ FOR EACH ROW BEGIN
 		IF (NEW.VisitID IS NULL) THEN
 			SET NEW.VisitID = 1;
 		END IF;
+		IF (NEW.Diagnosis IS NULL OR NEW.Comments = "null") THEN
+			SET NEW.Diagnosis = "";
+		END IF;
+		IF (NEW.Type IS NULL OR NEW.Type = "null") THEN
+			SET NEW.Type = "";
+		END IF;
+		IF (NEW.Comments IS NULL OR NEW.Comments = "null") THEN
+			SET NEW.Comments = "";
+		END IF;
 		UPDATE `Hospital_Main`.`Patients`
 		SET Visits = Visits + 1
 		WHERE NEW.PatientID = `Hospital_Main`.`Patients`.UserID;
