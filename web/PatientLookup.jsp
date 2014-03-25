@@ -55,7 +55,7 @@
         <% String PhoneNumber = (String) request.getAttribute("PhoneNumber"); %>
         <% String PrimaryContactNo = (String) request.getAttribute("PrimaryContactNo"); %>
         <% String SIN = (String) request.getAttribute("SIN"); %>
-        <% String Visits = ((Integer)request.getAttribute("Visits")).toString(); %>
+        <% String Visits = (String) request.getAttribute("Visits"); %>
         <% String PatientUserID = (String) request.getAttribute("PatientUserID"); %>
         <% Boolean Transfered = (Boolean)request.getAttribute("Transfered");%>
         <% String FirstNameLookup = (String) request.getAttribute("FirstNameLookup"); %>

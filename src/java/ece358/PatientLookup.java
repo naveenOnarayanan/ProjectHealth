@@ -91,7 +91,7 @@ public class PatientLookup extends HttpServlet {
                     request.setAttribute("PhoneNumber", patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "");
                     request.setAttribute("PrimaryContactNo", patient.getPrimaryContactNo() != null ? patient.getPrimaryContactNo() : "");
                     request.setAttribute("SIN", patient.getSin() != null ? patient.getSin() : "");
-                    request.setAttribute("Visits", patient.getVisits() != null ? patient.getVisits() : "");
+                    request.setAttribute("Visits", patient.getVisits() != null ? patient.getVisits().toString() : "");
                     request.setAttribute("Transfered", patient.getTransfered());
                     List<Country> countries  = (List<Country>) SQLSessionUtil.selectType(Country.class, "SELECT * FROM Country");
                     List<Province> provinces  = (List<Province>) SQLSessionUtil.selectType(Province.class, "SELECT * FROM Province");
