@@ -233,7 +233,7 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="operationDoctor">Doctor</label>
+                                                <label for="operationDoctor">Surgeon</label>
                                                 <select id="appointment-modal-operationDoctor" class="form-control" name="operationDoctor">
                                                 </select>
                                             </div>
