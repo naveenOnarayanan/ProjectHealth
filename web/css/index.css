@@ -156,7 +156,8 @@ ul.nav.navbar-nav li:hover {
 }
 
 .patient-info-chart {
-    width: 225px;
+    width: 65%;
+    min-width: 150px;
     font-size: medium;
 }
 

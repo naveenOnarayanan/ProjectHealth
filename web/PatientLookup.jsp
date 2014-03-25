@@ -288,7 +288,7 @@
                             <tr>
                                 <td class="medium-text">Province:</td>
                                 <td>
-                                <select id="Province" name ="Province" style="width:200px" <%=disabled%>>
+                                <select id="Province" name ="Province" class="patient-info-chart" <%=disabled%>>
                                     <% if (Provinces != null) { %>
                                         <%for(Province c : Provinces)
                                             {
@@ -306,7 +306,7 @@
                                 </td>
                                 <td class="medium-text">Doctor:</td>
                                 <td>
-                                    <select id="DefaultDoctorID" name ="DefaultDoctorID" style="width:200px" <%=disabled%>>
+                                    <select class="patient-info-chart" id="DefaultDoctorID" name ="DefaultDoctorID" <%=disabled%>>
                                         <% if (Doctors != null) { %>
                                             <%for(Staff s : Doctors)
                                                 {
