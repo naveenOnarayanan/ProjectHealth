@@ -25,6 +25,7 @@
         <% String PostalCode = (String) request.getAttribute("PostalCode"); %>
         <% String Country = (String) request.getAttribute("Country"); %>
         <% String DefaultDoctorID = (String) request.getAttribute("DefaultDoctorID"); %>
+        <% String DefaultDoctorLName = (String) request.getAttribute("DefaultDoctorLName");%>
         <% String Email = (String) request.getAttribute("Email"); %>
         <% String FirstName = (String) request.getAttribute("FirstName"); %>
         <% String LastName = (String) request.getAttribute("LastName"); %>
@@ -164,7 +165,7 @@
                     </select>
                     </td>
                     <td class="patient-info-text">Doctor:</td>
-                    <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="DefaultDoctorID" name ="DefaultDoctorID" value = "<%=DefaultDoctorID%>" disabled></input></td>
+                    <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="DefaultDoctorLName" name ="DefaultDoctorLName" value = "Dr.<%=DefaultDoctorLName%>" disabled></input></td>
                     <input type = "hidden" id="DefaultDoctorID" name ="DefaultDoctorID" value = "<%=DefaultDoctorID%>" ></input>
                 </tr>
                 <tr>

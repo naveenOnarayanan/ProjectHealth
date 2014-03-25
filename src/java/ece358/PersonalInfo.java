@@ -11,6 +11,7 @@ import ece358.models.Patients;
 import ece358.models.Users;
 import ece358.models.Country;
 import ece358.models.Province;
+import ece358.models.Staff;
 import ece358.utils.*;
 import java.io.IOException;
 import java.util.List;
@@ -68,6 +69,7 @@ public class PersonalInfo extends HttpServlet {
             if(mode == 1 || mode == 2)
             {
                 Patients patient = (Patients) SQLSessionUtil.get(Patients.class, Username);
+                Staff doctor = (Staff)SQLSessionUtil.get(Staff.class, patient.getDefaultDoctorId());
                 if(patient==null)
                     patient = new Patients("", "", "", "", "", "", "", "", "", "", "", "", 0, "", "", "", false);
                 request.setAttribute("Address", patient.getAddress() != null ? patient.getAddress() : "");
@@ -76,6 +78,7 @@ public class PersonalInfo extends HttpServlet {
                 request.setAttribute("PostalCode", patient.getPostalCode() != null ? patient.getPostalCode() : "");
                 request.setAttribute("Country", patient.getCountry() != null ? patient.getCountry() : "");
                 request.setAttribute("DefaultDoctorID", patient.getDefaultDoctorId() != null ? patient.getDefaultDoctorId() : "");
+                request.setAttribute("DefaultDoctorLName", doctor.getLastName() != null ? doctor.getLastName() : "");
                 request.setAttribute("Email", patient.getEmail() != null ? patient.getEmail() : "");
                 request.setAttribute("FirstName", patient.getFirstName() != null ? patient.getFirstName() : "");
                 request.setAttribute("LastName", patient.getLastName() != null ? patient.getLastName() : "");
