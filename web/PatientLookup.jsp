@@ -63,6 +63,7 @@
         <% String PatientUserIDLookup = (String) request.getAttribute("PatientUserIDLookup"); %>
         <% String HealthCardLookup = (String) request.getAttribute("HealthCardLookup"); %>
         <% String DoctorLookup = (String) request.getAttribute("DoctorLookup"); %>
+        <% Boolean TransferedLookup = (Boolean) request.getAttribute("TransferedLookup");%>
         <% int mode  = Integer.parseInt((String)request.getParameter("mode"));%>
         <% List<Country> Countries = (List<Country>) request.getAttribute("Countries");%>
         <% List<Province> Provinces = (List<Province>) request.getAttribute("Provinces");%>
@@ -169,13 +170,25 @@
                                             }%>
                                     <% } %>
                                 </select></td>
-                        <td></td>
+                        <td class="medium-text">Transfered:</td>
                         <td>
-                            <button style="width: 125px" class="btn btn-success" type = "submit" onClick="clearSearch()">Clear</button>
-                            &nbsp;&nbsp;
-                            <button style="width: 125px" class="btn btn-success" type = "submit">Search</button>                            
+                            <%if(TransferedLookup){%>
+                                    <input type="checkbox" id="TransferedLookup" name="TransferedLookup" checked>
+                                    <%}else{%>
+                                    <input type="checkbox" id="TransferedLookup" name="TransferedLookup">
+                            <%}%>
                         </td>
                     </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>                            
+                            <button style="width: 125px" class="btn btn-success" type = "submit" onClick="clearSearch()">Clear</button>
+                            &nbsp;&nbsp;
+                            <button style="width: 125px" class="btn btn-success" type = "submit">Search</button>   
+                        </td>
+                   </tr>
                 </table> 
             </form>
         </div>
@@ -189,6 +202,13 @@
                         <input type = "hidden" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input>
                         <input type = "hidden" id="HealthCardLookup" name ="HealthCardLookup" value="<%=HealthCardLookup%>"></input>
                         <input type = "hidden" id="DoctorLookup" name ="DoctorLookup" value="<%=DoctorLookup%>"></input>
+                        <div style="visibility:hidden; display:none">
+                        <%if(TransferedLookup){%>
+                        <input type = "hidden" id="TransferedLookup" name ="TransferedLookup" value="on"></input>
+                        <%}else{%>
+                        <input type = "hidden" id="TransferedLookup" name ="TransferedLookup" value="off"></input>
+                        <%}%>
+                        </div>
                         <select class="medium-text" id="PatientSelect" name="PatientSelect" onChange="document.PatientSelectForm.submit();"size="20" style="width:100%; height: 485px">
                             <% if(PatientsList != null && !PatientsList.isEmpty()){
                             for(Patients p : PatientsList){
@@ -228,6 +248,13 @@
                         <input type = "hidden" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input>
                         <input type = "hidden" id="HealthCardLookup" name ="HealthCardLookup" value="<%=HealthCardLookup%>"></input>
                         <input type = "hidden" id="DoctorLookup" name ="DoctorLookup" value="<%=DoctorLookup%>"></input>
+                        <div style="visibility:hidden; display:none">
+                        <%if(TransferedLookup){%>
+                        <input type = "hidden" id="TransferedLookup" name ="TransferedLookup" value="on"></input>
+                        <%}else{%>
+                        <input type = "hidden" id="TransferedLookup" name ="TransferedLookup" value="off"></input>
+                        <%}%>
+                        </div>
                         <table class="rounded-table" cellpadding="10" style="width: 100%; float:left; background-color:#F8F8F8">
                             <tr>
                             <input type="hidden" id="PatientUserID" name="PatientUserID" value="<%=PatientUserID%>"></input>
@@ -345,7 +372,6 @@
                                     <button class="btn btn-success" type="button" onclick="window.location = '#';">View Appointments</button>&nbsp;
                                     <button class="btn btn-success" type="button" onclick="window.location = '#';">View Prescriptions</button>
                                 </td>
-                                <td style="text-align: right"><%=buttons%></td>
                                 <td>
 
                                     <% if(allowDoctorManage){%>
@@ -365,6 +391,7 @@
                                     <button class="btn btn-success" type="button" onClick="$('#sDoctor-modal').modal('show');clearDoctors();populateDoctors(sDoctorIDs,sDoctorFNames,sDoctorLNames,sDoctorExpiry);">Assign Secondary Doctors</button>
                                     <%}%>
                                 </td>
+                                <td style="text-align: right"><%=buttons%></td>
                             </tr>
                         </table>
                         <div style="clear:both"></div>

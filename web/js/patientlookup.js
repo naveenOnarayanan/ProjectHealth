@@ -7,6 +7,9 @@ $(document).ready(function(){
     $("#Transfered").bootstrapSwitch();
     $("#Transfered").bootstrapSwitch('onText', 'Yes');
     $("#Transfered").bootstrapSwitch('offText', 'No');
+    $("#TransferedLookup").bootstrapSwitch();
+    $("#TransferedLookup").bootstrapSwitch('onText', 'Yes');
+    $("#TransferedLookup").bootstrapSwitch('offText', 'No');
 });
 function addDoctor(selectedDoctor, firstName, lastName, expiry)
 {

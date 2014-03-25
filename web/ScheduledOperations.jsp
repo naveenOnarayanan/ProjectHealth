@@ -28,7 +28,7 @@
         <% List<Staff> doctorsFuture = (List<Staff>) request.getAttribute("doctorsFuture"); %>
         <% List<Operations> operationsFuture = (List<Operations>) request.getAttribute("operationsFuture"); %>
         <% List<Patients> patientsFuture = (List<Patients>) request.getAttribute("patientsFuture"); %>
-        <% SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");%>
+        <% SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <% if (FullView) {%>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
