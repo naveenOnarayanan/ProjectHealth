@@ -48,7 +48,7 @@
 
         <link rel="stylesheet" href="css/index.css"/>
         <%}%>
-        <script type="text/javascript" defer="defer" src="js/scheduledoperations.js"></script>
+        <script type="text/javascript" src="js/scheduledoperations.js"></script>
         <title>Scheduled Operations</title>
     </head>
     <body>
@@ -59,6 +59,42 @@
            "<%=request.getSession().getAttribute("firstname")%>",
            "<%=request.getSession().getAttribute("lastname")%>");
         })
+        </script>
+        <script defer="defer">
+	$(document).ready(function() 
+            { 
+                $("#UpcomingOperationsTable")
+                        .tablesorter({
+                            widthFixed: true,
+                            headerTemplate: '{content} {icon}',
+                            widgets: ["uitheme", "filter", "zebra"],
+                            dateFormat: "yyyy-mm-dd",
+                            headers: {
+                                4:{sorter:"shortDate"}
+                            }
+                        })
+                        .tablesorterPager({
+                            container: $("#UpcomingPager"),
+                            cssGoto: ".pagenum",
+                            output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
+                }); 
+                $("#PastOperationsTable")
+                        .tablesorter({
+                            widthFixed: true,
+                            headerTemplate: '{content} {icon}',
+                            widgets: ["uitheme", "filter", "zebra"],
+                            dateFormat: "yyyy-mm-dd",
+                            headers: {
+                                4:{sorter:"shortDate"}
+                            }
+                        })
+                        .tablesorterPager({
+                            container: $("#PastPager"),
+                            cssGoto: ".pagenum",
+                            output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
+                }); 
+                
+            }); 
         </script>
         <%}%>
         <div id="navbar-container"></div>
