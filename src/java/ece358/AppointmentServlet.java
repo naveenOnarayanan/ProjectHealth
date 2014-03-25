@@ -138,7 +138,7 @@ public class AppointmentServlet extends HttpServlet {
                     }
 
                     Visitation visit = new Visitation();
-                    visit.setDateTime(new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(appointmentDate));
+                    visit.setDateTime(new SimpleDateFormat("MM/dd/yyyy hh:mm aa").parse(appointmentDate));
                     visit.setPatientId(appointmentPatientID);
                     visit.setDoctorId(appointmentDoctorID);
                     visit.setSymptoms(appointmentSymptoms);
@@ -157,7 +157,7 @@ public class AppointmentServlet extends HttpServlet {
 
                     Visitation visit = new Visitation();
                     visit.setVisitId(Integer.parseInt(appointmentVisitID));
-                    visit.setDateTime(new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(appointmentDate));
+                    visit.setDateTime(new SimpleDateFormat("MM/dd/yyyy hh:mm aa").parse(appointmentDate));
                     visit.setPatientId(appointmentPatientID);
                     visit.setDoctorId(appointmentDoctorID);
                     visit.setSymptoms(appointmentSymptoms);
@@ -236,7 +236,7 @@ public class AppointmentServlet extends HttpServlet {
 
                     Visitation visit = new Visitation();
                     visit.setVisitId(visitId);
-                    visit.setDateTime(new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(appointmentDate));
+                    visit.setDateTime(new SimpleDateFormat("MM/dd/yyyy hh:mm aa").parse(appointmentDate));
                     visit.setPatientId(appointmentPatientID);
                     visit.setDoctorId(appointmentDoctorID);
                     visit.setSymptoms(appointmentSymptoms);
@@ -259,7 +259,7 @@ public class AppointmentServlet extends HttpServlet {
                             prescription.setQuantity(Integer.valueOf(prescriptionArray[1]));
                             prescription.setRefills(Integer.valueOf(prescriptionArray[2]));
                             prescription.setDosage(prescriptionArray[3]);
-                            prescription.setExpiry(new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(prescriptionArray[4]));
+                            prescription.setExpiry(new SimpleDateFormat("MM/dd/yyyy hh:mm aa").parse(prescriptionArray[4]));
                             SQLSessionUtil.add(prescription);
                         }
                     }
@@ -270,7 +270,7 @@ public class AppointmentServlet extends HttpServlet {
                             Scheduledoperations operation = new Scheduledoperations();
                             String[] operationArray = operationInfo.split("\\|");
                             operation.setVisitId(visitId);
-                            operation.setOperationDateTime(new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(operationArray[0]));
+                            operation.setOperationDateTime(new SimpleDateFormat("MM/dd/yyyy hh:mm aa").parse(operationArray[0]));
                             operation.setOperationName(operationArray[1]);
                             operation.setDoctorId(operationArray[2]);
                             SQLSessionUtil.add(operation);
