@@ -60,12 +60,11 @@ public class PrescriptionsServlet extends HttpServlet {
             if (sessionUser.getRole().equals(Constants.PATIENT)){
                 query = "SELECT active.PatientID, active.DIN, drugs.TradeName, " +
                         "active.Quantity, active.Refills, active.Dosage, " +
-                        "active.DateTime, active.Expiry " +
+                        "active.DateTime, active.Expiry, active.visitid " +
                         "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime, visitation.timestamp, prescriptions.*" +
                                 "FROM visitation " +
                                 "INNER JOIN prescriptions " +
                                 "ON visitation.VisitID = prescriptions.VisitID "  +
-                                    ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "WHERE visitation.VisitID=" + visitIDQuery : "") + 
                             ") as active " +
                         "INNER JOIN drugs " +
                         "ON active.DIN = drugs.DIN " +
@@ -75,6 +74,7 @@ public class PrescriptionsServlet extends HttpServlet {
                             "WHERE V2.VisitID = active.VisitID " +
                             "AND V2.DoctorID = active.DoctorID)" +
                         "AND active.PatientID = '" + sessionUser.getUserId() + "' " +
+                        ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "WHERE visitation.VisitID=" + visitIDQuery : "") + 
                         "ORDER BY VisitID";
             }
             else if (sessionUser.getRole().equals(Constants.STAFF)){
@@ -87,13 +87,12 @@ public class PrescriptionsServlet extends HttpServlet {
                 
                 query = "SELECT active.PatientID, active.DIN, drugs.TradeName, " +
                         "active.Quantity, active.Refills, active.Dosage, " +
-                        "active.DateTime, active.Expiry " +
+                        "active.DateTime, active.Expiry, active.visitid " +
                         "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime, visitation.timestamp, prescriptions.*" +
                                 "FROM visitation " +
                                 "INNER JOIN prescriptions " +
                                 "ON visitation.VisitID = prescriptions.VisitID " +
-                                "WHERE visitation.DoctorID = '" + managingDoctor + "' " +
-                                    ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND visitation.VisitID=" + visitIDQuery : "") + 
+                                "WHERE visitation.DoctorID = '" + managingDoctor + "' " + 
                                 ")as active " +
                         "INNER JOIN drugs " +
                         "ON active.DIN = drugs.DIN " +
@@ -102,18 +101,18 @@ public class PrescriptionsServlet extends HttpServlet {
                             "FROM Visitation AS V2 " +
                             "WHERE V2.VisitID = active.VisitID " +
                             "AND V2.DoctorID = active.DoctorID)" +
+                        ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND visitation.VisitID=" + visitIDQuery : "") +
                         "ORDER BY VisitID";
             }
             else if (sessionUser.getRole().equals(Constants.DOCTOR)){
                 query = "SELECT active.PatientID, active.DIN, drugs.TradeName, " +
                         "active.Quantity, active.Refills, active.Dosage, " +
-                        "active.DateTime, active.Expiry " +
+                        "active.DateTime, active.Expiry, active.visitid " +
                         "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime, visitation.timestamp, prescriptions.*" +
                                 "FROM visitation " +
                                 "INNER JOIN prescriptions " +
                                 "ON visitation.VisitID = prescriptions.VisitID " +
                                 "WHERE visitation.DoctorID = '" + sessionUser.getUserId() + "' " +
-                                    ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND visitation.VisitID=" + visitIDQuery : "") + " " +
                                 "OR visitation.PatientID IN " +
                                 "(SELECT D.patientID " +
                                 "FROM doctorpatientperm as D " +
@@ -126,6 +125,7 @@ public class PrescriptionsServlet extends HttpServlet {
                             "FROM Visitation AS V2 " +
                             "WHERE V2.VisitID = active.VisitID " +
                             "AND V2.DoctorID = active.DoctorID)" +
+                        ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND active.VisitID=" + visitIDQuery : "") + " " +
                         "ORDER BY VisitID";
             }
                 
