@@ -28,7 +28,7 @@
         <% List<Staff> doctorsFuture = (List<Staff>) request.getAttribute("doctorsFuture"); %>
         <% List<Operations> operationsFuture = (List<Operations>) request.getAttribute("operationsFuture"); %>
         <% List<Patients> patientsFuture = (List<Patients>) request.getAttribute("patientsFuture"); %>
-        <% SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm");%>
+        <% SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <% if (FullView) {%>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -109,9 +109,9 @@
 
         <%if(FullView){%>
         <%}%>
-        <div id="content">
+        <div id="dynamic-table">
         <h1>Scheduled Operations</h1>
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" style="margin-bottom: -20px">
                <li class="tab-button active" id="upcoming-operations-tab"><a href="#upcoming-operation" data-toggle="tab">Upcoming Operations</a></li>
                <li class="tab-button" id="past-operations-tab"><a href="#past-operations" data-toggle="tab">Past Operations</a></li>
        </ul>
