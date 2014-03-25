@@ -129,14 +129,14 @@
             </div>
         <% } %>
         
-        <div class="patient-info-position" style="top: 50px">
+        <div class="patient-info-position">
             <h1 style="margin-top: 0px">Patient Lookup</h1>
         </div>        
         <% if (!queryServletError) { %>
-        <div class="patient-info-position" style="top: 115px">
+        <div class="patient-info-position">
             <h4>Search</h4>
         </div>        
-        <div class="patient-info-position" style="top: 155px">
+        <div class="patient-info-position">
             <form method ="post" action="PatientLookup?mode=1">
                 <table class="rounded-table" width=1175 cellpadding="10" style="background-color:#F8F8F8; width: 100%">
                     <tr>
@@ -195,7 +195,7 @@
         <div class="patient-info-position" style="width:100%; display:table; top: 345px">
             <div style="display: table-row">
                 <div style="width: 20%; display: table-cell; float: left;">
-                    <h3>Patients</h3>
+                    <h4 style="margin-top: 10.5px">Patients</h4>
                     <form method="post" action="PatientLookup?mode=1" name="PatientSelectForm">
                         <input type = "hidden" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input>
                         <input type = "hidden" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input>
@@ -225,7 +225,7 @@
                     </form>
                 </div>
                 <div style="float: right; padding-left: 5%; width: 80%">
-                    <h3>Patient Information</h3>
+                    <h4 style="margin-top: 10.5px">Patient Information</h4>
                     <% if(errors != null && errors.size() != 0){ %>
                         <div class="alert fade in rounded-div" width="900" style="background-color:#FF9494">
                         <button class = "btn btn-success" type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
