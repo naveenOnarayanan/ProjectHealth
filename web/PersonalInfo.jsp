@@ -80,6 +80,7 @@
         </script>
 
         <div id="navbar-container"></div>
+        <div id="content-patient-info" style="padding-left: 13%; padding-right: 13%">
         
         <% if (error != null && !error.equals("")) { %>
             <div class="alert alert-dismissable alert-danger">
@@ -89,7 +90,9 @@
         <% } %>
         
         <% if (!queryServletError) { %>
-        <h1>Personal Information</h1>
+        <div>
+            <h1 style="padding-left: 8px">Personal Information</h1>
+        </div>
         <form method ="post" action="/ProjectHealth/PersonalInfo?mode=3" style="padding-left:10px">
             <% if(errors != null && errors.size() != 0){ %>
             <div class="rounded-div"style="background-color:#FF9494; width:900px">
@@ -106,39 +109,39 @@
                     </ul>
             </div>
             <%}%>
-            <table class="rounded-table"width="900" cellpadding="10" style="float:left; background-color:#F8F8F8">
+            <table class="rounded-table" cellpadding="10" style="float:left; background-color:#F8F8F8; width: 100%">
                 <tr>
-                    <td>First Name:</td>
-                    <td><input type = "text" id="FirstName" name ="FirstName" value = "<%=FirstName%>" disabled></input></td>
+                    <td class="medium-text">First Name:</td>
+                    <td><input class="medium-textbox" type = "text" id="FirstName" name ="FirstName" value = "<%=FirstName%>" disabled></input></td>
                     <input type = "hidden" id="FirstName" name ="FirstName" value = "<%=FirstName%>" ></input>
-                    <td>Phone Number:<br>(000-000-0000)</td>
-                    <td><input type = "tel" type = "tel" id="PhoneNumber" name ="PhoneNumber"  pattern='<%=PhoneNumberRegex%>' value = "<%=PhoneNumber%>" <%=disabled%>></input></td>
+                    <td class="medium-text">Phone Number:<br>(000-000-0000)</td>
+                    <td><input class="medium-textbox" type = "tel" type = "tel" id="PhoneNumber" name ="PhoneNumber"  pattern='<%=PhoneNumberRegex%>' value = "<%=PhoneNumber%>" <%=disabled%>></input></td>
                 </tr>
                 <tr>
-                    <td>Last Name:</td>
-                    <td><input type = "text" id="LastName" name ="LastName" value = "<%=LastName%>" disabled></input></td>
+                    <td class="medium-text">Last Name:</td>
+                    <td><input class="medium-textbox" type = "text" id="LastName" name ="LastName" value = "<%=LastName%>" disabled></input></td>
                     <input type = "hidden" id="LastName" name ="LastName" value = "<%=LastName%>" ></input>
-                    <td>Contact Phone Number:<br>(000-000-0000)</td>
-                    <td><input type = "tel"  id="PrimaryContactNo" name ="PrimaryContactNo" pattern='<%=PhoneNumberRegex%>' value = "<%=PrimaryContactNo%>" <%=disabled%>></input></td>
+                    <td class="medium-text">Contact Phone Number:<br>(000-000-0000)</td>
+                    <td><input class="medium-textbox" type = "tel"  id="PrimaryContactNo" name ="PrimaryContactNo" pattern='<%=PhoneNumberRegex%>' value = "<%=PrimaryContactNo%>" <%=disabled%>></input></td>
                 </tr>
                 <tr>
-                    <td>Address:</td>
-                    <td><input type = "text" id="Address" name="Address" value = "<%=Address%>" <%=disabled%>></input></td>
-                    <td>Health Card Number:</td>
-                    <td><input type = "text" id="HealthCardNumber" name ="HealthCardNumber" value = "<%=HealthCardNumber%>" disabled></input></td>
+                    <td class="medium-text">Address:</td>
+                    <td><input class="medium-textbox" type = "text" id="Address" name="Address" value = "<%=Address%>" <%=disabled%>></input></td>
+                    <td class="medium-text">Health Card Number:</td>
+                    <td><input class="medium-textbox" type = "text" id="HealthCardNumber" name ="HealthCardNumber" value = "<%=HealthCardNumber%>" disabled></input></td>
                     <input type = "hidden" id="HealthCardNumber" name ="HealthCardNumber" value = "<%=HealthCardNumber%>"></input>
                 </tr>
                 <tr>
-                    <td>City:</td>
-                    <td><input type = "text" id="City" name ="City" value = "<%=City%>" <%=disabled%>></input></td>
-                    <td>SIN</td>
-                    <td><input type = "text" id="SIN" name ="SIN" value = "<%=SIN%>" disabled></input></td>
+                    <td class="medium-text">City:</td>
+                    <td><input class="medium-textbox" type = "text" id="City" name ="City" value = "<%=City%>" <%=disabled%>></input></td>
+                    <td class="medium-text">SIN</td>
+                    <td><input class="medium-textbox" type = "text" id="SIN" name ="SIN" value = "<%=SIN%>" disabled></input></td>
                     <input type = "hidden" id="SIN" name ="SIN" value = "<%=SIN%>" ></input>
                 </tr>
                 <tr>
-                    <td>Province:</td>
+                    <td class="medium-text">Province:</td>
                     <td>
-                    <select id="Province" name ="Province" style="width:200px" <%=disabled%>>
+                    <select class="medium-textbox" id="Province" name ="Province" <%=disabled%>>
                         <%for(Province c : Provinces)
                             {
                                 String code = c.getCode();
@@ -152,22 +155,22 @@
                             }%>
                     </select>
                     </td>
-                    <td>Doctor:</td>
-                    <td><input type = "text" id="DefaultDoctorID" name ="DefaultDoctorID" value = "<%=DefaultDoctorID%>" disabled></input></td>
+                    <td class="medium-text">Doctor:</td>
+                    <td><input class="medium-textbox" type = "text" id="DefaultDoctorID" name ="DefaultDoctorID" value = "<%=DefaultDoctorID%>" disabled></input></td>
                     <input type = "hidden" id="DefaultDoctorID" name ="DefaultDoctorID" value = "<%=DefaultDoctorID%>" ></input>
                 </tr>
                 <tr>
-                    <td>Postal Code:<br>(A0A 0A0)</td>
-                    <td><input type = "tel" pattern="<%=PostalCodeRegex%>"  id="PostalCode" name ="PostalCode"  value = "<%=PostalCode%>" <%=disabled%>></input></td>
-                    <td>Health Status:</td>
-                    <td><input type = "text" id="HealthStatus" name ="HealthStatus" value = "<%=HealthStatus%>" disabled></input></td>
+                    <td class="medium-text"Postal Code:<br>(A0A 0A0)</td>
+                    <td><input class="medium-textbox" type = "tel" pattern="<%=PostalCodeRegex%>"  id="PostalCode" name ="PostalCode"  value = "<%=PostalCode%>" <%=disabled%>></input></td>
+                    <td class="medium-text">Health Status:</td>
+                    <td><input class="medium-textbox" type = "text" id="HealthStatus" name ="HealthStatus" value = "<%=HealthStatus%>" disabled></input></td>
                     <input type = "hidden" id="HealthStatus" name ="HealthStatus" value = "<%=HealthStatus%>" ></input>
       
                 </tr>
                 <tr>
-                    <td>Country:</td>
+                    <td class="medium-text">Country:</td>
                     <td>
-                    <select id="Country" name ="Country" style="width:200px" <%=disabled%>>
+                    <select class="medium-textbox" id="Country" name ="Country" <%=disabled%>>
                         <%for(Country c : Countries)
                             {
                                 String s = c.getName();
@@ -180,19 +183,20 @@
                             }%>
                     </select>
                     </td>
-                    <td>Visits:</td>
-                    <td><input type = "text" id="Visits" name ="Visits" value = "<%=Vists%>" disabled></input></td>
+                    <td class="medium-text">Visits:</td>
+                    <td><input class="medium-textbox" type = "text" id="Visits" name ="Visits" value = "<%=Vists%>" disabled></input></td>
                     <input type = "hidden" id="Visits" name ="Visits" value = "<%=Vists%>" ></input>
                 </tr>
                 <tr>
-                    <td>Email:</td>
-                    <td><input type = "email" id="Email" name ="Email" value = "<%=Email%>" <%=disabled%>></input></td>
+                    <td class="medium-text">Email:</td>
+                    <td><input class="medium-textbox" type = "email" id="Email" name ="Email" value = "<%=Email%>" <%=disabled%>></input></td>
                     <td></td>
                     <td align="left"><%=buttons%></td>
                 </tr>
             </table>
             </form>
-          <% } %>      
+          <% } %>
+          </div>
     </body>
 
 </html>
