@@ -138,7 +138,11 @@
                         <%if(FullView){%>
                         <tfoot id="UpcomingPager">
                         <tr>
-                            <th colspan="7" class="ts-pager form-horizontal">
+                            <%if(!patientsFuture.isEmpty()){%>
+                                <th colspan="7" class="ts-pager form-horizontal">
+                            <%}else{%>
+                                <th colspan="4" class="ts-pager form-horizontal">
+                            <%}%>
                                 <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
                                 </button>
                                 <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>
@@ -183,18 +187,18 @@
                 </div>
                 <div class="tab-pane" id="past-operations">
                     <% if (!queryServletError) { %>
-                    <table class="table table-hover default-table">
+                    <table class="table table-hover default-table" id="PastOperationsTable">
                         <thead>
                             <tr>
                                 <th>Related Appointment Number</th>
-                                <%if(!patientsPast.isEmpty() || schedoperationsPast.isEmpty()){%>
+                                <%if(!patientsPast.isEmpty()){%>
                                 <th>Patient ID</th>
                                 <th>Patient Name</th>
                                 <%}%>
                                 <th>Operation</th>
                                 <th data-sorter="shortDate" data-date-format="yyyy-mm-dd">Date</th>
                                 <th>Surgeon</th>
-                                <%if(!doctorsPast.isEmpty() || schedoperationsPast.isEmpty()){%>
+                                <%if(!doctorsPast.isEmpty()){%>
                                 <th>Primary Doctor</th>
                                 <%}%>
                             </tr>
@@ -202,7 +206,11 @@
                         <%if(FullView){%>
                         <tfoot id="PastPager">
                         <tr>
-                            <th colspan="7" class="ts-pager form-horizontal">
+                            <%if(!patientsPast.isEmpty()){%>
+                                <th colspan="7" class="ts-pager form-horizontal">
+                            <%}else{%>
+                                <th colspan="4" class="ts-pager form-horizontal">
+                            <%}%>
                                 <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
                                 </button>
                                 <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>

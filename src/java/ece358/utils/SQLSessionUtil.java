@@ -90,8 +90,8 @@ public class SQLSessionUtil {
             getQueryBuilder.append(id);
             getQueryBuilder.append("'");
         }
-        
-        return ((List<Object>) selectType(instanceObj.getClass(), getQueryBuilder.toString())).get(0);
+        List<Object> results = (List<Object>) selectType(instanceObj.getClass(), getQueryBuilder.toString());
+        return (results != null && results.size() > 0) ? results.get(0) : null;
     }
 
     public static Object selectType(Class objType, String query) throws InstantiationException,

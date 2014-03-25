@@ -55,7 +55,7 @@
         <% String PhoneNumber = (String) request.getAttribute("PhoneNumber"); %>
         <% String PrimaryContactNo = (String) request.getAttribute("PrimaryContactNo"); %>
         <% String SIN = (String) request.getAttribute("SIN"); %>
-        <% String Vists = (String) request.getAttribute("Vists"); %>
+        <% String Visits = (String) request.getAttribute("Visits"); %>
         <% String PatientUserID = (String) request.getAttribute("PatientUserID"); %>
         <% Boolean Transfered = (Boolean)request.getAttribute("Transfered");%>
         <% String FirstNameLookup = (String) request.getAttribute("FirstNameLookup"); %>
@@ -351,9 +351,9 @@
                                     }%>
                                 </select>
                                 </td>
-                                <td class="patient-info-text">Visits:</td>
-                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="Visits" name ="Visits" value = "<%=Vists%>" disabled></input></td>
-                                <input type = "hidden" id="Visits" name ="Visits" value = "<%=Vists%>" ></input>
+                                <td class="medium-text">Visits:</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="Visits" name ="Visits" value = "<%=Visits%>" disabled></input></td>
+                                <input type = "hidden" id="Visits" name ="Visits" value = "<%=Visits%>" ></input>
                             </tr>
                             <tr>
                                 <td class="patient-info-text">Email:</td>

@@ -11,8 +11,7 @@ import ece358.models.Patients;
 import ece358.models.Users;
 import ece358.models.Country;
 import ece358.models.Province;
-import ece358.utils.PatientValidation;
-import ece358.utils.SQLSessionUtil;
+import ece358.utils.*;
 import java.io.IOException;
 import java.util.List;
 import java.util.HashMap;
@@ -46,7 +45,21 @@ public class PersonalInfo extends HttpServlet {
             getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
-        String sessionUsername = sessionUser.getUserId();
+        String Username = sessionUser.getUserId();
+        String MinimalMode = request.getParameter("MinimalMode");
+        String LookupUserID = request.getParameter("UserID");
+        if(MinimalMode != null && (MinimalMode.equals("true") || MinimalMode.equals("false")) )
+        {
+            request.setAttribute("MinimalMode", Boolean.parseBoolean(MinimalMode));
+        }
+        else
+        {
+            request.setAttribute("MinimalMode", false);
+        }
+        
+        if(LookupUserID != null && sessionUser.getRole().equals(Constants.DOCTOR) || sessionUser.getRole().equals(Constants.STAFF))
+            Username = LookupUserID;
+            
 
         String url;
         boolean queryServletError = false;
@@ -54,7 +67,9 @@ public class PersonalInfo extends HttpServlet {
             int mode = Integer.parseInt(request.getParameter("mode"));
             if(mode == 1 || mode == 2)
             {
-                Patients patient = (Patients) SQLSessionUtil.get(Patients.class, sessionUsername);
+                Patients patient = (Patients) SQLSessionUtil.get(Patients.class, Username);
+                if(patient==null)
+                    patient = new Patients("", "", "", "", "", "", "", "", "", "", "", "", 0, "", "", "", false);
                 request.setAttribute("Address", patient.getAddress() != null ? patient.getAddress() : "");
                 request.setAttribute("City", patient.getCity() != null ? patient.getCity() : "");
                 request.setAttribute("Province", patient.getProvince() != null ? patient.getProvince() : "");
@@ -81,7 +96,7 @@ public class PersonalInfo extends HttpServlet {
                 HashMap<String,String> errors = PatientValidation.validatePatient(request);
                 if(errors.isEmpty())
                 {
-                    Patients patient = (Patients) SQLSessionUtil.get(Patients.class, sessionUsername);
+                    Patients patient = (Patients) SQLSessionUtil.get(Patients.class, Username);
                     patient.setAddress(request.getParameter("Address"));
                     patient.setCity(request.getParameter("City"));
                     patient.setProvince(request.getParameter("Province"));

@@ -3,10 +3,10 @@ DELETE FROM hospital_main.operations;
 
 INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Heart Transplant', 'Replace heart', '4:00', 'Surgeon');
 INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Kidney Transplant', 'Replace kidney', '3:00', 'Surgeon');
-INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Vasectomy', 'Male sterilization', '0:30', 'Doctor');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Vasectomy', 'Male sterilization', '0:30', 'Surgeon');
 INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Arm Amputation', 'Removal of the arm', '2:00', 'Surgeon');
-INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('CT Scan', 'Take images of the brain', '1:00', 'Doctor');
-INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('C-Section', 'Remove baby via incision', '1:00', 'Doctor');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('CT Scan', 'Take images of the brain', '1:00', 'Surgeon');
+INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('C-Section', 'Remove baby via incision', '1:00', 'Surgeon');
 INSERT INTO `hospital_main`.`operations` (`Name`, `Description`, `EstTime`, `ReqJobTitle`) VALUES ('Plastic Surgury', 'Rebuild the body', '2:00', 'Surgeon');
 
 
@@ -164,8 +164,8 @@ DELETE FROM hospital_main.scheduledoperations;
 
 INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('3', '2014-03-28 13:00:00', 'Arm Amputation', 'jsnow');
 INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('9', '2014-04-15 9:00:00', 'Plastic Surgury', 'jsnow');
-INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('11', '2014-04-03 10:30:00', 'CT Scan', 'gzhou');
-INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('16', '2014-05-09 04:15:00', 'Vasectomy', 'jhalmo');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('11', '2014-04-03 10:30:00', 'CT Scan', 'jsnow');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('16', '2014-05-09 04:15:00', 'Vasectomy', 'jsnow');
 INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('17', '2014-07-17 19:45:00', 'Heart Transplant', 'jsnow');
 INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('18', '2014-12-01 12:05:00', 'Kidney Transplant', 'jsnow');
-INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('22', '2015-01-22 11:35:00', 'C-Section', 'nnarayanan');
+INSERT INTO hospital_main.scheduledoperations (VisitID, OperationDateTime, OperationName, DoctorID) VALUES ('22', '2015-01-22 11:35:00', 'C-Section', 'jsnow');

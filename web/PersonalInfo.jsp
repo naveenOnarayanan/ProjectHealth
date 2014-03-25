@@ -16,21 +16,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
-        <script>
-             $(document).ready(function() { $("#Province").select2(); });
-             $(document).ready(function() { $("#Country").select2(); });
-        </script>
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
-        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
-        <link rel="stylesheet" href="css/index.css"/>
+        <%Boolean MinimalMode = (Boolean)request.getAttribute("MinimalMode");%>
         <% String error = (String) request.getAttribute("error"); %>
         <% Boolean queryServletError = (Boolean) request.getAttribute("queryServletError"); %>
         <% String Address = (String) request.getAttribute("Address"); %>
@@ -47,7 +33,7 @@
         <% String PhoneNumber = (String) request.getAttribute("PhoneNumber"); %>
         <% String PrimaryContactNo = (String) request.getAttribute("PrimaryContactNo"); %>
         <% String SIN = (String) request.getAttribute("SIN"); %>
-        <% String Vists = (String) request.getAttribute("Vists"); %>
+        <% String Visits = ((Integer)request.getAttribute("Visits")).toString(); %>
         <% int mode  = Integer.parseInt((String)request.getParameter("mode"));%>
         <% List<Country> Countries = (List<Country>) request.getAttribute("Countries");%>
         <% List<Province> Provinces = (List<Province>) request.getAttribute("Provinces");%>
@@ -64,13 +50,32 @@
                buttons = "<button class=\"btn btn-success\" type = \"submit\" formaction=\"PersonalInfo?mode=1\" formnovalidate>Cancel</button>"
                        + "&nbsp&nbsp&nbsp"
                        + "<input class=\"btn btn-success\" type=\"submit\"></button>";
-           }%>
+           }
+           if(MinimalMode)
+               buttons="";
+        %>
            <% HashMap<String,String> errors = (HashMap<String,String>) request.getAttribute("errors");%>
-
-           
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <%if(!MinimalMode){%>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
+        <link rel="stylesheet" href="css/index.css"/>
+        <%}%>
+        <script>
+             $(document).ready(function() { $("#Province").select2(); });
+             $(document).ready(function() { $("#Country").select2(); });
+        </script>
         <title>Personal Information</title>
     </head>
     <body>
+        <%if(!MinimalMode){%>
         <script>
         $(function() {
            getNavbar("<%= ((Users) request.getSession().getAttribute("user")).getRole()%>", 
@@ -80,6 +85,7 @@
         </script>
 
         <div id="navbar-container"></div>
+        <%}%>
         <div id="content-patient-info" style="padding-left: 13%; padding-right: 13%">
         
         <% if (error != null && !error.equals("")) { %>
@@ -90,9 +96,11 @@
         <% } %>
         
         <% if (!queryServletError) { %>
+        <% if(!MinimalMode){%>
         <div>
             <h1 style="padding-left: 8px">Personal Information</h1>
         </div>
+        <%}%>
         <form method ="post" action="/ProjectHealth/PersonalInfo?mode=3" style="padding-left:10px">
             <% if(errors != null && errors.size() != 0){ %>
             <div class="rounded-div"style="background-color:#FF9494; width:900px">
@@ -160,7 +168,7 @@
                     <input type = "hidden" id="DefaultDoctorID" name ="DefaultDoctorID" value = "<%=DefaultDoctorID%>" ></input>
                 </tr>
                 <tr>
-                    <td class="patient-info-text"Postal Code:<br>(A0A 0A0)</td>
+                    <td class="patient-info-text">Postal Code:<br>(A0A 0A0)</td>
                     <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "tel" pattern="<%=PostalCodeRegex%>"  id="PostalCode" name ="PostalCode"  value = "<%=PostalCode%>" <%=disabled%>></input></td>
                     <td class="patient-info-text">Health Status:</td>
                     <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="HealthStatus" name ="HealthStatus" value = "<%=HealthStatus%>" disabled></input></td>
@@ -184,8 +192,8 @@
                     </select>
                     </td>
                     <td class="patient-info-text">Visits:</td>
-                    <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="Visits" name ="Visits" value = "<%=Vists%>" disabled></input></td>
-                    <input type = "hidden" id="Visits" name ="Visits" value = "<%=Vists%>" ></input>
+                    <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="Visits" name ="Visits" value = "<%=Visits%>" disabled></input></td>
+                    <input type = "hidden" id="Visits" name ="Visits" value = "<%=Visits%>" ></input>
                 </tr>
                 <tr>
                     <td class="patient-info-text">Email:</td>
