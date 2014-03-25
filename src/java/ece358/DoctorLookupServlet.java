@@ -53,7 +53,7 @@ public class DoctorLookupServlet extends HttpServlet {
             doctorID = "";
         request.setAttribute("selectedDoctorID", doctorID);
         
-        SimpleDateFormat webFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+        SimpleDateFormat webFormat = new SimpleDateFormat("MM/dd/yyyy h:mm aa");
         
         String startDateTimeString = (String)request.getParameter("startDateTime");
         String endDateTimeString = (String)request.getParameter("endDateTime");
