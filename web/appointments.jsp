@@ -354,8 +354,8 @@
                                 appointments = (List<Visitation>) request.getAttribute("pastAppointments");
                                 for (int i = 0; i < appointments.size(); i++) {%>
                                 <tr id="past-appointment-<%=i%>" data-complete="<%= appointments.get(i).getApptComplete() %>" data-id="<%= appointments.get(i).getVisitId()%>">
-                                    <td class="appointment-visit-id" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>><%= appointments.get(i).getVisitId() %></td>
-                                    <td class="appointment-date" id="past-date-<%= i%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>>
+                                    <td class="appointment-visit-id" ><%= appointments.get(i).getVisitId() %></td>
+                                    <td class="appointment-date" id="past-date-<%= i%>">
                                     </td>
                                     <script> $(function() {
                                                 $("#past-date-<%= i%>").text(new Date("<%= appointments.get(i).getDateTime() %>").toLocaleString());
@@ -363,21 +363,21 @@
                                     </script>
                                     <% for (int j = 0; j < patients.size(); j++) {
                                         if (patients.get(j).getUserId().equals(appointments.get(i).getPatientId())) {%>
-                                    <td class="appointment-patient" data-id="<%= patients.get(j).getUserId()%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>>
+                                    <td class="appointment-patient" data-id="<%= patients.get(j).getUserId()%>">
                                         <%= patients.get(j).getFirstName() + " " + patients.get(j).getLastName() %>
                                     </td>
                                        <%break;}}%>
                                      <% for (int j = 0; j < doctors.size(); j++) {
                                         if (doctors.get(j).getUserId().equals(appointments.get(i).getDoctorId())) {
                                             %>
-                                            <td class="appointment-doctor" data-id="<%= doctors.get(j).getUserId()%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>>
+                                            <td class="appointment-doctor" data-id="<%= doctors.get(j).getUserId()%>">
                                                 <%= doctors.get(j).getFirstName() + " " + doctors.get(j).getLastName() %>
                                             </td>
                                             <%break;}
                                     }%>
-                                    <td class="appointment-symptoms" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>><div class="overflow"><%= appointments.get(i).getSymptoms() %></div></td>
-                                    <td class="appointment-diagnosis" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>><div class="overflow"><%= appointments.get(i).getDiagnosis() %></div></td>
-                                    <td class="appointment-prescriptions" ><center>
+                                    <td class="appointment-symptoms"><div class="overflow"><%= appointments.get(i).getSymptoms() %></div></td>
+                                    <td class="appointment-diagnosis"><div class="overflow"><%= appointments.get(i).getDiagnosis() %></div></td>
+                                    <td class="appointment-prescriptions"><center>
                                         <% if (appointments.get(i).getPrescriptions() != null && appointments.get(i).getPrescriptions().size() > 0) {%>
                                         <a class="btn btn-primary btn-xs" data-toggle="modal" href="PrescriptionsServlet?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#scheduledOperations">View</a>
                                         <%}%></center>
@@ -387,11 +387,11 @@
                                         <a class="btn btn-primary btn-xs" data-toggle="modal" href="ScheduledOperations?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#scheduledOperations">View</a>    
                                         <%}%></center>
                                     </td>
-                                    <td class="appointment-type" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>><%= appointments.get(i).getType() %></td>
-                                    <td class="appointment-length" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')" <% } %>><%= appointments.get(i).getLength() %></td>
+                                    <td class="appointment-type" ><%= appointments.get(i).getType() %></td>
+                                    <td class="appointment-length" ><%= appointments.get(i).getLength() %></td>
 
                                     <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %>
-                                        <td class="appointment-comments" onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'past')"><div class="overflow"><%= appointments.get(i).getComments() %></div></td>
+                                        <td class="appointment-comments"><div class="overflow"><%= appointments.get(i).getComments() %></div></td>
                                     <%}%>
 
                                 </tr>
