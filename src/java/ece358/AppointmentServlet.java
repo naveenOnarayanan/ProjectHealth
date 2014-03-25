@@ -54,6 +54,11 @@ public class AppointmentServlet extends HttpServlet {
         }
         
         String requestType = (String) request.getParameter(Constants.ACTION);
+        String requestVisitId = (String) request.getParameter("visitId");
+        String requestPatientId = (String) request.getParameter("patientId");
+        
+        Boolean visitQuery = (requestType != null && requestVisitId != null && !requestType.isEmpty() && !requestVisitId.isEmpty());
+        Boolean patientIdQuery = (requestType != null && requestPatientId != null && !requestType.isEmpty() && !requestPatientId.isEmpty());
 
         boolean queryServletError = false;
         
@@ -71,18 +76,23 @@ public class AppointmentServlet extends HttpServlet {
             String appointmentComments = (String) request.getParameter("comments");
             String appointmentPrescriptions = (String) request.getParameter("prescriptions-list");
             String appointmentOperations = (String) request.getParameter("operations-list");
+            String appointmentComplete = (String) request.getParameter("apptComplete");
+            String appointmentCancelled = (String) request.getParameter("apptCancelled");
             
             if (sessionUser.getRole().equals(Constants.PATIENT)) {
                 String query =  "SELECT V.* FROM Visitation AS V " + 
-                                "WHERE V.PatientID = '" + sessionUser.getUserId() + "' AND V.Timestamp=" +
-                                "(SELECT MAX(V2.Timestamp) FROM Visitation V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
+                                "WHERE V.PatientID = '" + sessionUser.getUserId() + "' " + ((visitQuery) ? "AND V.VisitID=" + requestVisitId : "") + 
+                                    " AND V.Timestamp=" +
+                                        "(SELECT MAX(V2.Timestamp) FROM Visitation V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
                                 "ORDER BY V.VisitID";
 
                 List<Visitation> appointments = (List<Visitation>) SQLSessionUtil.selectType(Visitation.class, query);
                 final Patients patientInfo = (Patients) SQLSessionUtil.get(Patients.class, sessionUser.getUserId());
 
-                query = "SELECT DISTINCT S.* FROM Staff AS S, Visitation AS V " +
-                        "WHERE V.PatientID='" + sessionUser.getUserId() + "' AND S.UserID=V.DoctorID";
+                query = "SELECT DISTINCT S.* FROM Staff AS S " +
+                        "INNER JOIN Visitation AS V " +
+                        "ON V.DoctorID=S.UserID " +
+                        "WHERE V.PatientID='" + sessionUser.getUserId() + "' " + ((visitQuery) ? "AND V.VisitID=" + requestVisitId : "");
 
                 List<Staff> doctors = (List<Staff>) SQLSessionUtil.selectType(Staff.class, query);
                 
@@ -135,6 +145,7 @@ public class AppointmentServlet extends HttpServlet {
                     visit.setType(appointmentType);
 
                     SQLSessionUtil.add(visit);
+                    url = "/AppointmentServlet?action=";
                 } else if (requestType != null && requestType.equals(Constants.ACTION_UPDATE)) {
 
                     if (appointmentDoctorID == null || appointmentPatientID == null) {
@@ -154,6 +165,8 @@ public class AppointmentServlet extends HttpServlet {
                     visit.setType(appointmentType);
                     visit.setLength(new Time((new SimpleDateFormat("HH:mm").parse(appointmentLength)).getTime()));
                     visit.setComments(appointmentComments);
+                    visit.setApptComplete((appointmentComplete != null && appointmentComplete.equals("on")) ? true : false);
+                    visit.setCancelled((appointmentCancelled != null && appointmentCancelled.equals("on")) ? true : false);
 
                     SQLSessionUtil.add(visit);
                     url = "/AppointmentServlet?action=";
@@ -161,14 +174,17 @@ public class AppointmentServlet extends HttpServlet {
                     Staff staffInfo = (Staff) SQLSessionUtil.get(Staff.class, sessionUser.getUserId());
                     final Staff doctorInfo = (Staff) SQLSessionUtil.get(Staff.class, staffInfo.getManagingDoctorId());
                     String query =  "SELECT V.* FROM Visitation AS V " + 
-                                    "WHERE V.DoctorID = '" + staffInfo.getManagingDoctorId() + "' AND V.Timestamp=" +
-                                    "(SELECT MAX(V2.Timestamp) FROM Visitation AS V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
+                                    "WHERE V.DoctorID = '" + staffInfo.getManagingDoctorId() + "' " + ((visitQuery) ? "AND V.VisitID=" + requestVisitId : "") +
+                                        ((patientIdQuery) ? " AND V.PatientID='" + requestPatientId + "'" : "") +
+                                        " AND V.Timestamp=" +
+                                            "(SELECT MAX(V2.Timestamp) FROM Visitation AS V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
                                     "ORDER BY V.DateTime DESC";
 
                     List<Visitation> appointments = (List<Visitation>) SQLSessionUtil.selectType(Visitation.class, query);
 
                     query = "SELECT DISTINCT P.* FROM Patients AS P, Visitation AS V " +
-                            "WHERE V.DoctorID='" + staffInfo.getManagingDoctorId() + "' AND P.UserID=V.PatientID";
+                            "WHERE V.DoctorID='" + staffInfo.getManagingDoctorId() + "' AND P.UserID=V.PatientID " + ((visitQuery) ? "AND V.VisitID=" + requestVisitId : "") +
+                                        ((patientIdQuery) ? " AND V.PatientID='" + requestPatientId + "'" : "");
 
                     List<Patients> patients = (List<Patients>) SQLSessionUtil.selectType(Patients.class, query);
                     
@@ -228,6 +244,8 @@ public class AppointmentServlet extends HttpServlet {
                     visit.setType(appointmentType);
                     visit.setLength(new Time((new SimpleDateFormat("HH:mm").parse(appointmentLength)).getTime()));
                     visit.setComments(appointmentComments);
+                    visit.setApptComplete((appointmentComplete != null && appointmentComplete.equals("on")) ? true : false);
+                    visit.setCancelled((appointmentCancelled != null && appointmentCancelled.equals("on")) ? true : false);
 
                     SQLSessionUtil.add(visit);
 
@@ -235,7 +253,8 @@ public class AppointmentServlet extends HttpServlet {
                         String[] prescriptionInfos = appointmentPrescriptions.split(";");
                         for (String prescriptionInfo : prescriptionInfos) {
                             Prescriptions prescription = new Prescriptions();
-                            String[] prescriptionArray = prescriptionInfo.split("|");
+                            String[] prescriptionArray = prescriptionInfo.split("\\|");
+                            prescription.setVisitId(visitId);
                             prescription.setDin(Integer.valueOf(prescriptionArray[0]));
                             prescription.setQuantity(Integer.valueOf(prescriptionArray[1]));
                             prescription.setRefills(Integer.valueOf(prescriptionArray[2]));
@@ -259,21 +278,29 @@ public class AppointmentServlet extends HttpServlet {
                     }
                     url = "/AppointmentServlet?action=";
                 } else {
-                    List<Staff> doctorInfo = (List<Staff> ) SQLSessionUtil.selectType(Staff.class, "SELECT S.* FROM Staff AS S, " +
-                            "(SELECT D.DoctorID FROM DoctorPatientPerm AS D WHERE D.SecDoctorID='" + sessionUser.getUserId() + "') AS R " +
-                            "WHERE S.UserID='" + sessionUser.getUserId() + "' OR R.DoctorID=S.UserID");
-                    String query =  "SELECT V.* " +
-                                    "FROM Visitation AS V, " +
-                                            "(SELECT DISTINCT D.PatientID FROM doctorpatientperm AS D WHERE D.SecDoctorID='" + sessionUser.getUserId() + "') AS S " +
-                                    "WHERE (V.DoctorID='" + sessionUser.getUserId() + "' OR S.PatientID=V.PatientID) AND V.Timestamp= " +
-                                            "(SELECT MAX(V2.Timestamp) FROM Visitation AS V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
+                    String query = "SELECT DISTINCT S.* " +
+                            "FROM Staff AS S " +
+                            "WHERE S.UserID='" + sessionUser.getUserId() + "' OR S.UserID " +
+                                    "IN (SELECT D.DoctorID FROM DoctorPatientPerm AS D WHERE D.SecDoctorID='" + sessionUser.getUserId() + "')";
+
+                    List<Staff> doctorInfo = (List<Staff> ) SQLSessionUtil.selectType(Staff.class, query);
+
+                    query =  "SELECT V.* " +
+                                    "FROM Visitation AS V " +
+                                    "WHERE V.DoctorID='" + sessionUser.getUserId() + "' OR V.PatientID IN " + 
+                                            "(SELECT DISTINCT D.PatientID FROM doctorpatientperm AS D WHERE D.SecDoctorID='" + sessionUser.getUserId() + "') " + 
+                                                ((visitQuery) ? "AND V.VisitID=" + requestVisitId : "") +
+                                                ((patientIdQuery) ? " AND V.PatientID='" + requestPatientId + "'" : "") +
+                                                " AND V.Timestamp= " +
+                                                    "(SELECT MAX(V2.Timestamp) FROM Visitation AS V2 WHERE V2.VisitID=V.VisitID AND V2.DoctorID=V.DoctorID) " +
                                     "ORDER BY V.VisitID ";
 
                     List<Visitation> appointments = (List<Visitation>) SQLSessionUtil.selectType(Visitation.class, query);
 
                     query = "SELECT DISTINCT P.* FROM Patients AS P, Visitation AS V, DoctorPatientPerm as D " +
                             "WHERE (V.DoctorID='" + sessionUser.getUserId() + "' OR (V.PatientID=D.PatientID AND SecDoctorID='" + 
-                            sessionUser.getUserId() + "'))  AND P.UserID=V.PatientID";
+                            sessionUser.getUserId() + "'))  AND P.UserID=V.PatientID " + ((visitQuery) ? "AND V.VisitID=" + requestVisitId : "") +
+                                        ((patientIdQuery) ? " AND V.PatientID='" + requestPatientId + "'" : "");
 
                     List<Patients> patients = (List<Patients>) SQLSessionUtil.selectType(Patients.class, query);
                     

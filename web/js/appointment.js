@@ -33,6 +33,7 @@ $(document).ready(function() {
     });
 
     $(".appointment-modal-container").css("height", $(window).height() - 220);
+    $("#scheduledOperations .modal-content").css("height", $(window).height() - 220);
     $("#appointment-modal-apptComplete").bootstrapSwitch();
     $("#appointment-modal-apptComplete").bootstrapSwitch('onText', 'Yes');
     $("#appointment-modal-apptComplete").bootstrapSwitch('offText', 'No');
@@ -40,8 +41,9 @@ $(document).ready(function() {
     $("#appointment-modal-apptCancelled").bootstrapSwitch('onText', 'Yes');
     $("#appointment-modal-apptCancelled").bootstrapSwitch('offText', 'No');
     
-    
-    
+    $("#scheduledOperations").on('hidden.bs.modal', function() {
+        $(this).removeData('bs.modal');
+    });
     $('#appointment-edit').on('hidden.bs.modal', function () {
         $("#appointment-modal-date").val("");
         $("#appointment-modal-patientID").select2("val", "");
@@ -193,22 +195,16 @@ $(document).ready(function() {
 });
 
 function updateAppointmentModal(index, role, appointment) {
-    var prescriptionArray = [];
-    $("#" + appointment + "-appointment-" + index + " .appointment-prescriptions .appointment-prescription-select > option").each(function() {
-        prescriptionArray.push({id: this.value, text: this.text});
-    });
-    $("#appointment-modal-prescriptions").select2("data", prescriptionArray);
-
     if (index >= 0) {
         $("#appointment-modal-form").attr("action", "AppointmentServlet?action=update");
     } else {
-        $("#appointment-modal-form").attr("action", "AppointmentServlet?action=add");
+        $("#appointment-modal-form").attr("action", "AppointmentServlet?action=insert");
     }
     if (role == "staff") {
         if (index >= 0) {
             $("#appointment-modal-doctorID").select2("readonly", true);
 
-            $("#appointment-modal-visitID").val($("#appointment-" + index).attr("data-id"));
+            $("#appointment-modal-visitID").val($("#" + appointment + "-appointment-" + index).attr("data-id"));
             $("#appointment-modal-date").data("DateTimePicker").setDate($("#" + appointment + "-appointment-" + index + " .appointment-date").text().trim());
 
             var patientPicker = $("#appointment-modal-patientID #" + $("#" + appointment + "-appointment-" + index + " .appointment-patient").attr("data-id"));
@@ -231,15 +227,15 @@ function updateAppointmentModal(index, role, appointment) {
         }
     } else if (role == "doctor") {
         if (index >= 0) {
-            if ($("#" + appointment + "-operations-info-" + index).length != 0) {
-                $("#" + appointment + "-operations-tab").hide();
+            if ($("#" + appointment + "-appointment-" + index + " .appointment-operations center a").length != 0) {
+                $("#operations-tab").hide();
             } else {
-                $("#" + appointment + "-operations-tab").show();
+                $("#operations-tab").show();
             }
-            if ($("#" + appointment + "-prescription-info-" + index).length != 0) {
-                $("#" + appointment + "-prescriptions-tab").hide();
+            if ($("#" + appointment + "-appointment-" + index + " .appointment-prescriptions center a").length != 0) {
+                $("#prescriptions-tab").hide();
             } else {
-                $("#" + appointment + "-prescriptions-tab").show();
+                $("#prescriptions-tab").show();
             }
 
             $("#appointment-modal-visitID").val($("#" + appointment + "-appointment-" + index).attr("data-id"));

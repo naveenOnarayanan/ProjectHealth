@@ -10,7 +10,7 @@ USE `Hospital_Main` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Drugs` (
   `DIN` INT NOT NULL,
-  `TradeName` VARCHAR(128) NULL,
+  `TradeName` VARCHAR(128) DEFAULT "",
   `Description` TEXT NULL,
   PRIMARY KEY (`DIN`))
 ENGINE = InnoDB;
@@ -21,22 +21,22 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Patients` (
   `UserID` VARCHAR(16) NOT NULL,
-  `FirstName` VARCHAR(32) NULL,
-  `LastName` VARCHAR(64) NULL,
-  `Address` VARCHAR(64) NULL,
-  `City` VARCHAR(32) NULL,
+  `FirstName` VARCHAR(32) DEFAULT "",
+  `LastName` VARCHAR(64) DEFAULT "",
+  `Address` VARCHAR(64) DEFAULT "",
+  `City` VARCHAR(32) DEFAULT "",
   `Province` VARCHAR(2) NULL,
   `Country` VARCHAR(32) NULL,
-  `PostalCode` VARCHAR(7) NULL,
-  `PhoneNumber` VARCHAR(12) NULL,
-  `Email` VARCHAR(256) NULL,
-  `HealthCardNumber` VARCHAR(15) NULL,
-  `SIN` VARCHAR(11) NULL,
+  `PostalCode` VARCHAR(7) DEFAULT "",
+  `PhoneNumber` VARCHAR(12) DEFAULT "",
+  `Email` VARCHAR(256) DEFAULT "",
+  `HealthCardNumber` VARCHAR(15) DEFAULT "",
+  `SIN` VARCHAR(11) DEFAULT "",
   `Visits` INT(16) DEFAULT 0,
   `DefaultDoctorID` VARCHAR(16) NULL,
   `HealthStatus` TEXT NULL,
-  `PrimaryContactNo` VARCHAR(12) NULL,
-  `Transfered` TINYINT(1) NULL,
+  `PrimaryContactNo` VARCHAR(12) DEFAULT "",
+  `Transfered` TINYINT(1) DEFAULT 0,
   PRIMARY KEY (`UserID`))
 ENGINE = InnoDB;
 
@@ -61,7 +61,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Hospital_Main`.`ScheduledOperations` (
   `VisitID` INT NOT NULL,
   `OperationDateTime` DATETIME NOT NULL,
-  `OperationName` VARCHAR(64) NULL,
+  `OperationName` VARCHAR(64) DEFAULT "",
   `DoctorID` VARCHAR(16) NOT NULL,
   PRIMARY KEY (`VisitID`, `OperationDateTime`))
 ENGINE = InnoDB;
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Operations` (
   `Name` VARCHAR(64) NOT NULL,
   `Description` TEXT NULL,
   `EstTime` TIME NULL,
-  `ReqJobTitle` VARCHAR(64) NULL,
+  `ReqJobTitle` VARCHAR(64) DEFAULT "",
   PRIMARY KEY (`Name`))
 ENGINE = InnoDB;
 
@@ -89,13 +89,13 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Visitation` (
   `DoctorID` VARCHAR(16) NOT NULL,
   `Symptoms` TEXT NULL,
   `Diagnosis` TEXT NULL,
-  `Type` VARCHAR(32) NULL,
+  `Type` VARCHAR(32) NULL DEFAULT "",
   `Length` TIME NULL,
   `Comments` TEXT NULL,
   `DateTime` DATETIME NULL,
   `Timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   `ApptComplete` TINYINT(1) NULL DEFAULT 0,
-  `Cancelled` TINYINT(1) NULL,
+  `Cancelled` TINYINT(1) NULL DEFAULT 0,
   PRIMARY KEY (`RecordID`))
 ENGINE = InnoDB;
 
@@ -119,8 +119,8 @@ END;$$
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Staff` (
   `UserID` VARCHAR(16) NOT NULL,
-  `FirstName` VARCHAR(32) NULL,
-  `LastName` VARCHAR(64) NULL,
+  `FirstName` VARCHAR(32) NULL DEFAULT "",
+  `LastName` VARCHAR(64) NULL DEFAULT "",
   `ManagingDoctorID` VARCHAR(16) NULL,
   `JobTitle` VARCHAR(64) NULL,
   `CurrentlyEmployed` TINYINT(1) NOT NULL DEFAULT TRUE,
