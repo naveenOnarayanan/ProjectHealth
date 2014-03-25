@@ -140,7 +140,7 @@
                                             <textarea id="appointment-modal-comments" class="form-control" name="comments" rows="5" placeholder="Comments" <% if (user.getRole().equals(Constants.STAFF)) {%> readonly="true" <%}%>></textarea>
                                         </div>
                                         
-                                        <div class="form-group <% if (user.getRole().equals(Constants.DOCTOR)) {%> hidden <% } %>" >>
+                                        <div class="form-group <% if (user.getRole().equals(Constants.DOCTOR)) {%> hidden <% } %>" >
                                             <label for="apptComplete">Appointment Complete</label><br/>
                                             <input type="checkbox" id="appointment-modal-apptComplete" name="apptComplete" />
                                         </div>
