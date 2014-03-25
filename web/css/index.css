@@ -146,19 +146,25 @@ ul.nav.navbar-nav li:hover {
     width: 80%;
 }
 
-.medium-textbox {
+.patient-info-textbox {
     width: 65%;
-    font-size: medium;
+    font-size: small;
 }
 
-.medium-text {
-    font-size: medium;
+.patient-info-text {
+    font-size: small;
+    width: 17%;
+    min-width: 95px;
 }
 
 .patient-info-chart {
     width: 65%;
     min-width: 150px;
-    font-size: medium;
+    font-size: small;
+}
+
+.patient-info-chart-textbox {
+    width: 31%
 }
 
 #content-patient-info {

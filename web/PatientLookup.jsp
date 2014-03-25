@@ -130,7 +130,7 @@
         <% } %>
         
         <div class="patient-info-position" style="top: 50px">
-            <h1>Patient Lookup</h1>
+            <h1 style="margin-top: 0px">Patient Lookup</h1>
         </div>        
         <% if (!queryServletError) { %>
         <div class="patient-info-position" style="top: 115px">
@@ -140,20 +140,20 @@
             <form method ="post" action="PatientLookup?mode=1">
                 <table class="rounded-table" width=1175 cellpadding="10" style="background-color:#F8F8F8; width: 100%">
                     <tr>
-                        <td class="medium-text">First Name:</td>
-                        <td><input class="medium-textbox" type="text" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input></td>
-                        <td class="medium-text">Patient ID:</td>
-                        <td><input class="medium-textbox" type="text" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input></td>
+                        <td class="patient-info-text">First Name:</td>
+                        <td><input class="patient-info-textbox" type="text" id="FirstNameLookup" name ="FirstNameLookup" value="<%=FirstNameLookup%>"></input></td>
+                        <td class="patient-info-text">Patient ID:</td>
+                        <td><input class="patient-info-textbox" type="text" id="PatientUserIDLookup" name ="PatientUserIDLookup" value="<%=PatientUserIDLookup%>"></input></td>
                     </tr>
                     <tr>
-                        <td><text class="medium-text">Last Name:</td>
-                        <td><input class="medium-textbox" type="text" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input></td>
-                        <td class="medium-text" style="width: 15%">Health Card Number:<br>(0000-000-000-AA)</td>
-                        <td><input class="medium-textbox" type="text" id="HealthCardLookup" name ="HealthCardLookup" value="<%=HealthCardLookup%>"></input></td>
+                        <td><text class="patient-info-text">Last Name:</td>
+                        <td><input class="patient-info-textbox" type="text" id="LastNameLookup" name ="LastNameLookup" value="<%=LastNameLookup%>"></input></td>
+                        <td class="patient-info-text" style="width: 15%">Health Card Number:<br>(0000-000-000-AA)</td>
+                        <td><input class="patient-info-textbox" type="text" id="HealthCardLookup" name ="HealthCardLookup" value="<%=HealthCardLookup%>"></input></td>
                     </tr>
                     <tr>
-                        <td class="medium-text">Doctor:</td>
-                        <td><select id="DoctorLookup" name ="DoctorLookup" class="medium-textbox">
+                        <td class="patient-info-text">Doctor:</td>
+                        <td><select id="DoctorLookup" name ="DoctorLookup" class="patient-info-textbox">
                                 <option value=" " selected></option>
                                     <% if (Doctors != null) { %>
                                          <%for(Staff s : Doctors)
@@ -170,7 +170,7 @@
                                             }%>
                                     <% } %>
                                 </select></td>
-                        <td class="medium-text">Transfered:</td>
+                        <td class="patient-info-text">Transfered:</td>
                         <td>
                             <%if(TransferedLookup){%>
                                     <input type="checkbox" id="TransferedLookup" name="TransferedLookup" checked>
@@ -209,7 +209,7 @@
                         <input type = "hidden" id="TransferedLookup" name ="TransferedLookup" value="off"></input>
                         <%}%>
                         </div>
-                        <select class="medium-text" id="PatientSelect" name="PatientSelect" onChange="document.PatientSelectForm.submit();"size="20" style="width:100%; height: 485px">
+                        <select class="patient-info-text" id="PatientSelect" name="PatientSelect" onChange="document.PatientSelectForm.submit();"size="20" style="width:100%; height: 437px">
                             <% if(PatientsList != null && !PatientsList.isEmpty()){
                             for(Patients p : PatientsList){
                                 if(PatientUserID.equals(p.getUserId())){%>
@@ -258,36 +258,36 @@
                         <table class="rounded-table" cellpadding="10" style="width: 100%; float:left; background-color:#F8F8F8">
                             <tr>
                             <input type="hidden" id="PatientUserID" name="PatientUserID" value="<%=PatientUserID%>"></input>
-                                <td class="medium-text">First Name:</td>
-                                <td><input class="patient-info-chart" type = "text" id="FirstName" name ="FirstName" value = "<%=FirstName%>" <%=disabled%>></input></td>
+                                <td class="patient-info-text">First Name:</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="FirstName" name ="FirstName" value = "<%=FirstName%>" <%=disabled%>></input></td>
                                 <input type = "hidden" id="FirstName" name ="FirstName" value = "<%=FirstName%>" ></input>
-                                <td class="medium-text">Phone Number:<br>(000-000-0000)</td>
-                                <td><input class="patient-info-chart" type = "tel" type = "tel" id="PhoneNumber" name ="PhoneNumber"  pattern='<%=PhoneNumberRegex%>' value = "<%=PhoneNumber%>" <%=disabled%>></input></td>
+                                <td class="patient-info-text">Phone Number:<br>(000-000-0000)</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "tel" type = "tel" id="PhoneNumber" name ="PhoneNumber"  pattern='<%=PhoneNumberRegex%>' value = "<%=PhoneNumber%>" <%=disabled%>></input></td>
                             </tr>
                             <tr>
-                                <td class="medium-text">Last Name:</td>
-                                <td><input class="patient-info-chart" type = "text" id="LastName" name ="LastName" value = "<%=LastName%>" <%=disabled%>></input></td>
+                                <td class="patient-info-text">Last Name:</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="LastName" name ="LastName" value = "<%=LastName%>" <%=disabled%>></input></td>
                                 <input type = "hidden" id="LastName" name ="LastName" value = "<%=LastName%>" ></input>
-                                <td class="medium-text">Contact Phone Number:<br>(000-000-0000)</td>
-                                <td><input class="patient-info-chart" type = "tel"  id="PrimaryContactNo" name ="PrimaryContactNo" pattern='<%=PhoneNumberRegex%>' value = "<%=PrimaryContactNo%>" <%=disabled%>></input></td>
+                                <td class="patient-info-text">Contact Phone Number:<br>(000-000-0000)</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "tel"  id="PrimaryContactNo" name ="PrimaryContactNo" pattern='<%=PhoneNumberRegex%>' value = "<%=PrimaryContactNo%>" <%=disabled%>></input></td>
                             </tr>
                             <tr>
-                                <td class="medium-text">Address:</td>
-                                <td><input class="patient-info-chart" type = "text" id="Address" name="Address" value = "<%=Address%>" <%=disabled%>></input></td>
-                                <td class="medium-text">Health Card Number:<br>(0000-000-000-AA)</td>
-                                <td><input class="patient-info-chart" type = "tel" id="HealthCardNumber" pattern='<%=HealthCardRegex%>' name="HealthCardNumber" value = "<%=HealthCardNumber%>" <%=disabled%>></input></td>
+                                <td class="patient-info-text">Address:</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="Address" name="Address" value = "<%=Address%>" <%=disabled%>></input></td>
+                                <td class="patient-info-text">Health Card Number:<br>(0000-000-000-AA)</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "tel" id="HealthCardNumber" pattern='<%=HealthCardRegex%>' name="HealthCardNumber" value = "<%=HealthCardNumber%>" <%=disabled%>></input></td>
                                 <input type = "hidden" id="HealthCardNumber" name ="HealthCardNumber" value = "<%=HealthCardNumber%>"></input>
                             </tr>
                             <tr>
-                                <td class="medium-text">City:</td>
-                                <td><input class="patient-info-chart" type = "text" id="City" name ="City" value = "<%=City%>" <%=disabled%>></input></td>
-                                <td class="medium-text">SIN:<br>(000-000-000)</td>
-                                <td><input class="patient-info-chart" type = "tel" pattern='<%=SINRegex%>' id="SIN" name ="SIN" value = "<%=SIN%>" <%=disabled%>></input></td>
+                                <td class="patient-info-text">City:</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="City" name ="City" value = "<%=City%>" <%=disabled%>></input></td>
+                                <td class="patient-info-text">SIN:<br>(000-000-000)</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "tel" pattern='<%=SINRegex%>' id="SIN" name ="SIN" value = "<%=SIN%>" <%=disabled%>></input></td>
                                 <input type = "hidden" id="SIN" name ="SIN" value = "<%=SIN%>" ></input>
                             </tr>
                             <tr>
-                                <td class="medium-text">Province:</td>
-                                <td>
+                                <td class="patient-info-text">Province:</td>
+                                <td class="patient-info-chart-textbox">
                                 <select id="Province" name ="Province" class="patient-info-chart" <%=disabled%>>
                                     <% if (Provinces != null) { %>
                                         <%for(Province c : Provinces)
@@ -304,8 +304,8 @@
                                     <% } %>
                                 </select>
                                 </td>
-                                <td class="medium-text">Doctor:</td>
-                                <td>
+                                <td class="patient-info-text">Doctor:</td>
+                                <td class="patient-info-chart-textbox">
                                     <select class="patient-info-chart" id="DefaultDoctorID" name ="DefaultDoctorID" <%=disabled%>>
                                         <% if (Doctors != null) { %>
                                             <%for(Staff s : Doctors)
@@ -326,16 +326,16 @@
                                 <input type = "hidden" id="DefaultDoctorID" name ="DefaultDoctorID" value = "<%=DefaultDoctorID%>" ></input>
                             </tr>
                             <tr>
-                                <td class="medium-text">Postal Code:<br>(A0A 0A0)</td>
-                                <td><input class="patient-info-chart" type = "tel" pattern="<%=PostalCodeRegex%>"  id="PostalCode" name ="PostalCode"  value = "<%=PostalCode%>" <%=disabled%>></input></td>
-                                <td class="medium-text">Health Status:</td>
-                                <td><input class="patient-info-chart" type = "text" id="HealthStatus" name ="HealthStatus" value = "<%=HealthStatus%>" <%=disabled%>></input></td>
+                                <td class="patient-info-text">Postal Code:<br>(A0A 0A0)</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "tel" pattern="<%=PostalCodeRegex%>"  id="PostalCode" name ="PostalCode"  value = "<%=PostalCode%>" <%=disabled%>></input></td>
+                                <td class="patient-info-text">Health Status:</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="HealthStatus" name ="HealthStatus" value = "<%=HealthStatus%>" <%=disabled%>></input></td>
                                 <input type = "hidden" id="HealthStatus" name ="HealthStatus" value = "<%=HealthStatus%>" ></input>
 
                             </tr>
                             <tr>
-                                <td class="medium-text">Country:</td>
-                                <td>
+                                <td class="patient-info-text">Country:</td>
+                                <td class="patient-info-chart-textbox">
                                 <select id="Country" name ="Country" class="patient-info-chart" <%=disabled%>>
                                     <%if(Countries != null){
                                             for(Country c : Countries)
@@ -351,14 +351,14 @@
                                     }%>
                                 </select>
                                 </td>
-                                <td class="medium-text">Visits:</td>
-                                <td><input class="patient-info-chart" type = "text" id="Visits" name ="Visits" value = "<%=Vists%>" disabled></input></td>
+                                <td class="patient-info-text">Visits:</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "text" id="Visits" name ="Visits" value = "<%=Vists%>" disabled></input></td>
                                 <input type = "hidden" id="Visits" name ="Visits" value = "<%=Vists%>" ></input>
                             </tr>
                             <tr>
-                                <td class="medium-text">Email:</td>
-                                <td><input class="patient-info-chart" type = "email" id="Email" name ="Email" value = "<%=Email%>" <%=disabled%>></input></td>
-                                <td class="medium-text">Transfered:</td>
+                                <td class="patient-info-text">Email:</td>
+                                <td class="patient-info-chart-textbox"><input class="patient-info-chart" type = "email" id="Email" name ="Email" value = "<%=Email%>" <%=disabled%>></input></td>
+                                <td class="patient-info-text">Transfered:</td>
                                 <td>
                                     <%if(Transfered){%>
                                     <input type="checkbox" id="Transfered" name="Transfered" checked <%=disabled%>>
