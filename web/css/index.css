@@ -70,10 +70,9 @@ ul.nav.navbar-nav li:hover {
 }
 
 #dynamic-table {
-    padding-left: 11%;
-    padding-right: 11%;
+    padding-left: 10%;
+    padding-right: 10%;
 }
-
 
 .appointment-edit-btn {
     margin-left: 20px;
@@ -143,8 +142,8 @@ ul.nav.navbar-nav li:hover {
 
 .center-block {
     display: table;
-    margin-left: 11%;
-    width: 78%;
+    margin-left: 10%;
+    width: 80%;
 }
 
 .medium-textbox {

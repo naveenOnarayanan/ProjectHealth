@@ -109,7 +109,7 @@
 
         <%if(FullView){%>
         <%}%>
-        <div id="content">
+        <div id="dynamic-table">
         <h1>Scheduled Operations</h1>
         <ul class="nav nav-tabs">
                <li class="tab-button active" id="upcoming-operations-tab"><a href="#upcoming-operation" data-toggle="tab">Upcoming Operations</a></li>
