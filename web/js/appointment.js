@@ -32,8 +32,9 @@ $(document).ready(function() {
        return false;
     });
 
-    $(".appointment-modal-container").css("height", $(window).height() - 220);
-    $("#scheduledOperations .modal-content").css("height", $(window).height() - 220);
+    $(".appointment-modal-container").css("max-height", $(window).height() - 220);
+    $("#remoteContent .modal-content").css("max-height", $(window).height() - 220);
+
     $("#appointment-modal-apptComplete").bootstrapSwitch();
     $("#appointment-modal-apptComplete").bootstrapSwitch('onText', 'Yes');
     $("#appointment-modal-apptComplete").bootstrapSwitch('offText', 'No');
@@ -41,7 +42,7 @@ $(document).ready(function() {
     $("#appointment-modal-apptCancelled").bootstrapSwitch('onText', 'Yes');
     $("#appointment-modal-apptCancelled").bootstrapSwitch('offText', 'No');
     
-    $("#scheduledOperations").on('hidden.bs.modal', function() {
+    $("#remoteContent").on('hidden.bs.modal', function() {
         $(this).removeData('bs.modal');
     });
     $('#appointment-edit').on('hidden.bs.modal', function () {
