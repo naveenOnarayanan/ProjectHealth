@@ -312,9 +312,10 @@
                                         <a class="btn btn-primary btn-xs" data-toggle="modal" href="PrescriptionsServlet?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#scheduledOperations">View</a>    
                                         </center><%}%>
                                     </td>
-                                    <td class="appointment-operations" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>>
+                                    <td class="appointment-operations"><center>
                                         <% if (appointments.get(i).getOperations()!= null && appointments.get(i).getOperations().size() > 0) {%>
-                                        <a class="btn btn-primary btn-xs" data-toggle="modal" href="ScheduledOperations?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#scheduledOperations">View</a>    
+                                        <a class="btn btn-primary btn-xs" data-toggle="modal" href="ScheduledOperations?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#scheduledOperations">View</a>
+                                    </center>
                                         <%}%>
                                     </td>
                                     <td class="appointment-type" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>><%= appointments.get(i).getType() %></td>
