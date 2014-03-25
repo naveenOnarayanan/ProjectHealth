@@ -61,7 +61,7 @@ public class PrescriptionsServlet extends HttpServlet {
                 query = "SELECT active.PatientID, active.DIN, drugs.TradeName, " +
                         "active.Quantity, active.Refills, active.Dosage, " +
                         "active.DateTime, active.Expiry " +
-                        "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime ,prescriptions.*" +
+                        "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime, visitation.timestamp, prescriptions.*" +
                                 "FROM visitation " +
                                 "INNER JOIN prescriptions " +
                                 "ON visitation.VisitID = prescriptions.VisitID "  +
@@ -69,7 +69,12 @@ public class PrescriptionsServlet extends HttpServlet {
                             ") as active " +
                         "INNER JOIN drugs " +
                         "ON active.DIN = drugs.DIN " +
-                        "WHERE active.PatientID = '" + sessionUser.getUserId() + "' " +
+                        "WHERE active.Timestamp = " +
+                            "(SELECT MAX(V2.Timestamp) " +
+                            "FROM Visitation AS V2 " +
+                            "WHERE V2.VisitID = active.VisitID " +
+                            "AND V2.DoctorID = active.DoctorID)" +
+                        "AND active.PatientID = '" + sessionUser.getUserId() + "' " +
                         "ORDER BY VisitID";
             }
             else if (sessionUser.getRole().equals(Constants.STAFF)){
@@ -83,7 +88,7 @@ public class PrescriptionsServlet extends HttpServlet {
                 query = "SELECT active.PatientID, active.DIN, drugs.TradeName, " +
                         "active.Quantity, active.Refills, active.Dosage, " +
                         "active.DateTime, active.Expiry " +
-                        "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime ,prescriptions.*" +
+                        "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime, visitation.timestamp, prescriptions.*" +
                                 "FROM visitation " +
                                 "INNER JOIN prescriptions " +
                                 "ON visitation.VisitID = prescriptions.VisitID " +
@@ -92,13 +97,18 @@ public class PrescriptionsServlet extends HttpServlet {
                                 ")as active " +
                         "INNER JOIN drugs " +
                         "ON active.DIN = drugs.DIN " +
+                        "WHERE active.Timestamp = " +
+                            "(SELECT MAX(V2.Timestamp) " +
+                            "FROM Visitation AS V2 " +
+                            "WHERE V2.VisitID = active.VisitID " +
+                            "AND V2.DoctorID = active.DoctorID)" +
                         "ORDER BY VisitID";
             }
             else if (sessionUser.getRole().equals(Constants.DOCTOR)){
                 query = "SELECT active.PatientID, active.DIN, drugs.TradeName, " +
                         "active.Quantity, active.Refills, active.Dosage, " +
                         "active.DateTime, active.Expiry " +
-                        "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime ,prescriptions.*" +
+                        "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime, visitation.timestamp, prescriptions.*" +
                                 "FROM visitation " +
                                 "INNER JOIN prescriptions " +
                                 "ON visitation.VisitID = prescriptions.VisitID " +
@@ -111,6 +121,11 @@ public class PrescriptionsServlet extends HttpServlet {
                                 ") as active " +
                         "INNER JOIN drugs " +
                         "ON active.DIN = drugs.DIN " +
+                        "WHERE active.Timestamp = " +
+                            "(SELECT MAX(V2.Timestamp) " +
+                            "FROM Visitation AS V2 " +
+                            "WHERE V2.VisitID = active.VisitID " +
+                            "AND V2.DoctorID = active.DoctorID)" +
                         "ORDER BY VisitID";
             }
                 
