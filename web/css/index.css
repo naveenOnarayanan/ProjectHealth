@@ -206,3 +206,12 @@ ul.nav.navbar-nav li:hover {
     padding-right: 13%;
     width: 100%;
 }
+
+#remoteContent .modal-dialog{
+    width: 50%;
+}
+
+#remoteContent .modal-content {
+    padding-top: 5%;
+    padding-bottom: 5%;
+}

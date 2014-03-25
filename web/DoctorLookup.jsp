@@ -45,7 +45,7 @@
         <% List<Staff> doctors = (List<Staff>)request.getAttribute("doctors"); %>
         <% String startDateTime = (String)request.getAttribute("startDateTime"); %>
         <% String endDateTime = (String)request.getAttribute("endDateTime"); %>
-        <% SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy h:mm aa"); %>
+        <% SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm aa"); %>
         
         <% List<Visitation> appointments = (List<Visitation>)request.getAttribute("appointments"); %>
         <% Object[] patientIDs = (Object[])request.getAttribute("patientIDs"); %>

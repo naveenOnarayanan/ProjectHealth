@@ -26,6 +26,8 @@
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/2.1.30/js/bootstrap-datetimepicker.min.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.0rc/js/bootstrap-switch.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.widgets.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/appointment.js"></script>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
@@ -37,6 +39,7 @@
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2-bootstrap.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.0rc/css/bootstrap2/bootstrap-switch.min.css"/>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/css/theme.bootstrap.css"/>
         
         <link rel="stylesheet" href="css/index.css"/>
         <% String error = (String) request.getAttribute("error");
@@ -295,8 +298,8 @@
                                     </script>
                                     <% for (int j = 0; j < patients.size(); j++) {
                                         if (patients.get(j).getUserId().equals(appointments.get(i).getPatientId())) {%>
-                                    <td class="appointment-patient" data-id="<%= patients.get(j).getUserId()%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>>
-                                        <%= patients.get(j).getFirstName() + " " + patients.get(j).getLastName() %>
+                                    <td class="appointment-patient" data-id="<%= patients.get(j).getUserId()%>">
+                                        <a data-toggle="modal" href="PersonalInfo?mode=1&UserID=<%= patients.get(j).getUserId()%>&MinimalMode=true" data-target="#remoteContent"><%= patients.get(j).getFirstName() + " " + patients.get(j).getLastName() %></a>
                                     </td>
                                        <%break;}}%>
                                      <% for (int j = 0; j < doctors.size(); j++) {
@@ -311,12 +314,12 @@
                                     <td class="appointment-diagnosis" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>><div class="overflow"><%= appointments.get(i).getDiagnosis() %></div></td>
                                     <td class="appointment-prescriptions">
                                     <% if (appointments.get(i).getPrescriptions() != null && appointments.get(i).getPrescriptions().size() > 0) {%><center>
-                                        <a class="btn btn-primary btn-xs" data-toggle="modal" href="PrescriptionsServlet?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#scheduledOperations">View</a>    
+                                        <a class="btn btn-primary btn-xs" data-toggle="modal" href="PrescriptionsServlet?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#remoteContent">View</a>    
                                         </center><%}%>
                                     </td>
                                     <td class="appointment-operations"><center>
                                         <% if (appointments.get(i).getOperations()!= null && appointments.get(i).getOperations().size() > 0) {%>
-                                        <a class="btn btn-primary btn-xs" data-toggle="modal" href="ScheduledOperations?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#scheduledOperations">View</a>
+                                        <a class="btn btn-primary btn-xs" data-toggle="modal" href="ScheduledOperations?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#remoteContent">View</a>
                                     </center>
                                         <%}%>
                                     </td>
@@ -364,7 +367,7 @@
                                     <% for (int j = 0; j < patients.size(); j++) {
                                         if (patients.get(j).getUserId().equals(appointments.get(i).getPatientId())) {%>
                                     <td class="appointment-patient" data-id="<%= patients.get(j).getUserId()%>">
-                                        <%= patients.get(j).getFirstName() + " " + patients.get(j).getLastName() %>
+                                        <a data-toggle="modal" href="PersonalInfo?mode=1&UserID=<%= patients.get(j).getUserId()%>&MinimalMode=true" data-target="#remoteContent"><%= patients.get(j).getFirstName() + " " + patients.get(j).getLastName() %></a>
                                     </td>
                                        <%break;}}%>
                                      <% for (int j = 0; j < doctors.size(); j++) {
@@ -379,12 +382,12 @@
                                     <td class="appointment-diagnosis"><div class="overflow"><%= appointments.get(i).getDiagnosis() %></div></td>
                                     <td class="appointment-prescriptions"><center>
                                         <% if (appointments.get(i).getPrescriptions() != null && appointments.get(i).getPrescriptions().size() > 0) {%>
-                                        <a class="btn btn-primary btn-xs" data-toggle="modal" href="PrescriptionsServlet?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#scheduledOperations">View</a>
+                                        <a class="btn btn-primary btn-xs" data-toggle="modal" href="PrescriptionsServlet?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#remoteContent">View</a>
                                         <%}%></center>
                                     </td>
                                     <td class="appointment-operations"><center>
                                         <% if (appointments.get(i).getOperations()!= null && appointments.get(i).getOperations().size() > 0) {%>
-                                        <a class="btn btn-primary btn-xs" data-toggle="modal" href="ScheduledOperations?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#scheduledOperations">View</a>    
+                                        <a class="btn btn-primary btn-xs" data-toggle="modal" href="ScheduledOperations?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#remoteContent">View</a>    
                                         <%}%></center>
                                     </td>
                                     <td class="appointment-type" ><%= appointments.get(i).getType() %></td>
@@ -403,7 +406,7 @@
        </div>
        <% } %>
         </div>
-        <div class="modal fade" id="scheduledOperations" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="remoteContent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
