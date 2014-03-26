@@ -124,7 +124,7 @@ public class PrescriptionsServlet extends HttpServlet {
                             "(SELECT MAX(V2.Timestamp) " +
                             "FROM Visitation AS V2 " +
                             "WHERE V2.VisitID = active.VisitID " +
-                            "AND V2.DoctorID = active.DoctorID)" +
+                            "AND V2.DoctorID = active.DoctorID) " +
                         ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND active.VisitID=" + visitIDQuery : "") + " " +
                         "ORDER BY VisitID";
             }
