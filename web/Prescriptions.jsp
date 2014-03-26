@@ -4,6 +4,7 @@
     Author     : Eric
 --%>
  
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="ece358.models.PrescriptionInfo"%>
 <%@page import="java.util.Date"%>
@@ -28,6 +29,7 @@
         <% List<PrescriptionInfo> prescriptions = (List<PrescriptionInfo>) request.getAttribute("prescriptions"); %>
         <% Boolean FullView = (Boolean) request.getAttribute("FullView"); %>
         <%  Users user = (Users) request.getSession().getAttribute("user"); %>
+        <% SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm aa");%>
         <% if (FullView) {%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -180,8 +182,8 @@
                             <td><%= prescriptions.get(i).getQuantity() %></td>
                             <td><%= prescriptions.get(i).getRefills() %></td>
                             <td><%= prescriptions.get(i).getDosage() %></td>
-                            <td><%= prescriptions.get(i).issueToSimpleDateString() %></td>
-                            <td><%= prescriptions.get(i).expiryToSimpleDateString() %></td>
+                            <td><%= dateFormat.format(prescriptions.get(i).getIssue()) %></td>
+                            <td><%= dateFormat.format(prescriptions.get(i).getExpiry())%></td>
                         </tr>
                     <% } %>
                 <% } %>
