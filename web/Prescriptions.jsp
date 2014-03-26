@@ -44,6 +44,7 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
         <link rel="stylesheet" href="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.css"/>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/css/theme.ice.css"/>
         <link rel="stylesheet" href="css/index.css"/>
         <%}%>
 
@@ -59,45 +60,61 @@
             });
         </script>
         <script defer="defer">
-        $(document).ready(function() 
-            { 
-                $(".search-bar").hide();
-                var clicked = false;
-                $("#open-search-bar").click(function() {
-                    if (!clicked) {
-                        $(".search-bar").show();
-                        $("#open-search-bar").animate({
-                            right: "180px",
-                        });
-                        $(".search-bar").animate({
-                            right: "0px",
-                        });
+            $(document).ready(function()  { 
+                    $(".search-bar").hide();
+                    var clicked = false;
+                    $("#open-search-bar").click(function() {
+                        if (!clicked) {
+                            $(".search-bar").show();
+                            $("#open-search-bar").animate({
+                                right: "180px",
+                            });
+                            $(".search-bar").animate({
+                                right: "0px",
+                            });
 
-                        setTimeout(function() {$(".search-bar input").first().focus()}, 250);
-                        clicked = true;
-                    } else {
-                        clicked = false;
+                            setTimeout(function() {$(".search-bar input").first().focus()}, 250);
+                            clicked = true;
+                        } else {
+                            clicked = false;
+                        }
+
+                    });
+
+                    $(document).mouseup(function (e) {
+                        var container = $(".search-bar");
+
+                        if (!container.is(e.target) // if the target of the click isn't the container...
+                            && container.has(e.target).length === 0 && clicked) // ... nor a descendant of the container
+                        {
+                            $("#open-search-bar").animate({
+                                right: "0px"
+                            });
+                            $(".search-bar").animate({
+                                right: "-180px",
+                            }, function() {$(".search-bar").hide();});
+
+                            setTimeout(function() {clicked = false;}, 250);
+                        }
+                    });
+                 
+
+                $("#prescriptions").tablesorter({
+                    theme: "ice",
+                    widgets: ["filter"],
+                    dateFormat: "MM/dd/yyyy hh:mm aa",
+                    widgetOptions: {
+                        filter_external : '.search',
+                        filter_columnFilters: false,
+                        filter_saveFilters : false,
                     }
-
+                }).tablesorterPager({
+                    container: $("#Pager"),
+                    cssGoto: ".pagenum",
+                    output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
                 });
-
-                $(document).mouseup(function (e) {
-                    var container = $(".search-bar");
-
-                    if (!container.is(e.target) // if the target of the click isn't the container...
-                        && container.has(e.target).length === 0 && clicked) // ... nor a descendant of the container
-                    {
-                        $("#open-search-bar").animate({
-                            right: "0px"
-                        });
-                        $(".search-bar").animate({
-                            right: "-180px",
-                        }, function() {$(".search-bar").hide();});
-
-                        setTimeout(function() {clicked = false;}, 250);
-                    }
-                });
-            }); 
+                
+             });
         </script>
         <%if(FullView){%>
         <div class="search-bar">
@@ -137,6 +154,7 @@
             <table id="prescriptions" class="table table-hover tablesorter table-bordered">
                 <thead>
                     <tr>
+                        <th>Related Appointment #</th>
                         <% if (!user.getRole().equals(Constants.PATIENT)) {%>
                         <th>Patient</th>
                         <th>DIN</th>
@@ -149,9 +167,28 @@
                         <th>Expiry</th>
                     </tr>
                 </thead>
+                
+                <% if (!queryServletError && prescriptions != null) { %>
+                    <% for (int i = 0; i < prescriptions.size(); i++) { %>
+                    <tr class="info" id="patientPrescription-<%= i %>">
+                        <td><a href="AppointmentServlet?action=query&visitId=<%= prescriptions.get(i).getVisitID()%>"><%= prescriptions.get(i).getVisitID() %></a></td>
+                            <% if (!user.getRole().equals(Constants.PATIENT)) {%>
+                            <td><%= prescriptions.get(i).getPatientID() %></td>
+                            <td><%= prescriptions.get(i).getDIN() %></td>
+                            <%}%>
+                            <td><%= prescriptions.get(i).getName() %></td>
+                            <td><%= prescriptions.get(i).getQuantity() %></td>
+                            <td><%= prescriptions.get(i).getRefills() %></td>
+                            <td><%= prescriptions.get(i).getDosage() %></td>
+                            <td><%= prescriptions.get(i).issueToSimpleDateString() %></td>
+                            <td><%= prescriptions.get(i).expiryToSimpleDateString() %></td>
+                        </tr>
+                    <% } %>
+                <% } %>
+                
                 <tfoot id="Pager">
                         <tr>
-                                <th colspan="8" class="ts-pager form-horizontal">
+                            <th colspan="9" class="ts-pager form-horizontal">
                                 <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
                                 </button>
                                 <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>
@@ -171,22 +208,6 @@
                             </th>
                         </tr>
                 </tfoot>
-                <% if (!queryServletError && prescriptions != null) { %>
-                    <% for (int i = 0; i < prescriptions.size(); i++) { %>
-                        <tr class="info" id="patientPrescription-<%= i %>">
-                            <% if (!user.getRole().equals(Constants.PATIENT)) {%>
-                            <td><%= prescriptions.get(i).getPatientID() %></td>
-                            <td><%= prescriptions.get(i).getDIN() %></td>
-                            <%}%>
-                            <td><%= prescriptions.get(i).getName() %></td>
-                            <td><%= prescriptions.get(i).getQuantity() %></td>
-                            <td><%= prescriptions.get(i).getRefills() %></td>
-                            <td><%= prescriptions.get(i).getDosage() %></td>
-                            <td><%= prescriptions.get(i).issueToSimpleDateString() %></td>
-                            <td><%= prescriptions.get(i).expiryToSimpleDateString() %></td>
-                        </tr>
-                    <% } %>
-                <% } %>
             </table>
         </div>
     </body>

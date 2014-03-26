@@ -33,7 +33,7 @@ $(document).ready(function() {
     });
 
     $(".appointment-modal-container").css("max-height", $(window).height() - 220);
-    $("#remoteContent .modal-content").css("height", $(window).height() - 120);
+    $("#remoteContent .modal-content").css("max-height", $(window).height() - 120);
 
     $("#appointment-modal-apptComplete").bootstrapSwitch();
     $("#appointment-modal-apptComplete").bootstrapSwitch('onText', 'Yes');
@@ -53,7 +53,7 @@ $(document).ready(function() {
     });
     
     $("#past-appointments").tablesorter({
-        theme: "default",
+        theme: "ice",
         widgets: ["filter"],
         dateFormat: "MM/dd/yyyy hh:mm aa",
         widgetOptions: {
@@ -73,7 +73,7 @@ $(document).ready(function() {
     });
     
     $("#upcoming-appointments").tablesorter({
-        theme: "default",
+        theme: "ice",
         widgets: ["filter"],
         widgetOptions: {
             filter_external : '.search',
@@ -92,41 +92,41 @@ $(document).ready(function() {
     });
 
     $(".search-bar").hide();
-    var clicked = false;
-    $("#open-search-bar").click(function() {
-        if (!clicked) {
-            $(".search-bar").show();
-            $("#open-search-bar").animate({
-                right: "180px",
-            });
-            $(".search-bar").animate({
-                right: "0px",
-            });
+        var clicked = false;
+        $("#open-search-bar").click(function() {
+            if (!clicked) {
+                $(".search-bar").show();
+                $("#open-search-bar").animate({
+                    right: "180px",
+                });
+                $(".search-bar").animate({
+                    right: "0px",
+                });
 
-            setTimeout(function() {$(".search-bar input").first().focus()}, 250);
-            clicked = true;
-        } else {
-            clicked = false;
-        }
+                setTimeout(function() {$(".search-bar input").first().focus()}, 250);
+                clicked = true;
+            } else {
+                clicked = false;
+            }
 
-    });
+        });
 
-    $(document).mouseup(function (e) {
-        var container = $(".search-bar");
+        $(document).mouseup(function (e) {
+            var container = $(".search-bar");
 
-        if (!container.is(e.target) // if the target of the click isn't the container...
-            && container.has(e.target).length === 0 && clicked) // ... nor a descendant of the container
-        {
-            $("#open-search-bar").animate({
-                right: "0px"
-            });
-            $(".search-bar").animate({
-                right: "-180px",
-            }, function() {$(".search-bar").hide();});
+            if (!container.is(e.target) // if the target of the click isn't the container...
+                && container.has(e.target).length === 0 && clicked) // ... nor a descendant of the container
+            {
+                $("#open-search-bar").animate({
+                    right: "0px"
+                });
+                $(".search-bar").animate({
+                    right: "-180px",
+                }, function() {$(".search-bar").hide();});
 
-            setTimeout(function() {clicked = false;}, 250);
-        }
-    });
+                setTimeout(function() {clicked = false;}, 250);
+            }
+        });
     
     $('#appointment-edit').on('hidden.bs.modal', function () {
         $("#appointment-modal-date").val("");

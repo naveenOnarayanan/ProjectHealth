@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PrescriptionInfo {
+    private Integer visitID;
     private String patientID;
     private Integer DIN;
     private String name;
@@ -28,7 +29,8 @@ public class PrescriptionInfo {
     public PrescriptionInfo() {
     }
 
-    public PrescriptionInfo(String patientID, Integer id, Integer quantity, Integer refills, String dosage, Date issue, Date expiry) {
+    public PrescriptionInfo(Integer visitID, String patientID, Integer id, Integer quantity, Integer refills, String dosage, Date issue, Date expiry) {
+        this.visitID = visitID;
         this.patientID = patientID;
         this.DIN = id;
         this.quantity = quantity;
@@ -38,6 +40,14 @@ public class PrescriptionInfo {
         this.expiry = expiry;
     }
 
+    public Integer getVisitID() {
+        return this.visitID;
+    }
+    
+    public void setVisitID(Integer visitID) {
+        this.visitID = visitID;
+    }
+    
     public String getPatientID() {
         return patientID;
     }

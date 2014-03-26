@@ -58,7 +58,7 @@ public class PrescriptionsServlet extends HttpServlet {
             String query = "";
             
             if (sessionUser.getRole().equals(Constants.PATIENT)){
-                query = "SELECT active.PatientID, active.DIN, drugs.TradeName, " +
+                query = "SELECT active.VisitID, active.PatientID, active.DIN, drugs.TradeName, " +
                         "active.Quantity, active.Refills, active.Dosage, " +
                         "active.DateTime, active.Expiry, active.visitid " +
                         "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime, visitation.timestamp, prescriptions.*" +
@@ -85,7 +85,7 @@ public class PrescriptionsServlet extends HttpServlet {
                 List<Object[]> result = SQLSessionUtil.executeQuery(query);
                 String managingDoctor = result.get(0)[0].toString();
                 
-                query = "SELECT active.PatientID, active.DIN, drugs.TradeName, " +
+                query = "SELECT active.VisitID, active.PatientID, active.DIN, drugs.TradeName, " +
                         "active.Quantity, active.Refills, active.Dosage, " +
                         "active.DateTime, active.Expiry, active.visitid " +
                         "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime, visitation.timestamp, prescriptions.*" +
@@ -105,7 +105,7 @@ public class PrescriptionsServlet extends HttpServlet {
                         "ORDER BY VisitID";
             }
             else if (sessionUser.getRole().equals(Constants.DOCTOR)){
-                query = "SELECT active.PatientID, active.DIN, drugs.TradeName, " +
+                query = "SELECT active.VisitID, active.PatientID, active.DIN, drugs.TradeName, " +
                         "active.Quantity, active.Refills, active.Dosage, " +
                         "active.DateTime, active.Expiry, active.visitid " +
                         "FROM (SELECT visitation.PatientID, visitation.DoctorID, visitation.DateTime, visitation.timestamp, prescriptions.*" +
@@ -134,14 +134,15 @@ public class PrescriptionsServlet extends HttpServlet {
 
             for (Object[] o : prescriptionInfoObjects) {
                 PrescriptionInfo temp = new PrescriptionInfo();
-                temp.setPatientID((String)o[0]);
-                temp.setDIN((Integer)o[1]);
-                temp.setName((String)o[2]);
-                temp.setQuantity((Integer)o[3]);
-                temp.setRefills((Integer)o[4]);
-                temp.setDosage((String)o[5]);
-                temp.setIssue((Date)o[6]);
-                temp.setExpiry((Date)o[7]);
+                temp.setVisitID((Integer) o[0]);
+                temp.setPatientID((String)o[1]);
+                temp.setDIN((Integer)o[2]);
+                temp.setName((String)o[3]);
+                temp.setQuantity((Integer)o[4]);
+                temp.setRefills((Integer)o[5]);
+                temp.setDosage((String)o[6]);
+                temp.setIssue((Date)o[7]);
+                temp.setExpiry((Date)o[8]);
                 prescriptions.add(temp);
             }
 

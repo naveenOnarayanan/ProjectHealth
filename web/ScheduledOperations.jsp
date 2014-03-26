@@ -45,7 +45,7 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
         <link rel="stylesheet" href="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.css"/>
-
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/css/theme.ice.css"/>
         <link rel="stylesheet" href="css/index.css"/>
         <%}%>
         <script type="text/javascript" src="js/scheduledoperations.js"></script>
@@ -101,8 +101,9 @@
 
                 $("#UpcomingOperationsTable")
                         .tablesorter({
+                            theme: "ice",
                             widthFixed: true,
-                            widgets: ["filter", "zebra"],
+                            widgets: ["filter"],
                             dateFormat: "MM/dd/yyyy HH:mm aa",
                             widgetOptions: {
                             filter_external : '.search',
@@ -122,8 +123,9 @@
 
                 $("#PastOperationsTable")
                         .tablesorter({
+                            theme: "ice",
                             widthFixed: true,
-                            widgets: ["filter", "zebra"],
+                            widgets: ["filter"],
                             dateFormat: "MM/dd/yyyy HH:mm aa",
                             widgetOptions: {
                             filter_external : '.search',
