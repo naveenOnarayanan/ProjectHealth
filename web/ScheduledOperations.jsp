@@ -61,8 +61,44 @@
         })
         </script>
         <script defer="defer">
-	$(document).ready(function() 
-            { 
+	$(document).ready(function() {
+                $(".search-bar").hide();
+                var clicked = false;
+                $("#open-search-bar").click(function() {
+                    if (!clicked) {
+                        $(".search-bar").show();
+                        $("#open-search-bar").animate({
+                            right: "180px",
+                        });
+                        $(".search-bar").animate({
+                            right: "0px",
+                        });
+
+                        setTimeout(function() {$(".search-bar input").first().focus()}, 250);
+                        clicked = true;
+                    } else {
+                        clicked = false;
+                    }
+
+                });
+
+                $(document).mouseup(function (e) {
+                    var container = $(".search-bar");
+
+                    if (!container.is(e.target) // if the target of the click isn't the container...
+                        && container.has(e.target).length === 0 && clicked) // ... nor a descendant of the container
+                    {
+                        $("#open-search-bar").animate({
+                            right: "0px"
+                        });
+                        $(".search-bar").animate({
+                            right: "-180px",
+                        }, function() {$(".search-bar").hide();});
+
+                        setTimeout(function() {clicked = false;}, 250);
+                    }
+                });
+
                 $("#UpcomingOperationsTable")
                         .tablesorter({
                             widthFixed: true,
@@ -83,6 +119,7 @@
                             cssGoto: ".pagenum",
                             output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
                 }); 
+
                 $("#PastOperationsTable")
                         .tablesorter({
                             widthFixed: true,
@@ -118,13 +155,20 @@
         
 
         <%if(FullView){%>
-        <input class="search" type="search" data-column="0">
-        <input class="search" type="search" data-column="1">
-        <input class="search" type="search" data-column="2">
-        <input class="search" type="search" data-column="3">
-        <input class="search" type="search" data-column="4">
-        <input class="search" type="search" data-column="5">
-        <input class="search" type="search" data-column="6">
+        <div class="search-bar">
+           <div class="jumbotron input-container">
+
+                <input class="search" type="search" data-column="0" placeholder="Appointment #">
+                <input class="search" type="search" data-column="1" placeholder="Patient ID">
+                <input class="search" type="search" data-column="2" placeholder="Patient Name">
+                <input class="search" type="search" data-column="3" placeholder="Operation">
+                <input class="search" type="search" data-column="4" placeholder="Date">
+                <input class="search" type="search" data-column="5" placeholder="Surgeon">
+                <input class="search" type="search" data-column="6" placeholder="Primary Doctor">
+                <center><button type="reset" class="reset btn btn-primary btn-xs">Reset</button></center>
+           </div>
+        </div>
+        <button id="open-search-bar" class="btn btn-primary pull-right" ><i class="fa fa-search"></i></button>
         <%}%>
         <div id="dynamic-table">
         <h1>Scheduled Operations</h1>

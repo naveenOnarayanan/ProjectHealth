@@ -92,7 +92,7 @@
           List<Staff> doctors = (List<Staff>) request.getAttribute("doctors"); 
           List<Drugs> drugs = (List<Drugs>) request.getAttribute("drugs"); %>
           <div class="content">
-            <div class="modal fase" id="appointment-edit" role="dialog" aria-labelledby="Appointment" aria-hidden="true">
+            <div class="modal fade" id="appointment-edit" role="dialog" aria-labelledby="Appointment" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                        <div class="modal-header">

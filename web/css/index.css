@@ -234,7 +234,6 @@ ul.nav.navbar-nav li:hover {
 }
 
 .search-bar .reset {
-    
     border-radius: 5px;
     width: 90%;
 }
@@ -254,4 +253,8 @@ ul.nav.navbar-nav li:hover {
 
 .tab-space {
     margin-bottom: -32px;
+}
+
+body {
+    overflow-x: hidden;
 }

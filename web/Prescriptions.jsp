@@ -61,55 +61,42 @@
         <script defer="defer">
         $(document).ready(function() 
             { 
-                 var clicked = false;
-                    $("#open-search-bar").click(function() {
+                $(".search-bar").hide();
+                var clicked = false;
+                $("#open-search-bar").click(function() {
+                    if (!clicked) {
+                        $(".search-bar").show();
                         $("#open-search-bar").animate({
-                            right: "180px"
+                            right: "180px",
                         });
                         $(".search-bar").animate({
+                            right: "0px",
+                        });
+
+                        setTimeout(function() {$(".search-bar input").first().focus()}, 250);
+                        clicked = true;
+                    } else {
+                        clicked = false;
+                    }
+
+                });
+
+                $(document).mouseup(function (e) {
+                    var container = $(".search-bar");
+
+                    if (!container.is(e.target) // if the target of the click isn't the container...
+                        && container.has(e.target).length === 0 && clicked) // ... nor a descendant of the container
+                    {
+                        $("#open-search-bar").animate({
                             right: "0px"
                         });
-                        setTimeout(function() {$(".search-bar input").first().focus()}, 250);
-                //        $(".search-bar #temp").focus();
-                        clicked = true;
+                        $(".search-bar").animate({
+                            right: "-180px",
+                        }, function() {$(".search-bar").hide();});
 
-                    });
-
-                    $(document).mouseup(function (e) {
-                            var container = $(".search-bar");
-
-                            if (!container.is(e.target) // if the target of the click isn't the container...
-                                && container.has(e.target).length === 0 && clicked) // ... nor a descendant of the container
-                            {
-                                $("#open-search-bar").animate({
-                                    right: "0px"
-                                });
-                                $(".search-bar").animate({
-                                    right: "-180px"
-                                });
-                                clicked = false;
-                            }
-                    });
-                $("#prescriptions")
-                        .tablesorter({
-                            widthFixed: true,
-                            widgets: ["filter", "zebra"],
-                            dateFormat: "MM/dd/yyyy HH:mm aa",
-                            widgetOptions: {
-                            filter_external : '.search',
-                            filter_columnFilters: false,
-                            filter_saveFilters : true,
-                            filter_reset: '.reset',
-                            },
-                            headers: {
-                                4:{sorter:"shortDate"}
-                            }
-                        })
-                        .tablesorterPager({
-                            container: $("#Pager"),
-                            cssGoto: ".pagenum",
-                            output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
-                });  
+                        setTimeout(function() {clicked = false;}, 250);
+                    }
+                });
             }); 
         </script>
         <%if(FullView){%>
@@ -126,9 +113,10 @@
                 <input type="search" class="search" data-column="7" placeholder="Expiry Date"/>
                 <center><button type="reset" class="reset btn btn-primary btn-xs">Reset</button></center>
            </div>
-       </div>
+        </div>
+        <button id="open-search-bar" class="btn btn-primary pull-right" ><i class="fa fa-search"></i></button>
        <%}%>
-       <button id="open-search-bar" class="btn btn-primary pull-right" ><i class="fa fa-search"></i></button>
+       
         <div id="navbar-container"></div>
         
         <% if (error != null && !error.equals("")) { %>

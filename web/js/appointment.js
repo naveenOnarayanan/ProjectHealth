@@ -33,7 +33,7 @@ $(document).ready(function() {
     });
 
     $(".appointment-modal-container").css("max-height", $(window).height() - 220);
-    $("#remoteContent .modal-content").css("max-height", $(window).height() - 120);
+    $("#remoteContent .modal-content").css("height", $(window).height() - 120);
 
     $("#appointment-modal-apptComplete").bootstrapSwitch();
     $("#appointment-modal-apptComplete").bootstrapSwitch('onText', 'Yes');
@@ -91,20 +91,26 @@ $(document).ready(function() {
         output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
     });
 
+    $(".search-bar").hide();
     var clicked = false;
     $("#open-search-bar").click(function() {
-        $("#open-search-bar").animate({
-            right: "180px"
-        });
-        $(".search-bar").animate({
-            right: "0px"
-        });
-        setTimeout(function() {$(".search-bar input").first().focus()}, 250);
-//        $(".search-bar #temp").focus();
-        clicked = true;
+        if (!clicked) {
+            $(".search-bar").show();
+            $("#open-search-bar").animate({
+                right: "180px",
+            });
+            $(".search-bar").animate({
+                right: "0px",
+            });
+
+            setTimeout(function() {$(".search-bar input").first().focus()}, 250);
+            clicked = true;
+        } else {
+            clicked = false;
+        }
 
     });
-    
+
     $(document).mouseup(function (e) {
         var container = $(".search-bar");
 
@@ -115,9 +121,10 @@ $(document).ready(function() {
                 right: "0px"
             });
             $(".search-bar").animate({
-                right: "-180px"
-            });
-            clicked = false;
+                right: "-180px",
+            }, function() {$(".search-bar").hide();});
+
+            setTimeout(function() {clicked = false;}, 250);
         }
     });
     
