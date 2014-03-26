@@ -111,7 +111,7 @@
         <%}%>
         <div id="dynamic-table">
         <h1>Scheduled Operations</h1>
-        <ul class="nav nav-tabs" style="margin-bottom: -20px">
+        <ul class="nav nav-tabs" style="margin-bottom: -22px">
                <li class="tab-button active" id="upcoming-operations-tab"><a href="#upcoming-operation" data-toggle="tab">Upcoming Operations</a></li>
                <li class="tab-button" id="past-operations-tab"><a href="#past-operations" data-toggle="tab">Past Operations</a></li>
        </ul>
@@ -119,19 +119,19 @@
         <div class="tab-content">
             <div class="tab-pane active" id="upcoming-operation">
                     <% if (!queryServletError) { %>
-                    <table class="table table-hover tablesorter default-table" id="UpcomingOperationsTable">
+                    <table class="table table-hover tablesorter table-bordered" id="UpcomingOperationsTable">
                         <thead>
                             <tr>
-                                <th>Related Appointment Number</th>
+                                <th style="width: 14%">Related Appointment Number</th>
                                 <%if(!patientsFuture.isEmpty()){%>
-                                <th>Patient ID</th>
-                                <th>Patient Name</th>
+                                <th style="width: 14%">Patient ID</th>
+                                <th style="width: 14%">Patient Name</th>
                                 <%}%>
-                                <th>Operation</th>
-                                <th data-sorter="shortDate" data-date-format="yyyy-mm-dd">Date</th>
-                                <th>Surgeon</th>
+                                <th style="width: 25%">Operation</th>
+                                <th data-sorter="shortDate" data-date-format="yyyy-mm-dd" style="width: 14%">Date</th>
+                                <th style="width: 14%">Surgeon</th>
                                 <%if(!doctorsFuture.isEmpty()){%>
-                                <th>Primary Doctor</th>
+                                <th style="width: 14%">Primary Doctor</th>
                                 <%}%>
                             </tr>
                         </thead>
@@ -187,19 +187,19 @@
                 </div>
                 <div class="tab-pane" id="past-operations">
                     <% if (!queryServletError) { %>
-                    <table class="table table-hover default-table" id="PastOperationsTable">
+                    <table class="table table-hover table-bordered" id="PastOperationsTable">
                         <thead>
                             <tr>
-                                <th>Related Appointment Number</th>
+                                <th style="width: 14%">Related Appointment Number</th>
                                 <%if(!patientsPast.isEmpty()){%>
-                                <th>Patient ID</th>
-                                <th>Patient Name</th>
+                                <th style="width: 14%">Patient ID</th>
+                                <th style="width: 14%">Patient Name</th>
                                 <%}%>
-                                <th>Operation</th>
-                                <th data-sorter="shortDate" data-date-format="yyyy-mm-dd">Date</th>
-                                <th>Surgeon</th>
+                                <th style="width: 25%">Operation</th>
+                                <th data-sorter="shortDate" data-date-format="yyyy-mm-dd" style="width: 14%">Date</th>
+                                <th style="width: 14%">Surgeon</th>
                                 <%if(!doctorsPast.isEmpty()){%>
-                                <th>Primary Doctor</th>
+                                <th style="width: 14%">Primary Doctor</th>
                                 <%}%>
                             </tr>
                         </thead>

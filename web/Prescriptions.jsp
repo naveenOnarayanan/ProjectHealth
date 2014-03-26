@@ -107,7 +107,7 @@
         </table>
         
         <div id="dynamic-table">
-            <table id="prescriptions" class="table table-hover default-table">
+            <table id="prescriptions" class="table table-hover table-bordered">
                 <thead>
                     <tr>
                         <% if (!user.getRole().equals(Constants.PATIENT)) {%>
@@ -115,7 +115,7 @@
                         <th style="width: 8%">DIN</th>
                         <%}%>
                         <th style="width: 15%">Drug Name</th>
-                        <th style="width: 10%">Quantity (in mg)</th>
+                        <th style="width: 11%">Quantity (in mg)</th>
                         <th style="width: 6%">Refills</th>
                         <th>Dosage</th>
                         <th style="width: 12%">Prescribed Date</th>

@@ -71,7 +71,7 @@
        <% List<Patients> patients = (List<Patients>) request.getAttribute("patients");
           List<Staff> doctors = (List<Staff>) request.getAttribute("doctors"); 
           List<Drugs> drugs = (List<Drugs>) request.getAttribute("drugs"); %>
-        <div class="content">
+          <div class="content">
             <div class="modal fase" id="appointment-edit" role="dialog" aria-labelledby="Appointment" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -155,7 +155,7 @@
                                     </div>
                                     <div class="tab-pane" id="prescriptions">
                                         <input class="hidden" type="text" id="appointment-modal-prescriptions" name="prescriptions-list"/>
-                                        <table id="appointment-modal-prescription-table" class="table table-hover default-table">
+                                        <table id="appointment-modal-prescription-table" class="table table-hover table-bordered">
                                             <thead>
                                                 <tr>
                                                     <td>DIN</td>
@@ -205,7 +205,7 @@
                                     </div>
                                     <div class="tab-pane" id="operations">
                                         <input class="hidden" type="text" id="appointment-modal-operations" name="operations-list"/>
-                                        <table id="appointment-modal-operations-table" class="table table-hover default-table">
+                                        <table id="appointment-modal-operations-table" class="table table-hover table-bordered">
                                             <thead>
                                                 <tr>
                                                     <td>Operation Time</td>
@@ -256,11 +256,11 @@
                     </div>
                 </div>
             </div> 
-            <div id="content">
+            <div id="dynamic-table">
                 <% if (user.getRole().equals(Constants.STAFF)) {%>
                 <button class="btn btn-warning pull-right add-appointment" onclick="updateAppointmentModal('-1', '<%= user.getRole()%>')"><i class="fa fa-calendar fa-4"></i></button>
                  <%}%>
-                <ul class="nav nav-tabs">
+                <ul class="nav nav-tabs" style="margin-bottom: -22px">
                     <li class="tab-button active" id="upcoming-appointments-tab"><a href="#upcoming" data-toggle="tab">Upcoming Appointments</a></li>
                     <li class="tab-button" id="past-appointments-tab"><a href="#past" data-toggle="tab">Past Appointments</a></li>
                 </ul>
@@ -270,18 +270,18 @@
                         <table id="appointments" class="table table-hover table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Appointment #</th>
-                                    <th>Date</th>
-                                    <th>Patient</th>
-                                    <th>Doctor</th>
-                                    <th>Symptoms</th>
-                                    <th>Diagnosis</th>
-                                    <th>Prescriptions</th>
-                                    <th>Scheduled Operations</th>
-                                    <th>Reason</th>
-                                    <th>Length</th>
+                                    <th style="width: 10%">Appointment #</th>
+                                    <th style="width: 9%">Date</th>
+                                    <th style="width: 9%">Patient</th>
+                                    <th style="width: 9%">Doctor</th>
+                                    <th style="width: 12%">Symptoms</th>
+                                    <th style="width: 8%">Diagnosis</th>
+                                    <th style="width: 9%">Prescriptions</th>
+                                    <th style="width: 10%">Scheduled Operations</th>
+                                    <th style="width: 6%">Reason</th>
+                                    <th style="width: 6%">Length</th>
                                     <%if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %>
-                                    <th>Comments</th>
+                                    <th style="width: 12%">Comments</th>
                                     <%}%>
                                 </tr>
                             </thead>
