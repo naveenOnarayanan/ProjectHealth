@@ -110,9 +110,6 @@
                             filter_columnFilters: false,
                             filter_saveFilters : true,
                             filter_reset: '.reset',
-                            },
-                            headers: {
-                                4:{sorter:"shortDate"}
                             }
                         })
                         .tablesorterPager({
@@ -132,9 +129,6 @@
                             filter_columnFilters: false,
                             filter_saveFilters : true,
                             filter_reset: '.reset',
-                            },
-                            headers: {
-                                4:{sorter:"shortDate"}
                             }
                         })
                         .tablesorterPager({
@@ -191,7 +185,7 @@
                                 <th style="width: 14%">Patient Name</th>
                                 <%}%>
                                 <th style="width: 25%">Operation</th>
-                                <th data-sorter="shortDate" data-date-format="yyyy-mm-dd" style="width: 14%">Date</th>
+                                <th style="width: 14%">Date</th>
                                 <th style="width: 14%">Surgeon</th>
                                 <%if(!doctorsFuture.isEmpty()){%>
                                 <th style="width: 14%">Primary Doctor</th>
@@ -230,7 +224,11 @@
                             <%if(schedoperationsFuture != null){%>
                             <%for(int i = 0; i<schedoperationsFuture.size(); i++){%>
                             <tr>
-                                <td><%=schedoperationsFuture.get(i).getVisitId()%></td>
+                                <%if((((Users) request.getSession().getAttribute("user")).getUserId()).equals(doctorsFuture.get(i).getUserId())){%>
+                                <td><a href="AppointmentServlet?action=query&visitId=<%= schedoperationsFuture.get(i).getVisitId()%>"><%= schedoperationsFuture.get(i).getVisitId() %></a></td>
+                                <%}else{%>
+                                <td><%= schedoperationsFuture.get(i).getVisitId() %></td>
+                                <%}%>
                                 <%if(!patientsFuture.isEmpty()){%>
                                 <td><%=patientsFuture.get(i).getUserId()%></td>
                                 <td><%=patientsFuture.get(i).getFirstName()%> <%=patientsFuture.get(i).getLastName()%></td>
@@ -259,7 +257,7 @@
                                 <th style="width: 14%">Patient Name</th>
                                 <%}%>
                                 <th style="width: 25%">Operation</th>
-                                <th data-sorter="shortDate" data-date-format="yyyy-mm-dd" style="width: 14%">Date</th>
+                                <th style="width: 14%">Date</th>
                                 <th style="width: 14%">Surgeon</th>
                                 <%if(!doctorsPast.isEmpty()){%>
                                 <th style="width: 14%">Primary Doctor</th>
@@ -298,13 +296,17 @@
                             <%if(schedoperationsPast != null){%>
                             <%for(int i = 0; i<schedoperationsPast.size(); i++){%>
                             <tr>
-                                <td><%=schedoperationsPast.get(i).getVisitId()%></td>
+                                <%if((((Users) request.getSession().getAttribute("user")).getUserId()).equals(doctorsPast.get(i).getUserId())){%>
+                                <td><a href="AppointmentServlet?action=query&visitId=<%= schedoperationsPast.get(i).getVisitId()%>"><%= schedoperationsPast.get(i).getVisitId() %></a></td>
+                                <%}else{%>
+                                <td><%= schedoperationsPast.get(i).getVisitId() %></td>
+                                <%}%>                                
                                 <%if(!patientsPast.isEmpty()){%>
                                 <td><%=patientsPast.get(i).getUserId()%></td>
-                                <td><%=patientsPast.get(i).getFirstName()%> <%=patientsFuture.get(i).getLastName()%></td>
+                                <td><%=patientsPast.get(i).getFirstName()%> <%=patientsPast.get(i).getLastName()%></td>
                                 <%}%>
                                 <td onclick="populateOperationModal('<%=operationsPast.get(i).getName()%>','<%=operationsPast.get(i).getDescription()%>','<%=operationsPast.get(i).getEstTime().getHours()%>','<%=operationsPast.get(i).getEstTime().getMinutes()%>')" style="cursor:pointer"><%=schedoperationsPast.get(i).getOperationName()%></td>
-                                <td><%=dateFormat.format(schedoperationsFuture.get(i).getOperationDateTime())%></td>
+                                <td><%=dateFormat.format(schedoperationsPast.get(i).getOperationDateTime())%></td>
                                 <td>Dr.<%=surgeonsPast.get(i).getLastName()%></td>
                                 <%if(!doctorsPast.isEmpty()){%>
                                 <td>Dr.<%=doctorsPast.get(i).getLastName()%></td>
