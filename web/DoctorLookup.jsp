@@ -96,7 +96,7 @@
                 <table style="width: 100%">
                     <tr>
                         <th>
-                            <h1 class="table-header">Doctor Information Lookup</h1>
+                            <h1 class="table-header" style="padding-left: 22%">Doctor Information Lookup</h1>
                         </th>                   
                     </tr>
                     <tr>
@@ -177,7 +177,7 @@
             <div>
                 <br>
                 <h3 style="padding-left: 11%">Records</h3>
-                <table id="appointments" class="table table-hover" style="margin-left: 11%; width: 78%">
+                <table id="appointments" class="table table-hover table-bordered" style="margin-left: 11%; width: 78%">
                     <thead>
                         <tr>
                             <th style="width: 10%">Date</th>
