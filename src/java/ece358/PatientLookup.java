@@ -186,7 +186,7 @@ public class PatientLookup extends HttpServlet {
                         patient.setSin(request.getParameter("SIN"));
                         patient.setDefaultDoctorId(request.getParameter("DefaultDoctorID"));
                         patient.setHealthStatus(request.getParameter("HealthStatus"));
-                        patient.setVisits(0);
+                        patient.setVisits(Integer.parseInt((String)request.getParameter("Visits")));
                         String transferred = (String)request.getParameter("Transfered");
                         patient.setTransfered( (transferred != null && transferred.equals("on")) ? true : false);
                         
@@ -220,7 +220,7 @@ public class PatientLookup extends HttpServlet {
                     request.setAttribute("PhoneNumber", "");
                     request.setAttribute("PrimaryContactNo", "");
                     request.setAttribute("SIN", "");
-                    request.setAttribute("Visits", "");
+                    request.setAttribute("Visits", "0");
                     request.setAttribute("Transfered", false);
                     
                     List<Country> countries  = (List<Country>) SQLSessionUtil.selectType(Country.class, "SELECT * FROM Country");
