@@ -31,46 +31,20 @@
         <% if (FullView) {%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap-datetimepicker.ru.js"></script>
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/2.1.30/js/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
+        <script type="text/javascript" src="http://mottie.github.io/tablesorter/js/jquery.tablesorter.js"></script>
+        <script type="text/javascript" src="http://mottie.github.io/tablesorter/js/jquery.tablesorter.widgets.js"></script>
+        <script type="text/javascript" src="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
+
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/3.0.3/yeti/bootstrap.min.css"/>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/fonts/glyphicons-halflings-regular.svg"/>
-        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/2.1.30/css/bootstrap-datetimepicker.min.css"/>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css"/>
+        <link rel="stylesheet" href="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.css"/>
         <link rel="stylesheet" href="css/index.css"/>
-        
-        
-        
-        <script>
-            $(document).ready(function() {
-               var prescriptions = <%= new Gson().toJson(prescriptions) %>;
-               $("#filter-id").keyup(function() {
-                   $(".info").remove();
-                   var result = $(this).val();
-                   for (var i = 0; i < prescriptions.length; i++) {
-                       if (prescriptions[i].patientID.indexOf(result) == 0) {
-                           $("#prescriptions").append(
-                                "<tr class='info'>" +
-                                    "<td>" + prescriptions[i].patientID + "</td>" +
-                                    "<td>" + prescriptions[i].DIN + "</td>" +
-                                    "<td>" + prescriptions[i].name + "</td>" +
-                                    "<td>" + prescriptions[i].quantity + "</td>" +
-                                    "<td>" + prescriptions[i].refills + "</td>" +
-                                    "<td>" + prescriptions[i].dosage + "</td>" +
-                                    "<td>" + prescriptions[i].issue + "</td>" +
-                                    "<td>" + prescriptions[i].expiry + "</td>" +
-                                "</tr>"
-                            );
-                       }
-                   } 
-               });
-           });
-        </script>
         <%}%>
 
         <title>Prescriptions</title>
@@ -83,6 +57,31 @@
                 "<%=request.getSession().getAttribute("firstname")%>",
                 "<%=request.getSession().getAttribute("lastname")%>");
             });
+        </script>
+        <script defer="defer">
+        $(document).ready(function() 
+            { 
+                $("#prescriptions")
+                        .tablesorter({
+                            widthFixed: true,
+                            widgets: ["filter", "zebra"],
+                            dateFormat: "MM/dd/yyyy HH:mm aa",
+                            widgetOptions: {
+                            filter_external : '.search',
+                            filter_columnFilters: false,
+                            filter_saveFilters : true,
+                            filter_reset: '.reset',
+                            },
+                            headers: {
+                                4:{sorter:"shortDate"}
+                            }
+                        })
+                        .tablesorterPager({
+                            container: $("#Pager"),
+                            cssGoto: ".pagenum",
+                            output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
+                });  
+            }); 
         </script>
  
         <div id="navbar-container"></div>
@@ -98,30 +97,57 @@
         <table class="center-block">
             <tr>
                 <th style="width: 70%;"><h1 class="table-header">Prescriptions</h1></th>
-                <% if (!user.getRole().equals(Constants.PATIENT) && FullView) {%>
-                <th style="width: 30%">
-                    <input id="filter-id" type="text" class="table-search-box" placeholder="Filter results by UserID">
-                </th>
-                <%}%>
             </tr>
         </table>
         
-        <div id="dynamic-table">
-            <table id="prescriptions" class="table table-hover default-table">
+        <div class="center-block">
+        <%if(FullView){%>
+        <input class="search" type="search" data-column="0">
+        <input class="search" type="search" data-column="1">
+        <input class="search" type="search" data-column="2">
+        <input class="search" type="search" data-column="3">
+        <input class="search" type="search" data-column="4">
+        <input class="search" type="search" data-column="5">
+        <input class="search" type="search" data-column="6">
+        <input class="search" type="search" data-column="7">
+        <%}%>
+            <table id="prescriptions" class="table table-hover tablesorter default-table">
                 <thead>
                     <tr>
                         <% if (!user.getRole().equals(Constants.PATIENT)) {%>
-                        <th style="width: 10%">Patient</th>
-                        <th style="width: 8%">DIN</th>
+                        <th>Patient</th>
+                        <th>DIN</th>
                         <%}%>
-                        <th style="width: 15%">Drug Name</th>
-                        <th style="width: 10%">Quantity (in mg)</th>
-                        <th style="width: 6%">Refills</th>
+                        <th>Drug Name</th>
+                        <th>Quantity (in mg)</th>
+                        <th>Refills</th>
                         <th>Dosage</th>
-                        <th style="width: 12%">Prescribed Date</th>
-                        <th style="width: 12%">Expiry</th>
+                        <th>Prescribed Date</th>
+                        <th>Expiry</th>
                     </tr>
                 </thead>
+                <tfoot id="Pager">
+                        <tr>
+                                <th colspan="8" class="ts-pager form-horizontal">
+                                <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
+                                </button>
+                                <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>
+                                </button>	<span class="pagedisplay"></span> 
+                                <!-- this can be any element, including an input -->
+                                <button type="button" class="btn-xsm next"><i class="icon-arrow-right glyphicon glyphicon-forward"></i>
+                                </button>
+                                <button type="button" class="btn-xsm last"><i class="icon-step-forward glyphicon glyphicon-step-forward"></i>
+                                </button>
+                                <select class="pagesize input-mini" title="Select page size">
+                                    <option selected="selected" value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="40">40</option>
+                                </select>
+                                <select class="pagenum input-mini" title="Select page number"></select>
+                            </th>
+                        </tr>
+                </tfoot>
                 <% if (!queryServletError && prescriptions != null) { %>
                     <% for (int i = 0; i < prescriptions.size(); i++) { %>
                         <tr class="info" id="patientPrescription-<%= i %>">

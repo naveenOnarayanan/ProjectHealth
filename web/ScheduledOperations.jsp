@@ -28,7 +28,7 @@
         <% List<Staff> doctorsFuture = (List<Staff>) request.getAttribute("doctorsFuture"); %>
         <% List<Operations> operationsFuture = (List<Operations>) request.getAttribute("operationsFuture"); %>
         <% List<Patients> patientsFuture = (List<Patients>) request.getAttribute("patientsFuture"); %>
-        <% SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");%>
+        <% SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm aa");%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <% if (FullView) {%>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -66,9 +66,14 @@
                 $("#UpcomingOperationsTable")
                         .tablesorter({
                             widthFixed: true,
-                            headerTemplate: '{content} {icon}',
-                            widgets: ["uitheme", "filter", "zebra"],
-                            dateFormat: "yyyy-mm-dd",
+                            widgets: ["filter", "zebra"],
+                            dateFormat: "MM/dd/yyyy HH:mm aa",
+                            widgetOptions: {
+                            filter_external : '.search',
+                            filter_columnFilters: false,
+                            filter_saveFilters : true,
+                            filter_reset: '.reset',
+                            },
                             headers: {
                                 4:{sorter:"shortDate"}
                             }
@@ -81,9 +86,14 @@
                 $("#PastOperationsTable")
                         .tablesorter({
                             widthFixed: true,
-                            headerTemplate: '{content} {icon}',
-                            widgets: ["uitheme", "filter", "zebra"],
-                            dateFormat: "yyyy-mm-dd",
+                            widgets: ["filter", "zebra"],
+                            dateFormat: "MM/dd/yyyy HH:mm aa",
+                            widgetOptions: {
+                            filter_external : '.search',
+                            filter_columnFilters: false,
+                            filter_saveFilters : true,
+                            filter_reset: '.reset',
+                            },
                             headers: {
                                 4:{sorter:"shortDate"}
                             }
@@ -108,6 +118,13 @@
         
 
         <%if(FullView){%>
+        <input class="search" type="search" data-column="0">
+        <input class="search" type="search" data-column="1">
+        <input class="search" type="search" data-column="2">
+        <input class="search" type="search" data-column="3">
+        <input class="search" type="search" data-column="4">
+        <input class="search" type="search" data-column="5">
+        <input class="search" type="search" data-column="6">
         <%}%>
         <div id="dynamic-table">
         <h1>Scheduled Operations</h1>
@@ -128,7 +145,7 @@
                                 <th>Patient Name</th>
                                 <%}%>
                                 <th>Operation</th>
-                                <th data-sorter="shortDate" data-date-format="yyyy-mm-dd">Date</th>
+                                <th data-sorter="shortDate" data-date-format="MM/dd/yyyy HH:mm aa">Date</th>
                                 <th>Surgeon</th>
                                 <%if(!doctorsFuture.isEmpty()){%>
                                 <th>Primary Doctor</th>
