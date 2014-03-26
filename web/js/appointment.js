@@ -84,7 +84,7 @@ $(document).ready(function() {
     var clicked = false;
     $("#open-search-bar").click(function() {
         $("#open-search-bar").animate({
-            left: "250px"
+            left: "180px"
         });
         $(".search-bar").animate({
             left: "0px"
@@ -104,7 +104,7 @@ $(document).ready(function() {
                 left: "0px"
             });
             $(".search-bar").animate({
-                left: "-250px"
+                left: "-180px"
             });
             clicked = false;
         }

@@ -71,8 +71,7 @@
        <div id="navbar-container"></div>
        <div class="search-bar">
            <div class="jumbotron input-container">
-               <h2><i> Search </i></h2>
-                <hr/>
+
                 <input id="temp" class="search" type="search" data-column="0" placeholder="Appointment #">
                 <input type="search" class="search" data-column="1" placeholder="Date"/>
                 <input type="search" class="search" data-column="2" placeholder="Patient Name"/>
@@ -81,8 +80,8 @@
                 <input type="search" class="search" data-column="5" placeholder="Diagnosis"/>
                 <input type="search" class="search" data-column="8" placeholder="Reasons"/>
                 <input type="search" class="search" data-column="9" placeholder="Length"/>
-                <input type="search" class="search" data-column="10" placeholder="Comments"/>
-                <button type="reset" class="reset btn btn-success btn-xs">Reset</button>
+                <input type="search" class="search" data-column="10" placeholder="Comments"/><br/>
+                <button type="reset" class="reset btn btn-warning btn-xs">Reset</button>
            </div>
        </div>
        <button id="open-search-bar" class="btn btn-primary pull-right" ><i class="fa fa-search"></i></button>
@@ -291,18 +290,6 @@
                         <table id="upcoming-appointments" class="table table-hover table-bordered tablesorter">
                             <thead>
                                 <tr>
-<<<<<<< HEAD
-                                    <th style="width: 10%">Appointment #</th>
-                                    <th style="width: 9%">Date</th>
-                                    <th style="width: 9%">Patient</th>
-                                    <th style="width: 9%">Doctor</th>
-                                    <th style="width: 12%">Symptoms</th>
-                                    <th style="width: 8%">Diagnosis</th>
-                                    <th style="width: 9%">Prescriptions</th>
-                                    <th style="width: 10%">Scheduled Operations</th>
-                                    <th style="width: 6%">Reason</th>
-                                    <th style="width: 6%">Length</th>
-=======
                                     <th>Appointment #</th>
                                     <th data-sorter="dateFormat" data-date-format="MM/dd/yyyy hh:mm aa">Date</th>
                                     <th>Patient</th>
@@ -313,7 +300,6 @@
                                     <th>Scheduled Operations</th>
                                     <th>Reason</th>
                                     <th>Length</th>
->>>>>>> Added filtering for appointments
                                     <%if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %>
                                     <th style="width: 12%">Comments</th>
                                     <%}%>

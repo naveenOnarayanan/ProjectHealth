@@ -217,10 +217,10 @@ ul.nav.navbar-nav li:hover {
 }
 
 .search-bar {
-    width: 250px;
+    width: 180px;
     position: absolute;
     top: 150px;
-    left: -250px;
+    left: -180px;
     border-radius: 20px;
 }
 
@@ -229,17 +229,15 @@ ul.nav.navbar-nav li:hover {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     color: white;
+    padding: 0px;
+    padding-left: 3px;
 }
 
-.search-bar .input-container h1 {
-    margin-top: -20px;
-    margin-left: -5px;
+.search-bar .reset {
+    margin-left: 120px;
+    border-radius: 5px;
 }
 
-
-.search-bar .input-container hr {
-    margin-top: -10px;
-}
 
 #open-search-bar {
     position: absolute;
