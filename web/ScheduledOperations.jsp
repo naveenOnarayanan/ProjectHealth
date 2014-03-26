@@ -28,7 +28,7 @@
         <% List<Staff> doctorsFuture = (List<Staff>) request.getAttribute("doctorsFuture"); %>
         <% List<Operations> operationsFuture = (List<Operations>) request.getAttribute("operationsFuture"); %>
         <% List<Patients> patientsFuture = (List<Patients>) request.getAttribute("patientsFuture"); %>
-        <% SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");%>
+        <% SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm aa");%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <% if (FullView) {%>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -66,9 +66,14 @@
                 $("#UpcomingOperationsTable")
                         .tablesorter({
                             widthFixed: true,
-                            headerTemplate: '{content} {icon}',
-                            widgets: ["uitheme", "filter", "zebra"],
-                            dateFormat: "yyyy-mm-dd",
+                            widgets: ["filter", "zebra"],
+                            dateFormat: "MM/dd/yyyy HH:mm aa",
+                            widgetOptions: {
+                            filter_external : '.search',
+                            filter_columnFilters: false,
+                            filter_saveFilters : true,
+                            filter_reset: '.reset',
+                            },
                             headers: {
                                 4:{sorter:"shortDate"}
                             }
@@ -81,9 +86,14 @@
                 $("#PastOperationsTable")
                         .tablesorter({
                             widthFixed: true,
-                            headerTemplate: '{content} {icon}',
-                            widgets: ["uitheme", "filter", "zebra"],
-                            dateFormat: "yyyy-mm-dd",
+                            widgets: ["filter", "zebra"],
+                            dateFormat: "MM/dd/yyyy HH:mm aa",
+                            widgetOptions: {
+                            filter_external : '.search',
+                            filter_columnFilters: false,
+                            filter_saveFilters : true,
+                            filter_reset: '.reset',
+                            },
                             headers: {
                                 4:{sorter:"shortDate"}
                             }
@@ -108,6 +118,13 @@
         
 
         <%if(FullView){%>
+        <input class="search" type="search" data-column="0">
+        <input class="search" type="search" data-column="1">
+        <input class="search" type="search" data-column="2">
+        <input class="search" type="search" data-column="3">
+        <input class="search" type="search" data-column="4">
+        <input class="search" type="search" data-column="5">
+        <input class="search" type="search" data-column="6">
         <%}%>
         <div id="dynamic-table">
         <h1>Scheduled Operations</h1>
@@ -261,18 +278,15 @@
              <div class="modal-content">
                <div class="modal-header">
                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                 <h2 class="modal-title" id="operations-modal-title"></h2>
+                 <h4 class="modal-title" id="operations-modal-title"></h4>
                </div>
-                 <div class="modal-body" id="operations-modal-body" style="text-align:center; padding-left: 5px">
-                     <h4>Description</h4><br>
-                     <textarea id="operation-modal-body-description" rows="4" cols="50" disabled style="resize: none;"></textarea><br><br>
-                     <h4>Estimated Time</h4><br>
-                     <input type="text" id="operation-modal-body-esttime-hour" style="width:50px" disabled></input> Hours
-                     <input type="text" id="operation-modal-body-esttime-min" style="width:50px" disabled></input> Minutes
+                 <div class="modal-body" id="operations-modal-body" style="text-align:center; padding-left: 5px; max-height:250px">
+                     <h5>Description</h5>
+                     <textarea id="operation-modal-body-description" rows="2" cols="35" disabled style="resize: none;"></textarea><br><br>
+                     <h5>Estimated Time</h5>
+                     <input type="text" id="operation-modal-body-esttime-hour" style="width:50px" disabled></input> <h6 style="display:inline">Hours</h6>
+                     <input type="text" id="operation-modal-body-esttime-min" style="width:50px" disabled></input> <h6 style="display:inline" >Minutes</h6>
                  </div>
-                <div class="modal-footer">
-                   <button type="button" data-dismiss="modal">Close</button>
-               </div>
              </div>
            </div>
         </div>

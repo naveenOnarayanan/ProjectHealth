@@ -8,6 +8,6 @@ function populateOperationModal(Name, Desc, EstTimeHour, EstTimeMin)
     document.getElementById("operations-modal-title").textContent = Name;
     document.getElementById("operation-modal-body-description").textContent = Desc;
     document.getElementById("operation-modal-body-esttime-hour").value = EstTimeHour;
-    document.getElementById("operation-modal-body-esttime-hour").value = EstTimeHour;
+    document.getElementById("operation-modal-body-esttime-min").value = EstTimeMin;
     $('#operation-modal').modal('show');
 }

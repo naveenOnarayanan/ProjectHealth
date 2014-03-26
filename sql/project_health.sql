@@ -99,9 +99,9 @@ CREATE TABLE IF NOT EXISTS `Hospital_Main`.`Visitation` (
   PRIMARY KEY (`RecordID`))
 ENGINE = InnoDB;
 
-DROP TRIGGER IF EXISTS DefaultVisitID;
+DROP TRIGGER IF EXISTS BeforeInsertVisit;
 delimiter $$
-CREATE TRIGGER DefaultVisitID BEFORE INSERT ON `Hospital_Main`.`Visitation`
+CREATE TRIGGER BeforeInsertVisit BEFORE INSERT ON `Hospital_Main`.`Visitation`
 FOR EACH ROW BEGIN
 	IF (NEW.VisitID IS NULL) THEN
 		SET NEW.VisitID = (SELECT MAX(VisitID) FROM `Hospital_Main`.`Visitation`) + 1;
@@ -117,10 +117,24 @@ FOR EACH ROW BEGIN
 		IF (NEW.Comments IS NULL OR NEW.Comments = "null") THEN
 			SET NEW.Comments = "";
 		END IF;
-		UPDATE `Hospital_Main`.`Patients`
-		SET Visits = Visits + 1
-		WHERE NEW.PatientID = `Hospital_Main`.`Patients`.UserID;
+		IF (NEW.ApptComplete = TRUE) THEN
+			UPDATE `Hospital_Main`.`Patients`
+			SET Visits = Visits + 1
+			WHERE NEW.PatientID = `Hospital_Main`.`Patients`.UserID;
+		END IF;
+	ELSE
+		IF (NEW.ApptComplete = TRUE AND (SELECT MAX(V1.ApptComplete) 
+								FROM Visitation AS V1 
+								WHERE V1.VisitID = NEW.VisitID
+								AND V1.Timestamp = (SELECT MAX(V2.Timestamp) 
+													FROM Visitation V2 
+													WHERE V2.VisitID = NEW.VisitID)) = 0) THEN
+			UPDATE `Hospital_Main`.`Patients`
+			SET Visits = Visits + 1
+			WHERE NEW.PatientID = `Hospital_Main`.`Patients`.UserID;
+		END IF;
 	END IF;
+	
 END;$$
 
 -- -----------------------------------------------------
