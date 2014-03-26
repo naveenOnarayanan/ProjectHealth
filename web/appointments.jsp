@@ -4,6 +4,7 @@
     Author     : ZGaming
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="ece358.models.Operations"%>
 <%@page import="java.util.Date"%>
@@ -26,8 +27,9 @@
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/2.1.30/js/bootstrap-datetimepicker.min.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.0rc/js/bootstrap-switch.min.js"></script>
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.widgets.min.js"></script>
+        <script type="text/javascript" src="http://mottie.github.io/tablesorter/js/jquery.tablesorter.js"></script>
+        <script type="text/javascript" src="http://mottie.github.io/tablesorter/js/jquery.tablesorter.widgets.js"></script>
+        <script type="text/javascript" src="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/appointment.js"></script>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
@@ -38,8 +40,8 @@
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/2.1.30/css/bootstrap-datetimepicker.min.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2-bootstrap.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css"/>
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.0rc/css/bootstrap2/bootstrap-switch.min.css"/>
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/css/theme.bootstrap.css"/>
+        <link rel="stylesheet" href="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.css"/>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/css/theme.default.css"/>
         
         <link rel="stylesheet" href="css/index.css"/>
         <% String error = (String) request.getAttribute("error");
@@ -67,6 +69,25 @@
         </script>
         <div class="info-container-hidden hidden"></div>
        <div id="navbar-container"></div>
+       <div class="search-bar">
+           <div class="jumbotron input-container">
+               <h2><i> Search </i></h2>
+                <hr/>
+                <input id="temp" class="search" type="search" data-column="0" placeholder="Appointment #">
+                <input type="search" class="search" data-column="1" placeholder="Date"/>
+                <input type="search" class="search" data-column="2" placeholder="Patient Name"/>
+                <input type="search" class="search" data-column="3" placeholder="Doctor Name"/>
+                <input type="search" class="search" data-column="4" placeholder="Symptoms"/>
+                <input type="search" class="search" data-column="5" placeholder="Diagnosis"/>
+                <input type="search" class="search" data-column="8" placeholder="Reasons"/>
+                <input type="search" class="search" data-column="9" placeholder="Length"/>
+                <input type="search" class="search" data-column="10" placeholder="Comments"/>
+                <button type="reset" class="reset btn btn-success btn-xs">Reset</button>
+           </div>
+       </div>
+       <button id="open-search-bar" class="btn btn-primary pull-right" ><i class="fa fa-search"></i></button>
+       
+       
        <% if (error == null) { %>
        <% List<Patients> patients = (List<Patients>) request.getAttribute("patients");
           List<Staff> doctors = (List<Staff>) request.getAttribute("doctors"); 
@@ -267,9 +288,10 @@
                 <br/>
                 <div class="tab-content">
                     <div class="tab-pane active" id="upcoming">
-                        <table id="appointments" class="table table-hover table-bordered">
+                        <table id="upcoming-appointments" class="table table-hover table-bordered tablesorter">
                             <thead>
                                 <tr>
+<<<<<<< HEAD
                                     <th style="width: 10%">Appointment #</th>
                                     <th style="width: 9%">Date</th>
                                     <th style="width: 9%">Patient</th>
@@ -280,6 +302,18 @@
                                     <th style="width: 10%">Scheduled Operations</th>
                                     <th style="width: 6%">Reason</th>
                                     <th style="width: 6%">Length</th>
+=======
+                                    <th>Appointment #</th>
+                                    <th data-sorter="dateFormat" data-date-format="MM/dd/yyyy hh:mm aa">Date</th>
+                                    <th>Patient</th>
+                                    <th>Doctor</th>
+                                    <th>Symptoms</th>
+                                    <th>Diagnosis</th>
+                                    <th>Prescriptions</th>
+                                    <th>Scheduled Operations</th>
+                                    <th>Reason</th>
+                                    <th>Length</th>
+>>>>>>> Added filtering for appointments
                                     <%if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %>
                                     <th style="width: 12%">Comments</th>
                                     <%}%>
@@ -290,12 +324,9 @@
                                 for (int i = 0; i < appointments.size(); i++) {%>
                                 <tr id="upcoming-appointment-<%=i%>" data-complete="<%= appointments.get(i).getApptComplete() %>" data-id="<%= appointments.get(i).getVisitId()%>">
                                     <td class="appointment-visit-id" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>><%= appointments.get(i).getVisitId() %></td>
-                                    <td class="appointment-date" id="upcoming-date-<%= i%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>>
+                                    <td class="appointment-dat" id="upcoming-date-<%= i%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>>
+                                        <%= new SimpleDateFormat("MM/dd/yyyy hh:mm aa").format(appointments.get(i).getDateTime()) %>
                                     </td>
-                                    <script> $(function() {
-                                                $("#upcoming-date-<%= i%>").text(new Date("<%= appointments.get(i).getDateTime() %>").toLocaleString());
-                                            });
-                                    </script>
                                     <% for (int j = 0; j < patients.size(); j++) {
                                         if (patients.get(j).getUserId().equals(appointments.get(i).getPatientId())) {%>
                                     <td class="appointment-patient" data-id="<%= patients.get(j).getUserId()%>">
@@ -335,11 +366,11 @@
                         </table>
                     </div>
                     <div class="tab-pane" id="past">
-                        <table id="appointments" class="table table-hover table-bordered">
+                        <table id="past-appointments" class="tablesorter table table-hover table-bordered ">
                             <thead>
                                 <tr><b>
                                     <th>Appointment #</th>
-                                    <th>Date</th>
+                                    <th data-sorter="dateFormat" data-date-format="MM/dd/yyyy hh:mm aa">Date</th>
                                     <th>Patient</th>
                                     <th>Doctor</th>
                                     <th>Symptoms</th>
@@ -359,11 +390,8 @@
                                 <tr id="past-appointment-<%=i%>" data-complete="<%= appointments.get(i).getApptComplete() %>" data-id="<%= appointments.get(i).getVisitId()%>">
                                     <td class="appointment-visit-id" ><%= appointments.get(i).getVisitId() %></td>
                                     <td class="appointment-date" id="past-date-<%= i%>">
+                                        <%= new SimpleDateFormat("MM/dd/yyyy hh:mm aa").format(appointments.get(i).getDateTime()) %>
                                     </td>
-                                    <script> $(function() {
-                                                $("#past-date-<%= i%>").text(new Date("<%= appointments.get(i).getDateTime() %>").toLocaleString());
-                                            });
-                                    </script>
                                     <% for (int j = 0; j < patients.size(); j++) {
                                         if (patients.get(j).getUserId().equals(appointments.get(i).getPatientId())) {%>
                                     <td class="appointment-patient" data-id="<%= patients.get(j).getUserId()%>">

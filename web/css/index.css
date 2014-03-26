@@ -215,3 +215,40 @@ ul.nav.navbar-nav li:hover {
     padding-top: 5%;
     padding-bottom: 5%;
 }
+
+.search-bar {
+    width: 250px;
+    position: absolute;
+    top: 150px;
+    left: -250px;
+    border-radius: 20px;
+}
+
+.search-bar .input-container {
+    background-color: #008cba;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: white;
+}
+
+.search-bar .input-container h1 {
+    margin-top: -20px;
+    margin-left: -5px;
+}
+
+
+.search-bar .input-container hr {
+    margin-top: -10px;
+}
+
+#open-search-bar {
+    position: absolute;
+    left: 0;
+    top:200px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    width: 40px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 0px;
+}

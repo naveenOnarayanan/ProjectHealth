@@ -45,6 +45,71 @@ $(document).ready(function() {
     $("#remoteContent").on('hidden.bs.modal', function() {
         $(this).removeData('bs.modal');
     });
+    
+    $(".reset").click(function() {
+       $(".search").val("");
+       $('#past-appointments').trigger('search', false); 
+       $('#upcoming-appointments').trigger('search', false); 
+    });
+    
+    $("#past-appointments").tablesorter({
+        theme: "default",
+        widgets: ["filter"],
+        dateFormat: "MM/dd/yyyy hh:mm aa",
+        widgetOptions: {
+            filter_external : '.search',
+            filter_columnFilters: false,
+            filter_saveFilters : false,
+        },
+        headers: {
+            1:{sorter:"dateFormat"},
+            6:{sorter: false},
+            7:{sorter: false}
+        }
+    });
+    $("#upcoming-appointments").tablesorter({
+        theme: "default",
+        widgets: ["filter"],
+        widgetOptions: {
+            filter_external : '.search',
+            filter_columnFilters: false,
+            filter_saveFilters : false,
+        },
+        headers: {
+            1:{sorter:"dateFormat"},
+            6:{sorter: false},
+            7:{sorter: false}
+        }
+    });
+    var clicked = false;
+    $("#open-search-bar").click(function() {
+        $("#open-search-bar").animate({
+            left: "250px"
+        });
+        $(".search-bar").animate({
+            left: "0px"
+        });
+        $(".search-bar input").first().focus();
+        clicked = true;
+
+    });
+    
+    $(document).mouseup(function (e) {
+        var container = $(".search-bar");
+
+        if (!container.is(e.target) // if the target of the click isn't the container...
+            && container.has(e.target).length === 0 && clicked) // ... nor a descendant of the container
+        {
+            $("#open-search-bar").animate({
+                left: "0px"
+            });
+            $(".search-bar").animate({
+                left: "-250px"
+            });
+            clicked = false;
+        }
+    });
+    
     $('#appointment-edit').on('hidden.bs.modal', function () {
         $("#appointment-modal-date").val("");
         $("#appointment-modal-patientID").select2("val", "");
