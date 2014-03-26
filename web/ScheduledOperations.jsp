@@ -139,7 +139,7 @@
                     <table class="table table-hover tablesorter default-table" id="UpcomingOperationsTable">
                         <thead>
                             <tr>
-                                <th>Related Appointment Number</th>
+                                <th>Related Appointment #</th>
                                 <%if(!patientsFuture.isEmpty()){%>
                                 <th>Patient ID</th>
                                 <th>Patient Name</th>
@@ -207,7 +207,7 @@
                     <table class="table table-hover default-table" id="PastOperationsTable">
                         <thead>
                             <tr>
-                                <th>Related Appointment Number</th>
+                                <th>Related Appointment #</th>
                                 <%if(!patientsPast.isEmpty()){%>
                                 <th>Patient ID</th>
                                 <th>Patient Name</th>
@@ -278,18 +278,15 @@
              <div class="modal-content">
                <div class="modal-header">
                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                 <h2 class="modal-title" id="operations-modal-title"></h2>
+                 <h4 class="modal-title" id="operations-modal-title"></h4>
                </div>
-                 <div class="modal-body" id="operations-modal-body" style="text-align:center; padding-left: 5px">
-                     <h4>Description</h4><br>
-                     <textarea id="operation-modal-body-description" rows="4" cols="50" disabled style="resize: none;"></textarea><br><br>
-                     <h4>Estimated Time</h4><br>
-                     <input type="text" id="operation-modal-body-esttime-hour" style="width:50px" disabled></input> Hours
-                     <input type="text" id="operation-modal-body-esttime-min" style="width:50px" disabled></input> Minutes
+                 <div class="modal-body" id="operations-modal-body" style="text-align:center; padding-left: 5px; max-height:250px">
+                     <h5>Description</h5>
+                     <textarea id="operation-modal-body-description" rows="2" cols="35" disabled style="resize: none;"></textarea><br><br>
+                     <h5>Estimated Time</h5>
+                     <input type="text" id="operation-modal-body-esttime-hour" style="width:50px" disabled></input> <h6 style="display:inline">Hours</h6>
+                     <input type="text" id="operation-modal-body-esttime-min" style="width:50px" disabled></input> <h6 style="display:inline" >Minutes</h6>
                  </div>
-                <div class="modal-footer">
-                   <button type="button" data-dismiss="modal">Close</button>
-               </div>
              </div>
            </div>
         </div>
