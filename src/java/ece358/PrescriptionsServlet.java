@@ -72,9 +72,9 @@ public class PrescriptionsServlet extends HttpServlet {
                             "(SELECT MAX(V2.Timestamp) " +
                             "FROM Visitation AS V2 " +
                             "WHERE V2.VisitID = active.VisitID " +
-                            "AND V2.DoctorID = active.DoctorID)" +
+                            "AND V2.DoctorID = active.DoctorID) " +
                         "AND active.PatientID = '" + sessionUser.getUserId() + "' " +
-                        ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "WHERE visitation.VisitID=" + visitIDQuery : "") + 
+                        ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND active.VisitID = " + visitIDQuery : " ") + " " +
                         "ORDER BY VisitID";
             }
             else if (sessionUser.getRole().equals(Constants.STAFF)){
@@ -100,8 +100,8 @@ public class PrescriptionsServlet extends HttpServlet {
                             "(SELECT MAX(V2.Timestamp) " +
                             "FROM Visitation AS V2 " +
                             "WHERE V2.VisitID = active.VisitID " +
-                            "AND V2.DoctorID = active.DoctorID)" +
-                        ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND visitation.VisitID=" + visitIDQuery : "") +
+                            "AND V2.DoctorID = active.DoctorID) " +
+                        ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND active.VisitID = " + visitIDQuery : " ") + " " +
                         "ORDER BY VisitID";
             }
             else if (sessionUser.getRole().equals(Constants.DOCTOR)){
@@ -125,7 +125,7 @@ public class PrescriptionsServlet extends HttpServlet {
                             "FROM Visitation AS V2 " +
                             "WHERE V2.VisitID = active.VisitID " +
                             "AND V2.DoctorID = active.DoctorID) " +
-                        ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND active.VisitID=" + visitIDQuery : "") + " " +
+                        ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND active.VisitID = " + visitIDQuery : "") + " " +
                         "ORDER BY VisitID";
             }
                 
