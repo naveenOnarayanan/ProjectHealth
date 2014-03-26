@@ -81,7 +81,7 @@
                 <input type="search" class="search" data-column="8" placeholder="Reasons"/>
                 <input type="search" class="search" data-column="9" placeholder="Length"/>
                 <input type="search" class="search" data-column="10" placeholder="Comments"/><br/>
-                <button type="reset" class="reset btn btn-warning btn-xs">Reset</button>
+                <center><button type="reset" class="reset btn btn-primary btn-xs">Reset</button></center>
            </div>
        </div>
        <button id="open-search-bar" class="btn btn-primary pull-right" ><i class="fa fa-search"></i></button>
@@ -280,7 +280,7 @@
                 <% if (user.getRole().equals(Constants.STAFF)) {%>
                 <button class="btn btn-warning pull-right add-appointment" onclick="updateAppointmentModal('-1', '<%= user.getRole()%>')"><i class="fa fa-calendar fa-4"></i></button>
                  <%}%>
-                <ul class="nav nav-tabs" style="margin-bottom: -22px">
+                <ul class="nav nav-tabs tab-space">
                     <li class="tab-button active" id="upcoming-appointments-tab"><a href="#upcoming" data-toggle="tab">Upcoming Appointments</a></li>
                     <li class="tab-button" id="past-appointments-tab"><a href="#past" data-toggle="tab">Past Appointments</a></li>
                 </ul>
@@ -349,6 +349,28 @@
 
                                 </tr>
                             <%}%>
+                            <tfoot id="upcoming-pager" class="pager">
+                                <tr>
+                                    <th colspan="11" class="ts-pager form-horizontal">
+                                        <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
+                                        </button>
+                                        <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>
+                                        </button>	<span class="pagedisplay"></span> 
+                                        <!-- this can be any element, including an input -->
+                                        <button type="button" class="btn-xsm next"><i class="icon-arrow-right glyphicon glyphicon-forward"></i>
+                                        </button>
+                                        <button type="button" class="btn-xsm last"><i class="icon-step-forward glyphicon glyphicon-step-forward"></i>
+                                        </button>
+                                        <select class="pagesize input-mini" title="Select page size">
+                                            <option selected="selected" value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                        </select>
+                                        <select class="pagenum input-mini" title="Select page number"></select>
+                                    </th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                     <div class="tab-pane" id="past">
@@ -413,6 +435,28 @@
 
                                 </tr>
                             <%}%>
+                            <tfoot id="past-pager" class="pager">
+                                <tr>
+                                    <th colspan="11" class="ts-pager form-horizontal">
+                                        <button type="button" class="btn-xsm first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i>
+                                        </button>
+                                        <button type="button" class="btn-xsm prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i>
+                                        </button>	<span class="pagedisplay"></span> 
+                                        <!-- this can be any element, including an input -->
+                                        <button type="button" class="btn-xsm next"><i class="icon-arrow-right glyphicon glyphicon-forward"></i>
+                                        </button>
+                                        <button type="button" class="btn-xsm last"><i class="icon-step-forward glyphicon glyphicon-step-forward"></i>
+                                        </button>
+                                        <select class="pagesize input-mini" title="Select page size">
+                                            <option selected="selected" value="10">10</option>
+                                            <option value="20">20</option>
+                                            <option value="30">30</option>
+                                            <option value="40">40</option>
+                                        </select>
+                                        <select class="pagenum input-mini" title="Select page number"></select>
+                                    </th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

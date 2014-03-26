@@ -61,6 +61,35 @@
         <script defer="defer">
         $(document).ready(function() 
             { 
+                 var clicked = false;
+                    $("#open-search-bar").click(function() {
+                        $("#open-search-bar").animate({
+                            right: "180px"
+                        });
+                        $(".search-bar").animate({
+                            right: "0px"
+                        });
+                        setTimeout(function() {$(".search-bar input").first().focus()}, 250);
+                //        $(".search-bar #temp").focus();
+                        clicked = true;
+
+                    });
+
+                    $(document).mouseup(function (e) {
+                            var container = $(".search-bar");
+
+                            if (!container.is(e.target) // if the target of the click isn't the container...
+                                && container.has(e.target).length === 0 && clicked) // ... nor a descendant of the container
+                            {
+                                $("#open-search-bar").animate({
+                                    right: "0px"
+                                });
+                                $(".search-bar").animate({
+                                    right: "-180px"
+                                });
+                                clicked = false;
+                            }
+                    });
                 $("#prescriptions")
                         .tablesorter({
                             widthFixed: true,
@@ -83,7 +112,23 @@
                 });  
             }); 
         </script>
- 
+        <%if(FullView){%>
+        <div class="search-bar">
+           <div class="jumbotron input-container">
+
+                <input class="search" type="search" data-column="0" placeholder="Patient ID">
+                <input type="search" class="search" data-column="1" placeholder="DIN"/>
+                <input type="search" class="search" data-column="2" placeholder="Trade Name"/>
+                <input type="search" class="search" data-column="3" placeholder="Quantity (mg)"/>
+                <input type="search" class="search" data-column="4" placeholder="Refills"/>
+                <input type="search" class="search" data-column="5" placeholder="Dosage"/>
+                <input type="search" class="search" data-column="6" placeholder="Prescribed Date"/>
+                <input type="search" class="search" data-column="7" placeholder="Expiry Date"/>
+                <center><button type="reset" class="reset btn btn-primary btn-xs">Reset</button></center>
+           </div>
+       </div>
+       <%}%>
+       <button id="open-search-bar" class="btn btn-primary pull-right" ><i class="fa fa-search"></i></button>
         <div id="navbar-container"></div>
         
         <% if (error != null && !error.equals("")) { %>
@@ -101,16 +146,6 @@
         </table>
         
         <div class="center-block">
-        <%if(FullView){%>
-        <input class="search" type="search" data-column="0">
-        <input class="search" type="search" data-column="1">
-        <input class="search" type="search" data-column="2">
-        <input class="search" type="search" data-column="3">
-        <input class="search" type="search" data-column="4">
-        <input class="search" type="search" data-column="5">
-        <input class="search" type="search" data-column="6">
-        <input class="search" type="search" data-column="7">
-        <%}%>
             <table id="prescriptions" class="table table-hover tablesorter table-bordered">
                 <thead>
                     <tr>

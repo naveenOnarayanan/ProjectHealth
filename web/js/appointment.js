@@ -33,7 +33,7 @@ $(document).ready(function() {
     });
 
     $(".appointment-modal-container").css("max-height", $(window).height() - 220);
-    $("#remoteContent .modal-content").css("max-height", $(window).height() - 220);
+    $("#remoteContent .modal-content").css("max-height", $(window).height() - 120);
 
     $("#appointment-modal-apptComplete").bootstrapSwitch();
     $("#appointment-modal-apptComplete").bootstrapSwitch('onText', 'Yes');
@@ -66,7 +66,12 @@ $(document).ready(function() {
             6:{sorter: false},
             7:{sorter: false}
         }
+    }).tablesorterPager({
+        container: $("#past-pager"),
+        cssGoto: ".pagenum",
+        output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
     });
+    
     $("#upcoming-appointments").tablesorter({
         theme: "default",
         widgets: ["filter"],
@@ -80,16 +85,22 @@ $(document).ready(function() {
             6:{sorter: false},
             7:{sorter: false}
         }
+    }).tablesorterPager({
+        container: $("#upcoming-pager"),
+        cssGoto: ".pagenum",
+        output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
     });
+
     var clicked = false;
     $("#open-search-bar").click(function() {
         $("#open-search-bar").animate({
-            left: "180px"
+            right: "180px"
         });
         $(".search-bar").animate({
-            left: "0px"
+            right: "0px"
         });
-        $(".search-bar input").first().focus();
+        setTimeout(function() {$(".search-bar input").first().focus()}, 250);
+//        $(".search-bar #temp").focus();
         clicked = true;
 
     });
@@ -101,10 +112,10 @@ $(document).ready(function() {
             && container.has(e.target).length === 0 && clicked) // ... nor a descendant of the container
         {
             $("#open-search-bar").animate({
-                left: "0px"
+                right: "0px"
             });
             $(".search-bar").animate({
-                left: "-180px"
+                right: "-180px"
             });
             clicked = false;
         }
