@@ -29,6 +29,7 @@
         <% List<Operations> operationsFuture = (List<Operations>) request.getAttribute("operationsFuture"); %>
         <% List<Patients> patientsFuture = (List<Patients>) request.getAttribute("patientsFuture"); %>
         <% SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm aa");%>
+        <% Users SessionUser = ((Users) request.getSession().getAttribute("user"));%>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <% if (FullView) {%>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
@@ -55,7 +56,7 @@
         <%if(FullView){%>
         <script>
         $(function() {
-           getNavbar("<%= ((Users) request.getSession().getAttribute("user")).getRole()%>", 
+           getNavbar("<%= SessionUser.getRole()%>", 
            "<%=request.getSession().getAttribute("firstname")%>",
            "<%=request.getSession().getAttribute("lastname")%>");
         })
@@ -153,7 +154,12 @@
         <%if(FullView){%>
         <div class="search-bar">
            <div class="jumbotron input-container">
-
+               <%if(SessionUser.getRole().equals("patient")){%>
+                <input class="search" type="search" data-column="0" placeholder="Appointment #">
+                <input class="search" type="search" data-column="1" placeholder="Operation">
+                <input class="search" type="search" data-column="2" placeholder="Date">
+                <input class="search" type="search" data-column="3" placeholder="Surgeon">
+               <%}else{%>
                 <input class="search" type="search" data-column="0" placeholder="Appointment #">
                 <input class="search" type="search" data-column="1" placeholder="Patient ID">
                 <input class="search" type="search" data-column="2" placeholder="Patient Name">
@@ -161,6 +167,7 @@
                 <input class="search" type="search" data-column="4" placeholder="Date">
                 <input class="search" type="search" data-column="5" placeholder="Surgeon">
                 <input class="search" type="search" data-column="6" placeholder="Primary Doctor">
+                <%}%>
                 <center><button type="reset" class="reset btn btn-primary btn-xs">Reset</button></center>
            </div>
         </div>
@@ -224,11 +231,11 @@
                             <%if(schedoperationsFuture != null){%>
                             <%for(int i = 0; i<schedoperationsFuture.size(); i++){%>
                             <tr>
-                                <%if((((Users) request.getSession().getAttribute("user")).getUserId()).equals(doctorsFuture.get(i).getUserId())){%>
-                                <td><a href="AppointmentServlet?action=query&visitId=<%= schedoperationsFuture.get(i).getVisitId()%>"><%= schedoperationsFuture.get(i).getVisitId() %></a></td>
-                                <%}else{%>
+                               <%if(SessionUser.getRole().equals("doctor") && !SessionUser.getUserId().equals(doctorsFuture.get(i).getUserId())){%>
                                 <td><%= schedoperationsFuture.get(i).getVisitId() %></td>
-                                <%}%>
+                                <%}else{%>
+                                <td><a href="AppointmentServlet?action=query&visitId=<%= schedoperationsFuture.get(i).getVisitId()%>"><%= schedoperationsFuture.get(i).getVisitId() %></a></td>     
+                                <%}%> 
                                 <%if(!patientsFuture.isEmpty()){%>
                                 <td><%=patientsFuture.get(i).getUserId()%></td>
                                 <td><%=patientsFuture.get(i).getFirstName()%> <%=patientsFuture.get(i).getLastName()%></td>
@@ -296,10 +303,10 @@
                             <%if(schedoperationsPast != null){%>
                             <%for(int i = 0; i<schedoperationsPast.size(); i++){%>
                             <tr>
-                                <%if((((Users) request.getSession().getAttribute("user")).getUserId()).equals(doctorsPast.get(i).getUserId())){%>
-                                <td><a href="AppointmentServlet?action=query&visitId=<%= schedoperationsPast.get(i).getVisitId()%>"><%= schedoperationsPast.get(i).getVisitId() %></a></td>
-                                <%}else{%>
+                                <%if(SessionUser.getRole().equals("doctor") && !SessionUser.getUserId().equals(doctorsPast.get(i).getUserId())){%>
                                 <td><%= schedoperationsPast.get(i).getVisitId() %></td>
+                                <%}else{%>
+                                <td><a href="AppointmentServlet?action=query&visitId=<%= schedoperationsPast.get(i).getVisitId()%>"><%= schedoperationsPast.get(i).getVisitId() %></a></td>     
                                 <%}%>                                
                                 <%if(!patientsPast.isEmpty()){%>
                                 <td><%=patientsPast.get(i).getUserId()%></td>
