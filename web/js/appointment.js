@@ -323,6 +323,7 @@ function validate() {
     $(".appointment-date").each(function(index) {
         dates.push({
             id: $(this).parent().attr("data-id"),
+            doctor: $(this).parent().children(".appointment-doctor").attr("data-id"),
             startDate: Date.parse($(this).text().trim())
         });
     });
@@ -341,11 +342,12 @@ function validate() {
        var endSetDate = new Date(Date.parse(setDate.toString()));
        endSetDate.setHours(endSetDate.getHours() + lengthDate.getHours());
        endSetDate.setMinutes(endSetDate.getMinutes() + lengthDate.getMinutes());
-       if (dates[i].id != $("#appointment-modal-visitID").val() && setDate >= new Date(dates[i].startDate) && setDate <= new Date(dates[i].endDate)) {
+       var doctorID = $("#appointment-modal-doctorID").val();
+       $("#appointment-modal-doctorID").val();
+       if (doctorID == dates[i].doctor && dates[i].id != $("#appointment-modal-visitID").val() &&  setDate >= new Date(dates[i].startDate) && setDate <= new Date(dates[i].endDate)) {
            $("#form-valiation-error").text("Schedule conflict! The start time is in conflict with Appointment #" + dates[i].id).removeClass("hidden");
            return false;
-       } 
-       if (dates[i].id != $("#appointment-modal-visitID").val() && endSetDate >= new Date(dates[i].startDate) && endSetDate <= new Date(dates[i].endDate)) {
+       } else if (doctorID == dates[i].doctor && dates[i].id != $("#appointment-modal-visitID").val() && endSetDate >= new Date(dates[i].startDate) && endSetDate <= new Date(dates[i].endDate)) {
            $("#form-valiation-error").text("Schedule conflict! The length is in conflict with Appointment #" + dates[i].id).removeClass("hidden");
            return false;
        }
