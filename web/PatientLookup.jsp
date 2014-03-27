@@ -229,7 +229,7 @@
                     <h4 style="margin-top: 10.5px">Patient Information [<%=PatientUserID%>]</h4>
                     <% if(errors != null && errors.size() != 0){ %>
                         <div class="alert fade in rounded-div" width="900" style="background-color:#FF9494">
-                        <button class = "btn btn-success" type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                             <h3>Try Again</h3>
                                     <ul>
                                     <% Collection<String> entries = errors.values();
