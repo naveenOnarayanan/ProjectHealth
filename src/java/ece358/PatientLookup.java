@@ -135,14 +135,15 @@ public class PatientLookup extends HttpServlet {
                     boolean insert = false;
                     String PatientUserID = request.getParameter("PatientUserID");
                     //New Patient
-                    HashMap<String,String> errors = PatientValidation.validatePatient(request);
+                    request = PatientValidation.validatePatient(request);
+                    HashMap<String,String> errors = (HashMap<String,String>)request.getAttribute("errors");
                     if(errors.isEmpty())
                     {
                         Patients patient = new Patients();
                         if( PatientUserID == null || PatientUserID.isEmpty())
                         {
-                            String FirstName = request.getParameter("FirstName").toLowerCase();
-                            String LastName = request.getParameter("LastName").toLowerCase();
+                            String FirstName = ((String)request.getAttribute("FirstName")).toLowerCase();
+                            String LastName = ((String)request.getParameter("LastName")).toLowerCase();
                             String UserName = FirstName.charAt(0) + LastName;
                             List<Users> userNameCount = (List<Users>)SQLSessionUtil.selectType(Users.class, "SELECT * FROM Users WHERE UserID LIKE '" + UserName + "%'");
                             if(!userNameCount.isEmpty())
@@ -172,22 +173,22 @@ public class PatientLookup extends HttpServlet {
                             patient = (Patients) SQLSessionUtil.get(Patients.class, PatientUserID);
                         }
                         
-                        patient.setFirstName(request.getParameter("FirstName"));
-                        patient.setLastName(request.getParameter("LastName"));
-                        patient.setAddress(request.getParameter("Address"));
-                        patient.setCity(request.getParameter("City"));
-                        patient.setProvince(request.getParameter("Province"));
-                        patient.setPostalCode(request.getParameter("PostalCode"));
-                        patient.setCountry(request.getParameter("Country"));
-                        patient.setEmail(request.getParameter("Email"));
-                        patient.setPhoneNumber(request.getParameter("PhoneNumber"));
-                        patient.setPrimaryContactNo(request.getParameter("PrimaryContactNo"));
-                        patient.setHealthCardNumber(request.getParameter("HealthCardNumber"));
-                        patient.setSin(request.getParameter("SIN"));
-                        patient.setDefaultDoctorId(request.getParameter("DefaultDoctorID"));
-                        patient.setHealthStatus(request.getParameter("HealthStatus"));
-                        patient.setVisits(Integer.parseInt((String)request.getParameter("Visits")));
-                        String transferred = (String)request.getParameter("Transfered");
+                        patient.setFirstName((String)request.getAttribute("FirstName"));
+                        patient.setLastName((String)request.getAttribute("LastName"));
+                        patient.setAddress((String)request.getAttribute("Address"));
+                        patient.setCity((String)request.getAttribute("City"));
+                        patient.setProvince((String)request.getAttribute("Province"));
+                        patient.setPostalCode((String)request.getAttribute("PostalCode"));
+                        patient.setCountry((String)request.getAttribute("Country"));
+                        patient.setEmail((String)request.getAttribute("Email"));
+                        patient.setPhoneNumber((String)request.getAttribute("PhoneNumber"));
+                        patient.setPrimaryContactNo((String)request.getAttribute("PrimaryContactNo"));
+                        patient.setHealthCardNumber((String)request.getAttribute("HealthCardNumber"));
+                        patient.setSin((String)request.getAttribute("SIN"));
+                        patient.setDefaultDoctorId((String)request.getAttribute("DefaultDoctorID"));
+                        patient.setHealthStatus((String)request.getAttribute("HealthStatus"));
+                        patient.setVisits(Integer.parseInt((String)request.getAttribute("Visits")));
+                        String transferred = (String)request.getAttribute("Transfered");
                         patient.setTransfered( (transferred != null && transferred.equals("on")) ? true : false);
                         
                         
@@ -285,7 +286,7 @@ public class PatientLookup extends HttpServlet {
                     if(FirstNameLookup != null && !FirstNameLookup.equals(""))
                     {
                         QueryString.append("WHERE FirstName LIKE '%");
-                        QueryString.append(FirstNameLookup);
+                        QueryString.append(FirstNameLookup.replace("'", "''"));
                         QueryString.append("%' ");
                         conditionCount++;
                     }
@@ -295,7 +296,7 @@ public class PatientLookup extends HttpServlet {
                             QueryString.append("and LastName LIKE '%");
                         else
                             QueryString.append("WHERE LastName LIKE '%");
-                        QueryString.append(LastNameLookup);
+                        QueryString.append(LastNameLookup.replace("'", "''"));
                         QueryString.append("%' ");
                         conditionCount++;
                     }
@@ -305,7 +306,7 @@ public class PatientLookup extends HttpServlet {
                             QueryString.append("and UserID LIKE '%");
                         else
                             QueryString.append("WHERE UserID LIKE '%");
-                        QueryString.append(PatientUserIDLookup);
+                        QueryString.append(PatientUserIDLookup.replace("'", "''"));
                         QueryString.append("%' ");
                         conditionCount++;
                     }
@@ -315,7 +316,7 @@ public class PatientLookup extends HttpServlet {
                             QueryString.append("and HealthCardNumber LIKE '%");
                         else
                             QueryString.append("WHERE HealthCardNumber LIKE '%");
-                        QueryString.append(HealthCardLookup);
+                        QueryString.append(HealthCardLookup.replace("'", "''"));
                         QueryString.append("%' ");
                         conditionCount++;
                     }
@@ -325,7 +326,7 @@ public class PatientLookup extends HttpServlet {
                             QueryString.append("and DefaultDoctorID = '");
                         else
                             QueryString.append("WHERE DefaultDoctorID = '");
-                        QueryString.append(DoctorLookup);
+                        QueryString.append(DoctorLookup.replace("'", "''"));
                         QueryString.append("' ");
                         conditionCount++;
                     }

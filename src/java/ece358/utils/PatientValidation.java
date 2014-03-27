@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * @author Josh
  */
 public class PatientValidation {
-    public static HashMap<String, String> validatePatient(HttpServletRequest request)
+    public static HttpServletRequest validatePatient(HttpServletRequest request)
     {
 
         HashMap<String, String> errors = new HashMap<String,String>();
@@ -30,6 +30,7 @@ public class PatientValidation {
         String SIN = (String) request.getParameter("SIN");
         String DefaultDoctorID = (String) request.getParameter("DefaultDoctorID");
         String PrimaryContactNo = (String) request.getParameter("PrimaryContactNo");
+        String HealthStatus = (String) request.getParameter("HealthStatus");
         String Email = (String) request.getParameter("Email");
         String PostalCodeRegex = "^[ABCEGHJKLMNPRSTVXY][0-9][ABCEGHJKLMNPRSTVWXYZ][ ][0-9][ABCEGHJKLMNPRSTVWXYZ][0-9]$";
         String PhoneNumberRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){4}$";
@@ -41,35 +42,63 @@ public class PatientValidation {
         {
             errors.put("FirstName", "First Name cannot be blank.");
         }
+        else
+        {
+            request.setAttribute("FirstName", FirstName.replace("'", "''"));
+        }
         //LastName
         if(LastName == null || LastName.isEmpty())
         {
             errors.put("LastName", "Last Name cannot be blank.");
+        }
+        else
+        {
+            request.setAttribute("LastName", LastName.replace("'", "''"));
         }
         //Address
         if(Address == null || Address.isEmpty())
         {
             errors.put("Address", "Address cannot be blank.");
         }
+        else
+        {
+            request.setAttribute("Address", Address.replace("'", "''"));
+        }
         //City
         if(City == null || City.isEmpty())
         {
             errors.put("City", "City cannot be blank.");
+        }
+        else
+        {
+            request.setAttribute("City", City.replace("'", "''"));
         }
         //Province
         if(Province == null || Province.isEmpty())
         {
             errors.put("Province", "A Province must be selected from the dropdown menu.");
         }
+        else
+        {
+            request.setAttribute("Province", Province.replace("'", "''"));
+        }
         //Country
         if(Country == null || Country.isEmpty())
         {
             errors.put("Country", "A Country must be selected from the dropdown menu.");
         }
+        else
+        {
+            request.setAttribute("Country", Country.replace("'", "''"));
+        }
         //PostalCode
         if(PostalCode == null || PostalCode.isEmpty())
         {
             errors.put("PostalCode", "Postal Code cannot be blank.");
+        }
+        else
+        {
+            request.setAttribute("PostalCode", PostalCode.replace("'", "''"));
         }
         if(PostalCode != null && !Pattern.matches(PostalCodeRegex,PostalCode))
         {
@@ -80,6 +109,10 @@ public class PatientValidation {
         {
             errors.put("PhoneNumber", "Phone Number cannot be blank.");
         }
+        else
+        {
+            request.setAttribute("PhoneNumber", PhoneNumber.replace("'", "''"));
+        }
         if(PhoneNumber != null && !Pattern.matches(PhoneNumberRegex, PhoneNumber))
         {
             errors.put("PhoneNumber", "Please enter a valid Phone Number. (eg. XXX-XXX-XXXX)");
@@ -88,6 +121,10 @@ public class PatientValidation {
         if(Email == null || Email.isEmpty())
         {
             errors.put("Email", "Email Address cannot be blank.");
+        }
+        else
+        {
+            request.setAttribute("Email", Email.replace("'", "''"));
         }
         if(Email != null && !Pattern.matches(EmailRegex, Email))
         {
@@ -98,6 +135,10 @@ public class PatientValidation {
         {
             errors.put("HealthCardNumber", "Health Card Number cannot be blank.");
         }
+        else
+        {
+            request.setAttribute("HealthCardNumber", HealthCardNumber.replace("'", "''"));
+        }
         if(HealthCardNumber != null && !Pattern.matches(HealthCardRegex, HealthCardNumber))
         {
             errors.put("Email", "Please enter a valid Health Card Number. (eg. 0000-000-000-AA)");
@@ -106,6 +147,10 @@ public class PatientValidation {
         if(SIN == null || SIN.isEmpty())
         {
             errors.put("SIN", "SIN cannot be blank.");
+        }
+        else
+        {
+            request.setAttribute("SIN", SIN.replace("'", "''"));
         }
         if(SIN != null && !Pattern.matches(SINRegex, SIN))
         {
@@ -116,15 +161,36 @@ public class PatientValidation {
         {
             errors.put("DefaultDoctorID", "Default Doctor ID cannot be blank.");
         }
+        else
+        {
+            request.setAttribute("DefaultDoctorID", DefaultDoctorID.replace("'", "''"));
+        }
+         //Health Status
+        if(DefaultDoctorID == null || DefaultDoctorID.isEmpty())
+        {
+            errors.put("HealthStatus", "Health Status cannot be blank.");
+        }
+        else
+        {
+            request.setAttribute("HealthStatus", HealthStatus.replace("'", "''"));
+        }
         //PrimaryContactNo
         if(PrimaryContactNo == null || PrimaryContactNo.isEmpty())
         {
             errors.put("PrimaryContactNo", "Primary Contact Phone Number cannot be blank.");
         }
+        else
+        {
+            request.setAttribute("PrimaryContactNo", PrimaryContactNo.replace("'", "''"));
+        }
         if(PrimaryContactNo != null && !Pattern.matches(PhoneNumberRegex, PrimaryContactNo))
         {
             errors.put("PrimaryContactNo", "Please enter a valid Primary Contact Phone Number. (eg. XXX-XXX-XXXX)");
         }
-        return errors;
+        request.setAttribute("Transfered", request.getParameter("Transfered"));
+        String Visits = request.getParameter("Visits");
+        request.setAttribute("Visits", Visits);
+        request.setAttribute("errors", errors);
+        return request;
     }
 }

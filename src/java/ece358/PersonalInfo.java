@@ -96,18 +96,20 @@ public class PersonalInfo extends HttpServlet {
             }
             else if(mode == 3)
             {
-                HashMap<String,String> errors = PatientValidation.validatePatient(request);
+                request = PatientValidation.validatePatient(request);
+                HashMap<String,String> errors = (HashMap<String,String>) request.getAttribute("errors");
+                        
                 if(errors.isEmpty())
                 {
                     Patients patient = (Patients) SQLSessionUtil.get(Patients.class, Username);
-                    patient.setAddress(request.getParameter("Address"));
-                    patient.setCity(request.getParameter("City"));
-                    patient.setProvince(request.getParameter("Province"));
-                    patient.setPostalCode(request.getParameter("PostalCode"));
-                    patient.setCountry(request.getParameter("Country"));
-                    patient.setEmail(request.getParameter("Email"));
-                    patient.setPhoneNumber(request.getParameter("PhoneNumber"));
-                    patient.setPrimaryContactNo(request.getParameter("PrimaryContactNo"));
+                    patient.setAddress((String)request.getAttribute("Address"));
+                    patient.setCity((String)request.getAttribute("City"));
+                    patient.setProvince((String)request.getAttribute("Province"));
+                    patient.setPostalCode((String)request.getAttribute("PostalCode"));
+                    patient.setCountry((String)request.getAttribute("Country"));
+                    patient.setEmail((String)request.getAttribute("Email"));
+                    patient.setPhoneNumber((String)request.getAttribute("PhoneNumber"));
+                    patient.setPrimaryContactNo((String)request.getAttribute("PrimaryContactNo"));
                     SQLSessionUtil.update(patient);
                     url = "/PersonalInfo?mode=1";
                 }
