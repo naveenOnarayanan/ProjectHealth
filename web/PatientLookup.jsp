@@ -76,6 +76,7 @@
            String SINRegex = "^([0-9]){3}-([0-9]){3}-([0-9]){3}$";%>
         <% String buttons = "<button class=\"btn btn-success\" type = \"submit\" formaction=\"PatientLookup?mode=2\">Edit</button>";%>
         <% String disabled = "";
+           Users SessionUser = ((Users) request.getSession().getAttribute("user"));
            if(mode == 1)
            {
                disabled = "disabled";
@@ -114,7 +115,7 @@
         <script>
         $(function() {
            $("#content-patient-info").css("height", $(window).height()-75);
-           getNavbar("<%= ((Users) request.getSession().getAttribute("user")).getRole()%>", 
+           getNavbar("<%= SessionUser.getRole()%>", 
            "<%=request.getSession().getAttribute("firstname")%>",
            "<%=request.getSession().getAttribute("lastname")%>");
         })
@@ -225,7 +226,7 @@
                     </form>
                 </div>
                 <div style="float: right; padding-left: 5%; width: 80%">
-                    <h4 style="margin-top: 10.5px">Patient Information</h4>
+                    <h4 style="margin-top: 10.5px">Patient Information [<%=PatientUserID%>]</h4>
                     <% if(errors != null && errors.size() != 0){ %>
                         <div class="alert fade in rounded-div" width="900" style="background-color:#FF9494">
                         <button class = "btn btn-success" type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -369,8 +370,10 @@
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <button class="btn btn-success" type="button" onclick="window.location = '#';">View Appointments</button>&nbsp;
-                                    <button class="btn btn-success" type="button" onclick="window.location = '#';">View Prescriptions</button>
+                                    <%if(SessionUser.getUserId().equals(DefaultDoctorID) || (session.getAttribute("managingDoctorID") != null && session.getAttribute("managingDoctorID").equals(DefaultDoctorID))){%>
+                                    <button class="btn btn-success" type="button" onclick="window.location = 'AppointmentServlet?action=query&patientId=<%=PatientUserID%>';">View Appointments</button>&nbsp;
+                                    <button class="btn btn-success" type="button" onclick="window.location = 'PrescriptionsServlet?UserID=<%=PatientUserID%>';">View Prescriptions</button>
+                                    <%}%>
                                 </td>
                                 <td>
 

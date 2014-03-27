@@ -67,6 +67,7 @@ public class LoginServlet extends HttpServlet {
                         Staff staff = (Staff) SQLSessionUtil.get(Staff.class, username);
                         request.getSession().setAttribute("firstname", staff.getFirstName());
                         request.getSession().setAttribute("lastname", staff.getLastName());
+                        request.getSession().setAttribute("managingDoctorID", staff.getManagingDoctorId());
                     }
                     if(user.getRole().equals("patient"))
                     {

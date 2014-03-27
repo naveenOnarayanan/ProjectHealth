@@ -46,6 +46,7 @@ public class PrescriptionsServlet extends HttpServlet {
             return;
         }
         String visitIDQuery = (String) request.getParameter("VisitID");
+        String patientIDQuery = (String) request.getParameter("UserID");
         
         if (visitIDQuery != null && !visitIDQuery.isEmpty()) {
             request.setAttribute("FullView", false);
@@ -102,6 +103,7 @@ public class PrescriptionsServlet extends HttpServlet {
                             "WHERE V2.VisitID = active.VisitID " +
                             "AND V2.DoctorID = active.DoctorID) " +
                         ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND active.VisitID = " + visitIDQuery : " ") + " " +
+                        ((patientIDQuery != null && !patientIDQuery.isEmpty()) ? "AND active.PatientID = '" + patientIDQuery + "'": " ") + " " +
                         "ORDER BY VisitID";
             }
             else if (sessionUser.getRole().equals(Constants.DOCTOR)){
@@ -126,6 +128,7 @@ public class PrescriptionsServlet extends HttpServlet {
                             "WHERE V2.VisitID = active.VisitID " +
                             "AND V2.DoctorID = active.DoctorID) " +
                         ((visitIDQuery != null && !visitIDQuery.isEmpty()) ? "AND active.VisitID = " + visitIDQuery : "") + " " +
+                        ((patientIDQuery != null && !patientIDQuery.isEmpty()) ? "AND active.PatientID = '" + patientIDQuery + "'": " ") + " " +
                         "ORDER BY VisitID";
             }
                 
