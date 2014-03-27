@@ -24,12 +24,13 @@
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
         <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/bootstrap-datetimepicker.ru.js"></script>
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/2.1.30/js/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.js"></script>
         <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.0rc/js/bootstrap-switch.min.js"></script>
         <script type="text/javascript" src="http://mottie.github.io/tablesorter/js/jquery.tablesorter.js"></script>
         <script type="text/javascript" src="http://mottie.github.io/tablesorter/js/jquery.tablesorter.widgets.js"></script>
         <script type="text/javascript" src="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/parsley.js/1.2.3/parsley.min.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/appointment.js"></script>
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/>
@@ -37,10 +38,10 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/fonts/glyphicons-halflings-regular.svg"/>
         <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/2.1.30/css/bootstrap-datetimepicker.min.css"/>
+        <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css"/>
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.0.0rc/css/bootstrap3/bootstrap-switch.min.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2-bootstrap.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css"/>
-        <link rel="stylesheet" href="http://mottie.github.io/tablesorter/addons/pager/jquery.tablesorter.pager.css"/>
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/css/theme.ice.css"/>
         
         <link rel="stylesheet" href="css/index.css"/>
@@ -52,7 +53,7 @@
         <%
            if (error != null && !error.equals("")) { 
         %>
-           <div class="alert alert-dismissable alert-danger">
+           <div id="error-notifier" class="alert alert-dismissable alert-danger">
                <button type="button" class="close" data-dismiss="alert">x</button>
                <%= error %>
            </div>
@@ -90,7 +91,8 @@
        <% if (error == null) { %>
        <% List<Patients> patients = (List<Patients>) request.getAttribute("patients");
           List<Staff> doctors = (List<Staff>) request.getAttribute("doctors"); 
-          List<Drugs> drugs = (List<Drugs>) request.getAttribute("drugs"); %>
+          List<Drugs> drugs = (List<Drugs>) request.getAttribute("drugs");
+          List<Operations> operations = (List<Operations>) request.getAttribute("operations"); %>
           <div class="content">
             <div class="modal fade" id="appointment-edit" role="dialog" aria-labelledby="Appointment" aria-hidden="true">
                 <div class="modal-dialog">
@@ -99,7 +101,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                             <h4 class="modal-title" id="myModalLabel">Appointment</h4>
                         </div>
-                        <form id="appointment-modal-form" action="AppointmentServlet?" name="appointmentUpdate" method="post">
+                        <form id="appointment-modal-form" onsubmit="return validate();" action="AppointmentServlet?" name="appointmentUpdate" method="post" data-parsley-validate>
                             <div class="modal-body appointment-modal-container">
                                 <ul class="nav nav-pills">
                                     <li class="tab-button active" id="info-tab"><a href="#info" data-toggle="tab">Schedule</a></li>
@@ -109,6 +111,8 @@
                                     <%}%>
                                 </ul>
                                 <hr/>
+                                <div id="form-valiation-error" class="alert alert-danger hidden">
+                                </div>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="info">
                                         <div class="form-group">
@@ -117,14 +121,14 @@
                                         <div class="form-group">
                                             <label for="datetime">Date</label>
                                             <div class='input-group date' id='appointment-modal-date'>
-                                                <input type='text' class="form-control" name="datetime" />
+                                                <input type='text' class="form-control" name="datetime" required />
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label for="patientID">Patient</label>
-                                            <select class="form-control" name="patientID" id="appointment-modal-patientID">
+                                            <select class="form-control" name="patientID" id="appointment-modal-patientID" required >
                                                 <% for (int i = 0; i < patients.size(); i++) { %>
                                                 <option id="<%= patients.get(i).getUserId() %>" value="<%= patients.get(i).getUserId()%>"><%= patients.get(i).getFirstName() + " " + patients.get(i).getLastName() %></option>
                                                 <%}%>
@@ -132,7 +136,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="doctorID">Doctor</label>
-                                            <select class="form-control" name="doctorID" id="appointment-modal-doctorID">
+                                            <select class="form-control" name="doctorID" id="appointment-modal-doctorID" required >
                                                 <% for (int i = 0; i < doctors.size(); i++) { %>
                                                 <option id="<%= doctors.get(i).getUserId() %>" value="<%= doctors.get(i).getUserId()%>"><%= doctors.get(i).getFirstName() + " " + doctors.get(i).getLastName() %></option>
                                                 <%}%>
@@ -153,7 +157,7 @@
                                         <div class="form-group">
                                             <label for="length">Length</label>
                                             <div class='input-group date' id='appointment-modal-length'>
-                                                <input type='text' class="form-control" name="length"/>
+                                                <input type='text' class="form-control" name="length" required />
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span>
                                                 </span>
                                             </div>
@@ -247,11 +251,10 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="operationName">Operation Name</label>
-                                                <select id="appointment-modal-operationName" class="form-control" name="drugs">
-                                                    <% List<Operations> operations = (List<Operations>) request.getAttribute("operations");
+                                                <select id="appointment-modal-operationName" class="form-control" name="drugs"><%
                                                        if (operations != null) {
                                                             for (int i = 0; i < operations.size(); i++) {%>
-                                                    <option data-value="<%= operations.get(i).getReqJobTitle() %>" id="<%= operations.get(i).getName().replaceAll(" ", "") %>" value="<%= operations.get(i).getName()%>"><%= operations.get(i).getName() %></option>
+                                                            <option data-length="<%= operations.get(i).getEstTime()%>" data-value="<%= operations.get(i).getReqJobTitle() %>" id="<%= operations.get(i).getName().replaceAll(" ", "") %>" value="<%= operations.get(i).getName()%>"><%= operations.get(i).getName() %></option>
                                                     <%}}%>
                                                 </select>
                                             </div>
@@ -310,7 +313,7 @@
                                 for (int i = 0; i < appointments.size(); i++) {%>
                                 <tr id="upcoming-appointment-<%=i%>" data-complete="<%= appointments.get(i).getApptComplete() %>" data-id="<%= appointments.get(i).getVisitId()%>">
                                     <td class="appointment-visit-id" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>><%= appointments.get(i).getVisitId() %></td>
-                                    <td class="appointment-dat" id="upcoming-date-<%= i%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>>
+                                    <td class="appointment-date" id="upcoming-date-<%= i%>" <% if (user.getRole().equals(Constants.STAFF) || user.getRole().equals(Constants.DOCTOR)) { %> onclick="updateAppointmentModal('<%= i %>', '<%= user.getRole()%>', 'upcoming')" <% } %>>
                                         <%= new SimpleDateFormat("MM/dd/yyyy hh:mm aa").format(appointments.get(i).getDateTime()) %>
                                     </td>
                                     <% for (int j = 0; j < patients.size(); j++) {
@@ -335,7 +338,16 @@
                                         </center><%}%>
                                     </td>
                                     <td class="appointment-operations"><center>
-                                        <% if (appointments.get(i).getOperations()!= null && appointments.get(i).getOperations().size() > 0) {%>
+                                        <% if (appointments.get(i).getOperations()!= null && appointments.get(i).getOperations().size() > 0) {
+                                               for (int k = 0; user.getRole().equals(Constants.DOCTOR) && k < appointments.get(i).getOperations().size(); k++) {%>
+                                               <p class="hidden appointment-operations-data">
+                                                   <%= appointments.get(i).getOperations().get(k).getOperationDateTime().toString() +
+                                                           "|" + appointments.get(i).getOperations().get(k).getOperationName() +
+                                                           "|" + appointments.get(i).getOperations().get(k).getDoctorId() +
+                                                           "|" + operations.get(operations.indexOf(new Operations(appointments.get(i).getOperations().get(k).getOperationName()))).getEstTime().toString()
+                                                   %>
+                                               </p>
+                                        <%}%>
                                         <a class="btn btn-primary btn-xs" data-toggle="modal" href="ScheduledOperations?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#remoteContent">View</a>
                                     </center>
                                         <%}%>
@@ -422,7 +434,16 @@
                                         <%}%></center>
                                     </td>
                                     <td class="appointment-operations"><center>
-                                        <% if (appointments.get(i).getOperations()!= null && appointments.get(i).getOperations().size() > 0) {%>
+                                        <% if (appointments.get(i).getOperations()!= null && appointments.get(i).getOperations().size() > 0) {
+                                               for (int k = 0; user.getRole().equals(Constants.DOCTOR) && k < appointments.get(i).getOperations().size(); k++) {%>
+                                               <p class="hidden appointment-operations-data">
+                                                   <%= appointments.get(i).getOperations().get(k).getOperationDateTime().toString() +
+                                                           "|" + appointments.get(i).getOperations().get(k).getOperationName() +
+                                                           "|" + appointments.get(i).getOperations().get(k).getDoctorId() +
+                                                           "|" + operations.get(operations.indexOf(new Operations(appointments.get(i).getOperations().get(k).getOperationName()))).getEstTime().toString()
+                                                   %>
+                                               </p>
+                                        <%}%>
                                         <a class="btn btn-primary btn-xs" data-toggle="modal" href="ScheduledOperations?VisitID=<%= appointments.get(i).getVisitId() %>" data-target="#remoteContent">View</a>    
                                         <%}%></center>
                                     </td>

@@ -8,12 +8,14 @@ $(document).ready(function() {
     var removedDrugOptions = [];
     $('#appointment-modal-date').datetimepicker({
         language: 'en',
-        useCurrent: true
+        useCurrent: true,
+        minDate: new Date().toLocaleDateString()
     });
     $('#appointment-modal-length').datetimepicker({
         pickDate: false,
         useSeconds: false,
         language: 'ru',
+        defaultDate: '1/1/1900 00:00',
         minuteStepping: 5
     });
     
@@ -90,6 +92,8 @@ $(document).ready(function() {
         cssGoto: ".pagenum",
         output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
     });
+    
+    $('#appointment-modal-date').data("DateTimePicker").getDate();
 
     $(".search-bar").hide();
         var clicked = false;
@@ -227,6 +231,42 @@ $(document).ready(function() {
     });
     
     $("#add-operations").click(function() {
+        var operationDates = [];
+        $(".appointment-operations-data").each(function(index) {
+           var operationStr = $(this).text().trim().split("|");
+           var times = operationStr[3].split(":");
+           var setDate = new Date(operationStr[0]);
+           var endDate = new Date(setDate.toString());
+           endDate.setHours(endDate.getHours() + parseInt(times[0]));
+           endDate.setMinutes(endDate.getMinutes() + parseInt(times[1]));
+           operationDates.push({
+               id: $(this).parent().parent().parent().attr("data-id"),
+               doctor: operationStr[2],
+               startDate: setDate,
+               endDate: endDate
+           });
+        });
+
+        for (var i = 0; i < operationDates.length; i++) {
+            var setDateStr = $("#appointment-modal-operationTime").data("DateTimePicker").getDate();
+            var setDate = new Date(setDateStr.toString());
+            var endSetDate = new Date(setDate.toString());
+            var length = $("#appointment-modal-operationName").find(":selected").attr("data-length").split(":");
+            endSetDate.setHours(endSetDate.getHours() + parseInt(length[0]));
+            endSetDate.setMinutes(endSetDate.getMinutes() + parseInt(length[0]));
+            var doctor = $("#appointment-modal-operationDoctor").val();
+
+            if ($("#appointment-modal-visitID").val() != operationDates[i].id && doctor == operationDates[i].doctor && setDate >= operationDates[i].startDate && setDate <= operationDates[i].endDate) {
+                $("#form-valiation-error").text("Schedule conflict! The start time is in conflict with Appointment #" + operationDates[i].id).removeClass("hidden");
+                return false;
+            } else if ($("#appointment-modal-visitID").val() != operationDates[i].id && doctor == operationDates[i].doctor && endSetDate >= operationDates[i].startDate && endSetDate <= operationDates[i].endDate) {
+                $("#form-valiation-error").text("Schedule conflict! The length is in conflict with Appointment #" + operationDates[i].id).removeClass("hidden");
+                return false;
+            } else {
+                $("#form-valiation-error").addClass("hidden");
+            }
+        }
+
         var operationTime = $("#appointment-modal-operationTime input").val();
         var operationName = $("#appointment-modal-operationName").val();
         var operationDoctor = $("#appointment-modal-operationDoctor").val();
@@ -278,6 +318,43 @@ $(document).ready(function() {
     });
 });
 
+function validate() {
+    var dates = [];
+    $(".appointment-date").each(function(index) {
+        dates.push({
+            id: $(this).parent().attr("data-id"),
+            startDate: Date.parse($(this).text().trim())
+        });
+    });
+    $(".appointment-length").each(function(index) {
+        var times = $(this).text().split(":");
+        var endDate = new Date(dates[index].startDate);
+        endDate.setHours(endDate.getHours() + parseInt(times[0]));
+        endDate.setMinutes(endDate.getMinutes() + parseInt(times[1]));
+        dates[index].endDate = Date.parse(endDate.toString());
+    });
+    
+    for (var i = 0; i < dates.length; i++) {
+       var length = $("#appointment-modal-length").data("DateTimePicker").getDate();
+       var lengthDate = new Date(Date.parse(length.toString()));
+       var setDate = $("#appointment-modal-date").data("DateTimePicker").getDate();
+       var endSetDate = new Date(Date.parse(setDate.toString()));
+       endSetDate.setHours(endSetDate.getHours() + lengthDate.getHours());
+       endSetDate.setMinutes(endSetDate.getMinutes() + lengthDate.getMinutes());
+       if (dates[i].id != $("#appointment-modal-visitID").val() && setDate >= new Date(dates[i].startDate) && setDate <= new Date(dates[i].endDate)) {
+           $("#form-valiation-error").text("Schedule conflict! The start time is in conflict with Appointment #" + dates[i].id).removeClass("hidden");
+           return false;
+       } 
+       if (dates[i].id != $("#appointment-modal-visitID").val() && endSetDate >= new Date(dates[i].startDate) && endSetDate <= new Date(dates[i].endDate)) {
+           $("#form-valiation-error").text("Schedule conflict! The length is in conflict with Appointment #" + dates[i].id).removeClass("hidden");
+           return false;
+       }
+    }
+
+    return true;
+}
+
+
 function updateAppointmentModal(index, role, appointment) {
     if (index >= 0) {
         $("#appointment-modal-form").attr("action", "AppointmentServlet?action=update");
@@ -319,8 +396,23 @@ function updateAppointmentModal(index, role, appointment) {
         }
     } else if (role == "doctor") {
         if (index >= 0) {
-            if ($("#" + appointment + "-appointment-" + index + " .appointment-operations center a").length != 0) {
-                $("#operations-tab").hide();
+            if ($("#" + appointment + "-appointment-" + index + " .appointment-operations center .appointment-operations-data").length != 0) {
+                var data = $("#" + appointment + "-appointment-" + index + " .appointment-operations center .appointment-operations-data");
+                $("#appointment-modal-operations").val("");
+                data.each(function(index) {
+                   var entry = $(this).text().trim().split("|");
+                   var date = new Date(entry[0]).toLocaleString().replace(/:\d{2}\s/,' ');
+                   var name = entry[1];
+                   var doctor = entry[2];
+                   $("#appointment-modal-operations").val($("#appointment-modal-operations").val() + date + "|" + name + "|" + doctor + ";");
+
+                   $("#appointment-modal-operations-table").append("<tr class='operations-scheduled'>" +
+                            "<td>" + date + "</td>" +
+                            "<td>" + name + "</td>" +
+                            "<td>" + doctor + "</td>" +
+                            "<td><button data-operation-name='" + name + "' class='btn btn-default btn-xs delete-operation'><i class='fa fa-minus-circle'></i></button></td></tr>"
+                   );
+                });
             } else {
                 $("#operations-tab").show();
             }

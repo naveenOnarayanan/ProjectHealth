@@ -44,7 +44,7 @@
             </form>
         </div>
         <footer>
-            <center><font size='1'>Copyright © 2014. NaveenSucksIncorporation. All Rights Reserved.</font></center>
+            <center><font size='1'>Copyright © 2014. Project Health. All Rights Reserved.</font></center>
         </footer>
     </body>
 </html>

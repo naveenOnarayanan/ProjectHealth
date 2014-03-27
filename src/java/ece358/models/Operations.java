@@ -70,6 +70,14 @@ public class Operations  implements MySQLObjectMapping {
             add(Drugs.class.getDeclaredFields()[0]);
         }};
     }
+    
+    @Override
+    public boolean equals(Object other) {
+        if (other != null && other instanceof Operations) {
+            return ((Operations) other).getName().equals(this.getName());
+        }
+        return false;
+    }
 }
 
 
