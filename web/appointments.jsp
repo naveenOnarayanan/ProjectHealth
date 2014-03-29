@@ -280,6 +280,7 @@
                 </div>
             </div> 
             <div id="dynamic-table">
+                <h1>Appointments</h1>
                 <% if (user.getRole().equals(Constants.STAFF)) {%>
                 <button class="btn btn-warning pull-right add-appointment" onclick="updateAppointmentModal('-1', '<%= user.getRole()%>')"><i class="fa fa-calendar fa-4"></i></button>
                  <%}%>
