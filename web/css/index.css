@@ -268,3 +268,8 @@ body {
     margin-top: 2%;
     margin-left: 2%;
 }
+
+.pwd-font-format {
+    width: 16%;
+    font-size: medium;
+}

@@ -71,7 +71,7 @@
                 <div class="tab-pane active pwd-padding" id="password_reset">
                     <form action="AdminServlet?action=PasswordReset" onsubmit="return validate();" method="post">
                         <div class="form-group">
-                            <select id="user-id" name="userID">
+                            <select class="pwd-font-format" id="user-id" name="userID">
                                 <%if (users == null) {%>
                                 <option value="<%= user.getUserId()%>"><%= user.getUserId()%></option>
                                 <%} else { for (int i = 0; i < users.size(); i++) {%>
@@ -80,10 +80,10 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <input id="password" type="password" name="password" placeholder="Password"/>
+                            <input class="pwd-font-format" id="password" type="password" name="password" placeholder="Password"/>
                         </div>
                         <div class="form-group">
-                            <input id="confirm-password" type="password" placeholder="Confirm Password"/>
+                            <input class="pwd-font-format" id="confirm-password" type="password" placeholder="Confirm Password"/>
                         </div>
                         <div class="form-group">
                             <input class="btn btn-primary" type="submit" value="Submit"/>
