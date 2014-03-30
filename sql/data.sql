@@ -75,6 +75,8 @@ INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('sclegane', '8d
 INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('cstark', '5334f1d47daa445295cd3e7ec7a0928f3c925333c06b614f3d35695d28c2bad8', 'patient');
 INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('rstark', 'bbe632c0baeeae82cf72865c745de20ae725faf418f8bfcd174f944a3f12acac', 'patient');
 INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('estark', '3c04b49bd6d1a58956db3c96bf4ca5617b2cc89994d1c7951733d440ad1b888c', 'patient');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('rbolton', 'b493ae6a41c97e073feb610651eb95bfd5ea644a41043ab551a086b1c23ba017', 'legal');
+INSERT INTO hospital_main.users (UserID, Password, Role) VALUES ('rsnow', '1b08b1a8b43967edc0f6825cb46c8178e172d5bd191477bfc625adf8cf9e1105', 'it');
 
 
 #staff
@@ -91,6 +93,8 @@ INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, 
 INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('tgreyjoy', 'Theon', 'Greyjoy', 'nnarayanan', 'Nurse', 0);
 INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('starly', 'Samwell', 'Tarly', NULL, 'Accountant', 1);
 INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('sclegane', 'Sandor', 'Clegane', 'gzhou', 'Nurse', 1);
+INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('rbolton', 'Roose', 'Bolton', NULL, 'Lawyer', 1);
+INSERT INTO hospital_main.staff (UserID, FirstName, LastName, ManagingDoctorID, JobTitle, CurrentlyEmployed) VALUES ('rsnow', 'Ramsay', 'Snow', NULL, 'IT', 1);
 
 
 #patients
