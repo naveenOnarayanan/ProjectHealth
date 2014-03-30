@@ -88,7 +88,8 @@ public class AdminServlet extends HttpServlet {
                 String userID = (String)request.getParameter("userID");
                 String managingDoctorID = (String)request.getParameter("managingDoctorID");
                 String jobTitle = (String)request.getParameter("jobTitle");
-                boolean currentlyEmployed = Boolean.parseBoolean(request.getParameter("currentlyEmployed"));
+                String currentlyEmployedString = (String)request.getParameter("currentlyEmployed");
+                Boolean currentlyEmployed = (currentlyEmployedString == null) ? true : currentlyEmployedString.equals("on");
                 
                 query = "UPDATE STAFF " + 
                         "SET ManagingDoctorID = '" + managingDoctorID + "' " + 
