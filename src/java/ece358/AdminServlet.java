@@ -93,8 +93,8 @@ public class AdminServlet extends HttpServlet {
                 
                 query = "UPDATE STAFF " + 
                         "SET ManagingDoctorID = '" + managingDoctorID + "' " + 
-                        "AND JobTitle = '" + jobTitle + "' " +
-                        "AND CurrentlyEmployed = '" + currentlyEmployed + "' " +
+                        ", JobTitle = '" + jobTitle + "' " +
+                        ", CurrentlyEmployed = " + currentlyEmployed + " " +
                         "WHERE UserID = '" + userID + "'";
                 
                 SQLSessionUtil.executeUpdate(query);
