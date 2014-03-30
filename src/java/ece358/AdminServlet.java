@@ -7,8 +7,11 @@
 package ece358;
 
 import ece358.models.Users;
+import ece358.models.Staff;
+import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.security.MessageDigest;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,14 +45,74 @@ public class AdminServlet extends HttpServlet {
         boolean queryServletError = false;
         try {
             
-            int mode = Integer.parseInt(request.getParameter("mode"));
+            String action = (String)request.getParameter("action");
             
-            if (mode == 0)
+            String query = "SELECT s.* " + 
+                           "FROM Staff AS s " + 
+                           "WHERE s.JobTitle = 'Doctor' " + 
+                           "OR s.JobTitle = 'Surgeon'";
+            
+            List<Staff> doctors = (List<Staff>)SQLSessionUtil.selectType(Staff.class, query);
+            request.setAttribute("doctors", doctors);
+            
+            query = "SELECT s.* " +
+                    "FROM Staff AS s";
+            
+            List<Staff> staff = (List<Staff>)SQLSessionUtil.selectType(Staff.class, query);
+            request.setAttribute("staff", staff);
+            
+            query = "SELECT u.* " +
+                    "FROM Users AS u";
+            
+            List<Users> users = (List<Users>)SQLSessionUtil.selectType(Users.class, query);
+            request.setAttribute("users", users);
+            
+            if (action.equals("PasswordReset"))
             {
+                String userID = (String)request.getParameter("userID");
+                String newPassword = (String)request.getParameter("password");
                 
+                String hashedPassword = HashPassword(newPassword);
+                
+                query = "UPDATE Users " + 
+                        "SET Password = '" + hashedPassword + "' " + 
+                        "WHERE UserID = '" + userID + "'";
+                
+                SQLSessionUtil.executeQuery(query);
             }
-            else if (mode == 1)
+            else if (action.equals("Fire"))
             {
+                String userID = (String)request.getParameter("userID");
+                boolean currentlyEmployed = Boolean.parseBoolean(request.getParameter("currentlyEmployed"));
+                
+                query = "UPDATE STAFF " + 
+                        "SET CurrentEmployed = '" + currentlyEmployed + "' " +
+                        "WHERE UserID = '" + userID + "'";
+                
+                SQLSessionUtil.executeQuery(query);
+            }
+            else if (action.equals("AddStaff"))
+            {
+                String password = (String)request.getParameter("password");
+                String hashedPassword = HashPassword(password);
+                String role = (String)request.getParameter("role");
+                String firstName = (String)request.getParameter("firstName");
+                String lastName = (String)request.getParameter("lastName");
+                String managingDoctorID = (String)request.getParameter("managingDoctorID");
+                String jobTitle = (String)request.getParameter("jobTitle");
+                
+                String userID = firstName.charAt(0) + lastName;
+                List<Users> userNameCount = (List<Users>)SQLSessionUtil.selectType(Users.class, "SELECT * FROM Users WHERE UserID LIKE '" + userID + "%'");
+                if(!userNameCount.isEmpty())
+                {
+                    userID += String.valueOf(userNameCount.size());
+                }
+                
+                Users newUser = new Users(userID, hashedPassword, role);
+                Staff newStaff = new Staff(userID, firstName, lastName, managingDoctorID, jobTitle, true);
+                
+                SQLSessionUtil.add(newUser);
+                SQLSessionUtil.add(newStaff);
             }
             else 
             {
@@ -63,6 +126,27 @@ public class AdminServlet extends HttpServlet {
             System.out.println(e);
         }
         getServletContext().getRequestDispatcher("/DoctorLookup.jsp").forward(request, response);
+    }
+    
+    String HashPassword(String password)
+    {
+        String hashedPassword = "";
+        try
+        {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(password.getBytes());
+            byte hashedPasswordData[] = messageDigest.digest();
+
+            StringBuilder hashedPasswordBuffer = new StringBuilder();
+            for (int i = 0; i < hashedPasswordData.length; i++)
+                hashedPasswordBuffer.append(Integer.toString((hashedPasswordData[i] & 0xFF) + 0x100, 16).substring(1));
+
+            hashedPassword = hashedPasswordBuffer.toString();
+        }
+        catch (Exception ex)
+        {
+        }
+        return hashedPassword;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
