@@ -81,7 +81,7 @@ public class AdminServlet extends HttpServlet {
                         "SET Password = '" + hashedPassword + "' " + 
                         "WHERE UserID = '" + userID + "'";
                 
-                SQLSessionUtil.executeQuery(query);
+                SQLSessionUtil.executeUpdate(query);
             }
             else if (action.equals("UpdateStaff"))
             {
@@ -96,7 +96,7 @@ public class AdminServlet extends HttpServlet {
                         "AND CurrentlyEmployed = '" + currentlyEmployed + "' " +
                         "WHERE UserID = '" + userID + "'";
                 
-                SQLSessionUtil.executeQuery(query);
+                SQLSessionUtil.executeUpdate(query);
             }
             else if (action.equals("AddStaff"))
             {
