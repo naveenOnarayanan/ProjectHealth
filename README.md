@@ -25,3 +25,7 @@ Doctor      jhalmo          josh
             nnarayanan      naveen
 		
 Finance     starly          samwell
+
+Legal		rbolton			roose
+
+IT			rsnow			ramsay
