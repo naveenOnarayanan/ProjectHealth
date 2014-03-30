@@ -1,9 +1,3 @@
-<%-- 
-    Document   : PatientLookup
-    Created on : Mar 18, 2014, 3:07:44 PM
-    Author     : Josh
---%>
-
 <%@page import="java.lang.String"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.List"%>

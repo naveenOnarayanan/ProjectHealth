@@ -1,9 +1,3 @@
-<%-- 
-    Document   : DoctorLookup
-    Created on : 20-Mar-2014, 1:18:59 PM
-    Author     : GordonMBP
---%>
-
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Collection"%>
 <%@page import="java.util.Date"%>

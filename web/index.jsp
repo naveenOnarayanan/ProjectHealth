@@ -1,9 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : Mar 13, 2014, 9:18:50 PM
-    Author     : ZGaming
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : personalinfo
-    Created on : Mar 16, 2014, 4:46:55 PM
-    Author     : Josh
---%>
-
 <%@page import="java.lang.String"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.List"%>

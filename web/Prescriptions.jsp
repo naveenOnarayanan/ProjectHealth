@@ -1,9 +1,3 @@
-<%-- 
-    Document   : Prescriptions
-    Created on : 20-Mar-2014, 2:49:13 PM
-    Author     : Eric
---%>
- 
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="ece358.models.PrescriptionInfo"%>

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : admin
-    Created on : Mar 29, 2014, 10:06:17 PM
-    Author     : ZGaming
---%>
-
 <%@page import="ece358.utils.Constants"%>
 <%@page import="java.util.List"%>
 <%@page import="ece358.models.Staff"%>

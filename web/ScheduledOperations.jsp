@@ -1,9 +1,3 @@
-<%-- 
-    Document   : ScheduledOperations
-    Created on : Mar 22, 2014, 1:25:26 PM
-    Author     : Josh
---%>
-
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="ece358.models.Patients"%>
 <%@page import="ece358.models.Operations"%>

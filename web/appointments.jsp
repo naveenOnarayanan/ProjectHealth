@@ -1,9 +1,3 @@
-<%-- 
-    Document   : appointments
-    Created on : Mar 18, 2014, 1:00:02 PM
-    Author     : ZGaming
---%>
-
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="ece358.models.Operations"%>
