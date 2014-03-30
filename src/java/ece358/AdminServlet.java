@@ -83,13 +83,17 @@ public class AdminServlet extends HttpServlet {
                 
                 SQLSessionUtil.executeQuery(query);
             }
-            else if (action.equals("Fire"))
+            else if (action.equals("UpdateStaff"))
             {
                 String userID = (String)request.getParameter("userID");
+                String managingDoctorID = (String)request.getParameter("managingDoctorID");
+                String jobTitle = (String)request.getParameter("jobTitle");
                 boolean currentlyEmployed = Boolean.parseBoolean(request.getParameter("currentlyEmployed"));
                 
                 query = "UPDATE STAFF " + 
-                        "SET CurrentEmployed = '" + currentlyEmployed + "' " +
+                        "SET ManagingDoctorID = '" + managingDoctorID + "' " + 
+                        "AND JobTitle = '" + jobTitle + "' " +
+                        "AND CurrentlyEmployed = '" + currentlyEmployed + "' " +
                         "WHERE UserID = '" + userID + "'";
                 
                 SQLSessionUtil.executeQuery(query);
