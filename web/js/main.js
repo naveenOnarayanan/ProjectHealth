@@ -33,6 +33,7 @@ function getNavbar(role, firstname, lastname) {
                             "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>";
            patientNav[1] = "<b class='caret'></b></a>" +
                             "<ul class='dropdown-menu'>" +
+                                "<li><a id='changePassword' href='AdminServlet'>Change Password</a></li>" +
                                 "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
                             "</ul>" +
                         "</li>" +
@@ -63,6 +64,7 @@ function getNavbar(role, firstname, lastname) {
                             "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>";
         doctorNav[1] = "<b class='caret'></b></a>" +
                             "<ul class='dropdown-menu'>" +
+                                "<li><a id='changePassword' href='AdminServlet'>Change Password</a></li>" +
                                 "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
                             "</ul>" +
                         "</li>" +
@@ -92,6 +94,7 @@ function getNavbar(role, firstname, lastname) {
                             "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>";
          staffNav[1] = "<b class='caret'></b></a>" +
                             "<ul class='dropdown-menu'>" +
+                                "<li><a id='changePassword' href='AdminServlet'>Change Password</a></li>" +
                                 "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
                             "</ul>" +
                         "</li>" +
@@ -113,6 +116,26 @@ function getNavbar(role, firstname, lastname) {
                             "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>";
          financeNav[1] = "<b class='caret'></b></a>" +
                             "<ul class='dropdown-menu'>" +
+                                "<li><a id='changePassword' href='AdminServlet'>Change Password</a></li>" +
+                                "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
+                            "</ul>" +
+                        "</li>" +
+                "</ul>" +
+            "</div>" +
+        "</nav>";
+
+     var adminNav = [];
+         adminNav[0] = "<nav class='navbar navbar-default' role='navigation'>" +
+            "<div class='navbar-header'>" +
+                "<a class='navbar-brand' href='AdminServlet'><img class='icon-header' src='images/plus-red.png' width='25px' height='25px'>&nbsp;<i>ProjectHealth</i></a>" +
+            "</div>" +
+            "<div class='project-navbar navbar-collapse collapse navbar-responsive-collapse'>" +
+                "<ul class='nav navbar-nav navbar-right'>" +
+                    "<li class='dropdown'>" +
+                            "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>";
+         adminNav[1] = "<b class='caret'></b></a>" +
+                            "<ul class='dropdown-menu'>" +
+                                "<li><a id='changePassword' href='AdminServlet'>Change Password</a></li>" +
                                 "<li><a id='logout' href='LoginServlet?mode=logout'>Logout</a></li>" +
                             "</ul>" +
                         "</li>" +
@@ -127,8 +150,10 @@ function getNavbar(role, firstname, lastname) {
         appendNav = doctorNav[0].concat(firstname, " ", lastname, doctorNav[1]);
     } else if (role === "staff") {
         appendNav = staffNav[0].concat(firstname, " ", lastname, staffNav[1]);
-    } else if (role === "finance") {
+    } else if (role === "finance" || role === "legal") {
         appendNav = financeNav[0].concat(firstname, " ", lastname, financeNav[1]);
+    } else if (role === "it") {
+        appendNav = adminNav[0].concat(firstname, " ", lastname, adminNav[1]);
     }
 
     $("#navbar-container").append(

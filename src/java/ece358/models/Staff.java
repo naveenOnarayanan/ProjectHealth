@@ -14,7 +14,7 @@ public class Staff implements MySQLObjectMapping{
      public String lastName;
      public String managingDoctorId;
      public String jobTitle;
-     public boolean currentlyEmployed;
+     public Boolean currentlyEmployed;
 
     public Staff() {
     }
@@ -67,6 +67,7 @@ public class Staff implements MySQLObjectMapping{
     public void setJobTitle(String jobTitle) {
         this.jobTitle = jobTitle;
     }
+
     public boolean isCurrentlyEmployed() {
         return this.currentlyEmployed;
     }

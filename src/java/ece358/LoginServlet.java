@@ -9,6 +9,7 @@ package ece358;
 import ece358.models.Users;
 import ece358.models.Patients;
 import ece358.models.Staff;
+import ece358.utils.Constants;
 import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -65,23 +66,28 @@ public class LoginServlet extends HttpServlet {
                     if(user.getRole().equals("doctor") || user.getRole().equals("staff") ||user.getRole().equals("finance"))
                     {
                         Staff staff = (Staff) SQLSessionUtil.get(Staff.class, username);
+
+                        if (!staff.isCurrentlyEmployed()) {
+                            throw new Exception("User not found");
+                        }
+
                         request.getSession().setAttribute("firstname", staff.getFirstName());
                         request.getSession().setAttribute("lastname", staff.getLastName());
                         request.getSession().setAttribute("managingDoctorID", staff.getManagingDoctorId());
-                    }
-                    if(user.getRole().equals("patient"))
+                        url = "/AppointmentServlet";
+                    } else if(user.getRole().equals("patient"))
                     {
                         Patients patient = (Patients) SQLSessionUtil.get(Patients.class, username);
                         request.getSession().setAttribute("firstname", patient.getFirstName());
                         request.getSession().setAttribute("lastname", patient.getLastName());
-                    }
-                    if (user.getRole().equals("finance"))
-                    {
-                        url = "/DoctorLookupServlet?mode=1";
-                    }
-                    else
-                    {
                         url = "/AppointmentServlet";
+                    } else if (user.getRole().equals("finance") || user.getRole().equals("legal")) {
+                        url = "/DoctorLookupServlet?mode=1";
+                    } else if (user.getRole().equals(Constants.IT)) {
+                        Staff staff = (Staff) SQLSessionUtil.get(Staff.class, username);
+                        url = "/AdminServlet";
+                        request.getSession().setAttribute("firstname", staff.getFirstName());
+                        request.getSession().setAttribute("lastname", staff.getLastName());
                     }
                 }
                 request.getSession().setAttribute("user", user);

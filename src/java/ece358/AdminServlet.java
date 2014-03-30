@@ -46,30 +46,9 @@ public class AdminServlet extends HttpServlet {
         try {
             String query;
             
-            if (sessionUser.getRole().equals(Constants.IT))
-            {
-                query = "SELECT s.* " + 
-                        "FROM Staff AS s " + 
-                        "WHERE s.JobTitle = 'Doctor' " + 
-                        "OR s.JobTitle = 'Surgeon'";
-
-                List<Staff> doctors = (List<Staff>)SQLSessionUtil.selectType(Staff.class, query);
-                request.setAttribute("doctors", doctors);
-
-                query = "SELECT s.* " +
-                        "FROM Staff AS s";
-
-                List<Staff> staff = (List<Staff>)SQLSessionUtil.selectType(Staff.class, query);
-                request.setAttribute("staff", staff);
-
-                query = "SELECT u.* " +
-                        "FROM Users AS u";
-
-                List<Users> users = (List<Users>)SQLSessionUtil.selectType(Users.class, query);
-                request.setAttribute("users", users);
-            }
-            
             String action = (String)request.getParameter("action");
+            action = (action == null) ? "" : action;
+
             if (action.equals("PasswordReset"))
             {
                 String userID = (String)request.getParameter("userID");
@@ -122,8 +101,28 @@ public class AdminServlet extends HttpServlet {
                 SQLSessionUtil.add(newUser);
                 SQLSessionUtil.add(newStaff);
             }
-            else 
+            
+            if (sessionUser.getRole().equals(Constants.IT))
             {
+                query = "SELECT s.* " + 
+                        "FROM Staff AS s " + 
+                        "WHERE s.JobTitle = 'Doctor' " + 
+                        "OR s.JobTitle = 'Surgeon'";
+
+                List<Staff> doctors = (List<Staff>)SQLSessionUtil.selectType(Staff.class, query);
+                request.setAttribute("doctors", doctors);
+
+                query = "SELECT s.* " +
+                        "FROM Staff AS s";
+
+                List<Staff> staff = (List<Staff>)SQLSessionUtil.selectType(Staff.class, query);
+                request.setAttribute("staff", staff);
+
+                query = "SELECT u.* " +
+                        "FROM Users AS u";
+
+                List<Users> users = (List<Users>)SQLSessionUtil.selectType(Users.class, query);
+                request.setAttribute("users", users);
             }
             
             request.setAttribute("queryServletError", queryServletError);
