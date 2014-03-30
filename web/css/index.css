@@ -258,3 +258,13 @@ ul.nav.navbar-nav li:hover {
 body {
     overflow-x: hidden;
 }
+
+.content-pad {
+    padding-left: 10%;
+    padding-right: 10%
+}
+
+.pwd-padding {
+    margin-top: 2%;
+    margin-left: 2%;
+}

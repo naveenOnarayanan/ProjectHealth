@@ -64,7 +64,7 @@
             })
         </script>
         <div id="navbar-container"></div>
-        <div class="content">
+        <div class="content content-pad">
             <ul class="nav nav-tabs">
               <li class="active"><a href="#password_reset" data-toggle="tab">Password Manager</a></li>
               <% if (user.getRole().equals(Constants.IT)) {%>
@@ -74,7 +74,7 @@
 
             <!-- Tab panes -->
             <div class="tab-content">
-                <div class="tab-pane active" id="password_reset">
+                <div class="tab-pane active pwd-padding" id="password_reset">
                     <form action="AdminServlet?action=PasswordReset" onsubmit="return validate();" method="post">
                         <div class="form-group">
                             <select id="user-id" name="userID">
