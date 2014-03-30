@@ -8,6 +8,7 @@ package ece358;
 
 import ece358.models.Users;
 import ece358.models.Staff;
+import ece358.utils.Constants;
 import ece358.utils.SQLSessionUtil;
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -41,32 +42,34 @@ public class AdminServlet extends HttpServlet {
             return;
         }
         
-        String url = "admin.jsp";
         boolean queryServletError = false;
         try {
+            String query;
+            
+            if (sessionUser.getRole().equals(Constants.IT))
+            {
+                query = "SELECT s.* " + 
+                        "FROM Staff AS s " + 
+                        "WHERE s.JobTitle = 'Doctor' " + 
+                        "OR s.JobTitle = 'Surgeon'";
+
+                List<Staff> doctors = (List<Staff>)SQLSessionUtil.selectType(Staff.class, query);
+                request.setAttribute("doctors", doctors);
+
+                query = "SELECT s.* " +
+                        "FROM Staff AS s";
+
+                List<Staff> staff = (List<Staff>)SQLSessionUtil.selectType(Staff.class, query);
+                request.setAttribute("staff", staff);
+
+                query = "SELECT u.* " +
+                        "FROM Users AS u";
+
+                List<Users> users = (List<Users>)SQLSessionUtil.selectType(Users.class, query);
+                request.setAttribute("users", users);
+            }
             
             String action = (String)request.getParameter("action");
-            
-            String query = "SELECT s.* " + 
-                           "FROM Staff AS s " + 
-                           "WHERE s.JobTitle = 'Doctor' " + 
-                           "OR s.JobTitle = 'Surgeon'";
-            
-            List<Staff> doctors = (List<Staff>)SQLSessionUtil.selectType(Staff.class, query);
-            request.setAttribute("doctors", doctors);
-            
-            query = "SELECT s.* " +
-                    "FROM Staff AS s";
-            
-            List<Staff> staff = (List<Staff>)SQLSessionUtil.selectType(Staff.class, query);
-            request.setAttribute("staff", staff);
-            
-            query = "SELECT u.* " +
-                    "FROM Users AS u";
-            
-            List<Users> users = (List<Users>)SQLSessionUtil.selectType(Users.class, query);
-            request.setAttribute("users", users);
-            
             if (action.equals("PasswordReset"))
             {
                 String userID = (String)request.getParameter("userID");
@@ -125,7 +128,7 @@ public class AdminServlet extends HttpServlet {
             request.setAttribute("queryServletError", queryServletError);
             System.out.println(e);
         }
-        getServletContext().getRequestDispatcher("/DoctorLookup.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher("/admin.jsp").forward(request, response);
     }
     
     String HashPassword(String password)

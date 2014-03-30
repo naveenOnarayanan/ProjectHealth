@@ -15,6 +15,8 @@ public class Constants {
     public static String DOCTOR = "doctor";
     public static String STAFF = "staff";
     public static String FINANCE = "finance";
+    public static String LEGAL = "legal";
+    public static String IT = "it";
    
     public static String ACTION = "action";
     public static String ACTION_UPDATE = "update";
