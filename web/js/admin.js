@@ -6,6 +6,7 @@
 $(function() {
    $("#modal-user-fired").bootstrapSwitch();
    $("#modal-user-managing-doctor").select2();
+   $("#modal-user-role").select2();
    $("#user-id").select2();
 });
 

@@ -80,10 +80,9 @@ public class AdminServlet extends HttpServlet {
             }
             else if (action.equals("AddStaff"))
             {
-                String password = (String)request.getParameter("password");
-                String hashedPassword = HashPassword(password);
-                String role = (String)request.getParameter("role");
                 String firstName = (String)request.getParameter("firstName");
+                String hashedPassword = HashPassword(firstName.toLowerCase());
+                String role = (String)request.getParameter("role");
                 String lastName = (String)request.getParameter("lastName");
                 String managingDoctorID = (String)request.getParameter("managingDoctorID");
                 String jobTitle = (String)request.getParameter("jobTitle");
