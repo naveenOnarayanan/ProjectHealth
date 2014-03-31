@@ -399,22 +399,23 @@ function updateAppointmentModal(index, role, appointment) {
     } else if (role == "doctor") {
         if (index >= 0) {
             if ($("#" + appointment + "-appointment-" + index + " .appointment-operations center .appointment-operations-data").length != 0) {
-                var data = $("#" + appointment + "-appointment-" + index + " .appointment-operations center .appointment-operations-data");
-                $("#appointment-modal-operations").val("");
-                data.each(function(index) {
-                   var entry = $(this).text().trim().split("|");
-                   var date = new Date(entry[0]).toLocaleString().replace(/:\d{2}\s/,' ');
-                   var name = entry[1];
-                   var doctor = entry[2];
-                   $("#appointment-modal-operations").val($("#appointment-modal-operations").val() + date + "|" + name + "|" + doctor + ";");
-
-                   $("#appointment-modal-operations-table").append("<tr class='operations-scheduled'>" +
-                            "<td>" + date + "</td>" +
-                            "<td>" + name + "</td>" +
-                            "<td>" + doctor + "</td>" +
-                            "<td><button data-operation-name='" + name + "' class='btn btn-default btn-xs delete-operation'><i class='fa fa-minus-circle'></i></button></td></tr>"
-                   );
-                });
+//                var data = $("#" + appointment + "-appointment-" + index + " .appointment-operations center .appointment-operations-data");
+//                $("#appointment-modal-operations").val("");
+//                data.each(function(index) {
+//                   var entry = $(this).text().trim().split("|");
+//                   var date = new Date(entry[0]).toLocaleString().replace(/:\d{2}\s/,' ');
+//                   var name = entry[1];
+//                   var doctor = entry[2];
+//                   $("#appointment-modal-operations").val($("#appointment-modal-operations").val() + date + "|" + name + "|" + doctor + ";");
+//
+//                   $("#appointment-modal-operations-table").append("<tr class='operations-scheduled'>" +
+//                            "<td>" + date + "</td>" +
+//                            "<td>" + name + "</td>" +
+//                            "<td>" + doctor + "</td>" +
+//                            "<td><button data-operation-name='" + name + "' class='btn btn-default btn-xs delete-operation'><i class='fa fa-minus-circle'></i></button></td></tr>"
+//                   );
+//                });
+                $("#operations-tab").hide();
             } else {
                 $("#operations-tab").show();
             }
