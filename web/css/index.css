@@ -219,7 +219,7 @@ ul.nav.navbar-nav li:hover {
 .search-bar {
     width: 180px;
     position: absolute;
-    top: 150px;
+    top: 200px;
     right: -180px;
     border-radius: 20px;
 }
@@ -241,7 +241,7 @@ ul.nav.navbar-nav li:hover {
 #open-search-bar {
     position: absolute;
     right: 0;
-    top:200px;
+    top:250px;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     width: 40px;
