@@ -151,10 +151,6 @@
                                     <input id="modal-user-jtitle" class="form-control" type="text" name="jobTitle"/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="currentlyEmployed">Currently Employed</label></br>
-                                    <input type="checkbox" id="modal-user-fired" name="currentlyEmployed" data-on-text="Yes" data-off-text="No"/>
-                                </div>
-                                <div class="form-group">
                                     <label for="role">Role</label>
                                     <select id="modal-user-role" class="form-control" name="role">
                                         <option value="doctor">Doctor</option>
@@ -162,8 +158,11 @@
                                         <option value="it">IT</option>
                                         <option value="legal">Legal</option>
                                         <option value="finance">Finance</option>
-                                        <option value="patient">Patient</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="currentlyEmployed">Currently Employed</label></br>
+                                    <input type="checkbox" id="modal-user-fired" name="currentlyEmployed" data-on-text="Yes" data-off-text="No"/>
                                 </div>
                         </div>
                         <div class="modal-footer">
